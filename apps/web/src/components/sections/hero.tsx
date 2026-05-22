@@ -1,0 +1,72 @@
+import { Section, SectionInner } from "@zias/ui/components/section";
+import { motion } from "motion/react";
+
+export function HeroSection() {
+	return (
+		<Section variant="hero" className="min-h-svh overflow-hidden pt-[72px]">
+			{/* Gradient blobs */}
+			<div
+				className="pointer-events-none absolute inset-0 overflow-hidden"
+				aria-hidden
+			>
+				{/* Magenta blob — top-left */}
+				<motion.div
+					className="absolute -top-[5%] -left-[10%] h-[55%] w-[70%] rounded-full"
+					style={{
+						background:
+							"radial-gradient(ellipse at center, oklch(0.6 0.28 330 / 0.7) 0%, transparent 70%)",
+						filter: "blur(60px)",
+					}}
+					animate={{ x: [0, 30, -20, 0], y: [0, -20, 10, 0] }}
+					transition={{
+						duration: 18,
+						repeat: Number.POSITIVE_INFINITY,
+						ease: "easeInOut",
+					}}
+				/>
+				{/* Amber blob — bottom-right */}
+				<motion.div
+					className="absolute -right-[5%] bottom-[5%] h-[60%] w-[65%] rounded-full"
+					style={{
+						background:
+							"radial-gradient(ellipse at center, oklch(0.72 0.19 60 / 0.65) 0%, transparent 70%)",
+						filter: "blur(80px)",
+					}}
+					animate={{ x: [0, -25, 15, 0], y: [0, 20, -15, 0] }}
+					transition={{
+						duration: 22,
+						repeat: Number.POSITIVE_INFINITY,
+						ease: "easeInOut",
+						delay: 3,
+					}}
+				/>
+			</div>
+
+			{/* Content */}
+			<SectionInner className="relative flex min-h-[calc(100svh-72px)] flex-col justify-center py-24">
+				<motion.h1
+					className="font-display font-extrabold text-mega text-section-hero-fg leading-[0.95] tracking-tight"
+					initial={{ opacity: 0, y: 40 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+				>
+					Crafting
+					<br />
+					Digital
+					<br />
+					experiences.
+				</motion.h1>
+
+				<motion.p
+					className="mt-10 max-w-2xl text-section-hero-subtext text-subtext"
+					initial={{ opacity: 0, y: 24 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+				>
+					A one-person studio building websites, web apps and mobile products
+					for brands with taste. Quietly considered. Loudly shipped.
+				</motion.p>
+			</SectionInner>
+		</Section>
+	);
+}

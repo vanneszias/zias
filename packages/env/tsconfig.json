@@ -1,0 +1,3 @@
+{
+	"extends": "@zias/config/tsconfig.base.json"
+}

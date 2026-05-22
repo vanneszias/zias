@@ -1,0 +1,211 @@
+// biome-ignore-all lint/suspicious/noExplicitAny: TanStack Form render props require any
+import { useForm } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
+import { PillButton } from "@zias/ui/components/pill-button";
+import { Section, SectionInner } from "@zias/ui/components/section";
+import { motion } from "motion/react";
+import { toast } from "sonner";
+import { trpc } from "@/utils/trpc";
+
+export function CTASection() {
+	const { mutateAsync, isPending } = useMutation(
+		trpc.contact.submit.mutationOptions(),
+	);
+
+	const form = useForm({
+		defaultValues: { name: "", email: "", message: "" },
+		validators: {
+			onSubmit: ({
+				value,
+			}: {
+				value: { name: string; email: string; message: string };
+			}) => {
+				if (!value.email.includes("@")) return "Valid email required";
+				if (!value.message.trim()) return "Message required";
+				return undefined;
+			},
+		},
+		onSubmit: async ({ value }) => {
+			await mutateAsync(value);
+			toast.success("Message sent! I'll reply over coffee.");
+			form.reset();
+		},
+	});
+
+	return (
+		<Section id="contact" variant="orange" className="min-h-svh">
+			<SectionInner className="flex min-h-svh flex-col justify-center py-32">
+				<div className="flex flex-col gap-16 lg:flex-row lg:gap-24">
+					{/* Left — headline */}
+					<div className="lg:w-1/2">
+						<motion.h2
+							className="font-display font-extrabold text-hero leading-tight"
+							initial={{ opacity: 0, y: 32 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true, margin: "-100px" }}
+							transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+						>
+							Let&apos;s build something good.
+						</motion.h2>
+						<motion.p
+							className="mt-6 text-section-orange-subtext text-subtext"
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ delay: 0.1 }}
+						>
+							One inbox. One person. <br className="hidden md:block" />
+							Usually replies{" "}
+							<span className="italic underline decoration-white/60 underline-offset-4">
+								within a day
+							</span>
+							.
+						</motion.p>
+					</div>
+
+					{/* Right — form */}
+					<motion.div
+						className="lg:w-1/2"
+						initial={{ opacity: 0, y: 24 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true, margin: "-60px" }}
+						transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+					>
+						<form
+							onSubmit={(e) => {
+								e.preventDefault();
+								form.handleSubmit();
+							}}
+							className="rounded-2xl bg-white/10 p-8 backdrop-blur-sm"
+						>
+							<div className="mb-5 grid gap-5 sm:grid-cols-2">
+								<ContactField
+									label="Name"
+									name="name"
+									placeholder="Your name"
+									form={form}
+								/>
+								<ContactField
+									label="Email *"
+									name="email"
+									placeholder="you@somewhere.com"
+									form={form}
+									type="email"
+								/>
+							</div>
+
+							<ContactTextarea
+								label="What's on your mind? *"
+								name="message"
+								placeholder="A few sentences about the project, timeline, anything really."
+								form={form}
+							/>
+
+							<div className="mt-6 flex items-center justify-between">
+								<form.Subscribe selector={(s) => s.canSubmit}>
+									{(canSubmit) => (
+										<PillButton
+											size="sm"
+											type="submit"
+											disabled={!canSubmit || isPending}
+										>
+											{isPending ? "Sending…" : "Say Hi!"}
+										</PillButton>
+									)}
+								</form.Subscribe>
+								<p className="text-section-orange-subtext text-sm">
+									Or email{" "}
+									<a
+										href="mailto:hi@zias.be"
+										className="underline transition-colors hover:text-white"
+									>
+										hi@zias.be
+									</a>{" "}
+									directly.
+								</p>
+							</div>
+						</form>
+					</motion.div>
+				</div>
+			</SectionInner>
+		</Section>
+	);
+}
+
+/* ──────────── form field helpers ──────────── */
+
+function ContactField({
+	label,
+	name,
+	placeholder,
+	type = "text",
+	form,
+}: {
+	label: string;
+	name: "name" | "email";
+	placeholder: string;
+	type?: string;
+	form: any;
+}) {
+	return (
+		<form.Field name={name}>
+			{(field: any) => (
+				<label className="flex flex-col gap-1.5">
+					<span className="font-semibold text-label text-section-orange-subtext uppercase tracking-widest">
+						{label}
+					</span>
+					<input
+						type={type}
+						value={field.state.value}
+						onBlur={field.handleBlur}
+						onChange={(e) => field.handleChange(e.target.value)}
+						placeholder={placeholder}
+						className="rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
+					/>
+					{field.state.meta.errors[0] && (
+						<span className="text-white/70 text-xs">
+							{String(field.state.meta.errors[0])}
+						</span>
+					)}
+				</label>
+			)}
+		</form.Field>
+	);
+}
+
+function ContactTextarea({
+	label,
+	name,
+	placeholder,
+	form,
+}: {
+	label: string;
+	name: "message";
+	placeholder: string;
+	form: any;
+}) {
+	return (
+		<form.Field name={name}>
+			{(field: any) => (
+				<label className="flex flex-col gap-1.5">
+					<span className="font-semibold text-label text-section-orange-subtext uppercase tracking-widest">
+						{label}
+					</span>
+					<textarea
+						rows={5}
+						value={field.state.value}
+						onBlur={field.handleBlur}
+						onChange={(e) => field.handleChange(e.target.value)}
+						placeholder={placeholder}
+						className="resize-none rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
+					/>
+					{field.state.meta.errors[0] && (
+						<span className="text-white/70 text-xs">
+							{String(field.state.meta.errors[0])}
+						</span>
+					)}
+				</label>
+			)}
+		</form.Field>
+	);
+}

@@ -1,0 +1,249 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/sora";
+@import "@fontsource/be-vietnam-pro/index.css";
+@plugin "@tailwindcss/typography";
+@source "../../../apps/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Section color tokens ───────────────────────────────────────────────────
+   Each section of the site has its own vivid color identity.
+   Light values come directly from Figma; dark values are desaturated/darkened.
+   Usage in components: bg-[var(--section-hero-bg)] text-[var(--section-hero-fg)]
+   Or via Tailwind utilities: bg-section-hero text-section-hero-fg
+   ──────────────────────────────────────────────────────────────────────────── */
+:root {
+	/* Hero — indigo purple */
+	--section-hero-bg: #6d5ac9;
+	--section-hero-fg: #ffffff;
+	--section-hero-subtext: rgba(255 255 255 / 0.75);
+
+	/* Who Am I — rose pink */
+	--section-pink-bg: #ee5cbf;
+	--section-pink-fg: #ffffff;
+	--section-pink-subtext: rgba(255 255 255 / 0.75);
+
+	/* Selected Work — sky blue */
+	--section-blue-bg: #2c86df;
+	--section-blue-fg: #ffffff;
+	--section-blue-subtext: rgba(255 255 255 / 0.75);
+
+	/* CTA — vivid orange-red */
+	--section-orange-bg: #ed4920;
+	--section-orange-fg: #ffffff;
+	--section-orange-subtext: rgba(255 255 255 / 0.75);
+
+	/* Footer — dark charcoal */
+	--section-footer-bg: #2c2828;
+	--section-footer-fg: #ffffff;
+	--section-footer-subtext: rgba(255 255 255 / 0.45);
+
+	/* Nav — always dark charcoal */
+	--nav-bg: #2c2828;
+	--nav-fg: #ffffff;
+	--nav-border: rgba(255 255 255 / 0.08);
+
+	/* Pill CTA button */
+	--pill-bg: #ed4920;
+	--pill-fg: #ffffff;
+
+	/* Post card category colors */
+	--card-words-bg: #6d5ac9; /* purple — Words/Essays/Notes */
+	--card-work-bg: #ee5cbf; /* rose   — Work/Case studies  */
+	--card-misc-bg: #27c41f; /* green  — misc               */
+	--card-fg: #ffffff;
+
+	/* shadcn / admin UI tokens */
+	--background: oklch(1 0 0);
+	--foreground: oklch(0.145 0 0);
+	--card: oklch(1 0 0);
+	--card-foreground: oklch(0.145 0 0);
+	--popover: oklch(1 0 0);
+	--popover-foreground: oklch(0.145 0 0);
+	--primary: oklch(0.205 0 0);
+	--primary-foreground: oklch(0.985 0 0);
+	--secondary: oklch(0.97 0 0);
+	--secondary-foreground: oklch(0.205 0 0);
+	--muted: oklch(0.97 0 0);
+	--muted-foreground: oklch(0.556 0 0);
+	--accent: oklch(0.97 0 0);
+	--accent-foreground: oklch(0.205 0 0);
+	--destructive: oklch(0.58 0.22 27);
+	--border: oklch(0.922 0 0);
+	--input: oklch(0.922 0 0);
+	--ring: oklch(0.708 0 0);
+	--radius: 0.625rem;
+	--sidebar: oklch(0.985 0 0);
+	--sidebar-foreground: oklch(0.145 0 0);
+	--sidebar-primary: oklch(0.205 0 0);
+	--sidebar-primary-foreground: oklch(0.985 0 0);
+	--sidebar-accent: oklch(0.97 0 0);
+	--sidebar-accent-foreground: oklch(0.205 0 0);
+	--sidebar-border: oklch(0.922 0 0);
+	--sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+	/* Hero dark — deep indigo */
+	--section-hero-bg: #1e1640;
+	--section-hero-subtext: rgba(255 255 255 / 0.5);
+
+	/* Who Am I dark — deep rose */
+	--section-pink-bg: #5c1a47;
+	--section-pink-subtext: rgba(255 255 255 / 0.65);
+
+	/* Work dark — dark navy blue */
+	--section-blue-bg: #0d2a4a;
+	--section-blue-subtext: rgba(255 255 255 / 0.65);
+
+	/* CTA dark — deep burnt red */
+	--section-orange-bg: #5c1a08;
+	--section-orange-subtext: rgba(255 255 255 / 0.65);
+
+	/* Footer dark — deeper charcoal */
+	--section-footer-bg: #1a1717;
+	--section-footer-subtext: rgba(255 255 255 / 0.35);
+
+	/* Nav dark — same dark charcoal */
+	--nav-bg: #1a1717;
+	--nav-fg: #ffffff;
+	--nav-border: rgba(255 255 255 / 0.08);
+
+	/* Pill dark — desaturated red */
+	--pill-bg: #b33516;
+
+	/* shadcn / admin UI tokens */
+	--background: oklch(0.145 0 0);
+	--foreground: oklch(0.985 0 0);
+	--card: oklch(0.205 0 0);
+	--card-foreground: oklch(0.985 0 0);
+	--popover: oklch(0.205 0 0);
+	--popover-foreground: oklch(0.985 0 0);
+	--primary: oklch(0.87 0 0);
+	--primary-foreground: oklch(0.205 0 0);
+	--secondary: oklch(0.269 0 0);
+	--secondary-foreground: oklch(0.985 0 0);
+	--muted: oklch(0.269 0 0);
+	--muted-foreground: oklch(0.708 0 0);
+	--accent: oklch(0.371 0 0);
+	--accent-foreground: oklch(0.985 0 0);
+	--destructive: oklch(0.704 0.191 22.216);
+	--border: oklch(1 0 0 / 10%);
+	--input: oklch(1 0 0 / 15%);
+	--ring: oklch(0.556 0 0);
+	--sidebar: oklch(0.205 0 0);
+	--sidebar-foreground: oklch(0.985 0 0);
+	--sidebar-primary: oklch(0.488 0.243 264.376);
+	--sidebar-primary-foreground: oklch(0.985 0 0);
+	--sidebar-accent: oklch(0.269 0 0);
+	--sidebar-accent-foreground: oklch(0.985 0 0);
+	--sidebar-border: oklch(1 0 0 / 10%);
+	--sidebar-ring: oklch(0.556 0 0);
+}
+
+@theme inline {
+	/* Fonts */
+	--font-sans: "Sora Variable", ui-sans-serif, system-ui, sans-serif;
+	--font-display: "Sora Variable", ui-sans-serif, system-ui, sans-serif;
+	--font-body: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
+
+	/* Typography scale */
+	--text-mega: 8rem; /* 128px – hero h1 */
+	--text-mega--line-height: 0.95;
+	--text-mega--letter-spacing: -0.02em;
+	--text-hero: 4.5rem; /* 72px  – section h2 */
+	--text-hero--line-height: 1.05;
+	--text-hero--letter-spacing: -0.015em;
+	--text-subtext: 1.25rem; /* 20px  – descriptive body */
+	--text-subtext--line-height: 1.6;
+	--text-label: 0.6875rem; /* 11px – small labels */
+	--text-label--letter-spacing: 0.06em;
+
+	/* Section background colors */
+	--color-section-hero: var(--section-hero-bg);
+	--color-section-hero-fg: var(--section-hero-fg);
+	--color-section-hero-subtext: var(--section-hero-subtext);
+	--color-section-pink: var(--section-pink-bg);
+	--color-section-pink-fg: var(--section-pink-fg);
+	--color-section-pink-subtext: var(--section-pink-subtext);
+	--color-section-blue: var(--section-blue-bg);
+	--color-section-blue-fg: var(--section-blue-fg);
+	--color-section-blue-subtext: var(--section-blue-subtext);
+	--color-section-orange: var(--section-orange-bg);
+	--color-section-orange-fg: var(--section-orange-fg);
+	--color-section-orange-subtext: var(--section-orange-subtext);
+	--color-section-footer: var(--section-footer-bg);
+	--color-section-footer-fg: var(--section-footer-fg);
+	--color-section-footer-subtext: var(--section-footer-subtext);
+
+	/* Nav */
+	--color-nav: var(--nav-bg);
+	--color-nav-fg: var(--nav-fg);
+	--color-nav-border: var(--nav-border);
+
+	/* Pill */
+	--color-pill: var(--pill-bg);
+	--color-pill-fg: var(--pill-fg);
+
+	/* Post card categories */
+	--color-card-words: var(--card-words-bg);
+	--color-card-work: var(--card-work-bg);
+	--color-card-misc: var(--card-misc-bg);
+	--color-card-fg: var(--card-fg);
+
+	/* shadcn / admin UI */
+	--color-sidebar-ring: var(--sidebar-ring);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar: var(--sidebar);
+	--color-ring: var(--ring);
+	--color-input: var(--input);
+	--color-border: var(--border);
+	--color-destructive: var(--destructive);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-accent: var(--accent);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-muted: var(--muted);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-secondary: var(--secondary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-primary: var(--primary);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-popover: var(--popover);
+	--color-card-foreground: var(--card-foreground);
+	--color-card: var(--card);
+	--color-foreground: var(--foreground);
+	--color-background: var(--background);
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--radius-2xl: calc(var(--radius) + 8px);
+	--radius-3xl: calc(var(--radius) + 12px);
+	--radius-pill: 9999px;
+}
+
+@layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+	html {
+		font-family: var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	body {
+		@apply bg-background text-foreground font-sans;
+	}
+	/* Figma: "Font 2 = Be Vietnam Pro" used for all descriptive body/subtext copy */
+	.text-subtext {
+		font-family: var(--font-body);
+	}
+}

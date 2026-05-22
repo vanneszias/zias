@@ -1,0 +1,117 @@
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import type { PostCategory } from "@zias/content";
+import { formatPostDate } from "@zias/content";
+import { CategoryBadge } from "@zias/ui/components/category-badge";
+import { Section, SectionInner } from "@zias/ui/components/section";
+import { lazy, Suspense } from "react";
+import { Footer } from "@/components/footer";
+import { Nav } from "@/components/nav";
+import { TiptapRenderer } from "@/components/tiptap-renderer";
+import { trpc } from "@/utils/trpc";
+
+export const Route = createFileRoute("/journal/$slug")({
+	component: PostPage,
+});
+
+/**
+ * Vite glob import of all custom React post pages.
+ * Any file at src/content/journal/[slug].tsx is automatically picked up.
+ * The post DB record must have isCustomPage: true for this path to be used.
+ */
+const customPages = import.meta.glob<{ default: React.ComponentType }>(
+	"../../content/journal/*.tsx",
+);
+
+function PostPage() {
+	const { slug } = Route.useParams();
+	const {
+		data: post,
+		isLoading,
+		error,
+	} = useQuery(trpc.journal.bySlug.queryOptions(slug));
+
+	if (isLoading) {
+		return (
+			<>
+				<Nav />
+				<Section variant="hero" className="min-h-svh pt-[72px]">
+					<SectionInner className="py-24">
+						<div className="h-10 w-48 animate-pulse rounded-lg bg-white/10" />
+						<div className="mt-6 h-24 w-3/4 animate-pulse rounded-lg bg-white/10" />
+					</SectionInner>
+				</Section>
+				<Footer />
+			</>
+		);
+	}
+
+	if (error || !post) throw notFound();
+
+	/* Custom React page — dynamically import the component */
+	if (post.isCustomPage) {
+		const importFn = customPages[`../../content/journal/${post.slug}.tsx`];
+		if (importFn) {
+			const CustomPage = lazy(importFn);
+			return (
+				<Suspense fallback={<PostSkeleton />}>
+					<Nav />
+					<CustomPage />
+					<Footer />
+				</Suspense>
+			);
+		}
+	}
+
+	/* Default: Tiptap JSON renderer */
+	return (
+		<>
+			<Nav />
+			<Section variant="hero" className="pt-[72px]">
+				<SectionInner className="py-24">
+					{/* Meta header */}
+					<div className="mb-8 flex flex-col gap-4">
+						<CategoryBadge category={post.category as PostCategory} />
+						<h1 className="max-w-3xl font-display font-extrabold text-4xl leading-tight md:text-5xl lg:text-6xl">
+							{post.title}
+						</h1>
+						<p className="text-section-hero-subtext text-sm">
+							{post.publishedAt
+								? formatPostDate(new Date(post.publishedAt))
+								: "Draft"}{" "}
+							· {post.readTime} min read
+						</p>
+					</div>
+				</SectionInner>
+			</Section>
+
+			{/* Content in a light section for readability */}
+			<Section variant="plain">
+				<SectionInner className="py-16">
+					<div className="mx-auto max-w-2xl">
+						{post.content ? (
+							<TiptapRenderer content={post.content} />
+						) : (
+							<p className="text-muted-foreground">No content yet.</p>
+						)}
+					</div>
+				</SectionInner>
+			</Section>
+			<Footer />
+		</>
+	);
+}
+
+function PostSkeleton() {
+	return (
+		<>
+			<Nav />
+			<Section variant="hero" className="min-h-svh pt-[72px]">
+				<SectionInner className="py-24">
+					<div className="h-10 w-48 animate-pulse rounded-lg bg-white/10" />
+				</SectionInner>
+			</Section>
+			<Footer />
+		</>
+	);
+}
