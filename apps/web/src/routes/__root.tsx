@@ -106,7 +106,7 @@ function RootComponent() {
 	return (
 		<ThemeProvider
 			attribute="class"
-			defaultTheme="light"
+			defaultTheme="system"
 			disableTransitionOnChange
 		>
 			<HeadContent />
