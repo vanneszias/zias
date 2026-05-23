@@ -98,10 +98,10 @@ export const journalRouter = router({
 					isDraft: input.isDraft,
 					authorId: ctx.session.user.id,
 					publishedAt: input.publishedAt
-					? new Date(input.publishedAt)
-					: input.isDraft
-						? null
-						: new Date(),
+						? new Date(input.publishedAt)
+						: input.isDraft
+							? null
+							: new Date(),
 				})
 				.returning();
 
@@ -113,7 +113,7 @@ export const journalRouter = router({
 		.input(PostUpdateInput)
 		.mutation(async ({ input }) => {
 			const db = createDb();
-			const { id, content, ...rest } = input;
+			const { id, content, publishedAt, ...rest } = input;
 
 			const readTime =
 				content !== undefined && content !== null
@@ -126,11 +126,13 @@ export const journalRouter = router({
 					...rest,
 					...(content !== undefined ? { content } : {}),
 					...(readTime !== undefined ? { readTime } : {}),
-					...(input.publishedAt !== undefined
-					? { publishedAt: input.publishedAt ? new Date(input.publishedAt) : null }
-					: rest.isDraft === false
-						? { publishedAt: new Date() }
-						: {}),
+					...(publishedAt !== undefined
+						? {
+								publishedAt: publishedAt ? new Date(publishedAt) : null,
+							}
+						: rest.isDraft === false
+							? { publishedAt: new Date() }
+							: {}),
 				})
 				.where(eq(posts.id, id))
 				.returning();

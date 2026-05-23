@@ -3,11 +3,20 @@ import alchemy from "alchemy";
 import { D1Database, Vite, Worker } from "alchemy/cloudflare";
 import { config } from "dotenv";
 
-config({ path: "./.env" });
-config({ path: "../../apps/web/.env" });
-config({ path: "../../apps/server/.env" });
+const isDeployLikeCommand = ["deploy", "destroy"].includes(
+	process.env.npm_lifecycle_event ?? "",
+);
+const envFile = isDeployLikeCommand ? ".env.prod" : ".env.local";
 
-const app = await alchemy("zias");
+// Load infra-local vars first (ALCHEMY_PASSWORD lives here)
+config();
+// App-specific env overrides infra defaults (fixes VITE_SERVER_URL in dev)
+config({ path: `../../apps/web/${envFile}`, override: true });
+config({ path: `../../apps/server/${envFile}`, override: true });
+
+const app = await alchemy("zias", {
+	password: process.env.ALCHEMY_PASSWORD,
+});
 
 const db = await D1Database("database", {
 	migrationsDir: "../../packages/db/src/migrations",
@@ -28,7 +37,9 @@ export const server = await Worker("server", {
 	bindings: {
 		DB: db,
 		CORS_ORIGIN: alchemy.env.CORS_ORIGIN!,
-		BETTER_AUTH_SECRET: alchemy.secret.env.BETTER_AUTH_SECRET!,
+		BETTER_AUTH_SECRET: isDeployLikeCommand
+			? alchemy.secret.env.BETTER_AUTH_SECRET!
+			: alchemy.env.BETTER_AUTH_SECRET!,
 		BETTER_AUTH_URL: alchemy.env.BETTER_AUTH_URL!,
 	},
 	dev: {

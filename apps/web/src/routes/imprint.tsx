@@ -1,9 +1,27 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, SectionInner } from "@zias/ui/components/section";
-import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
+import { Nav } from "@/components/nav";
+
+const SITE_URL = "https://zias.be";
 
 export const Route = createFileRoute("/imprint")({
+	head: () => ({
+		meta: [
+			{ title: "Imprint — Zias" },
+			{
+				name: "description",
+				content: "Legal disclosure and imprint information for zias.be.",
+			},
+			{ property: "og:title", content: "Imprint — Zias" },
+			{
+				property: "og:description",
+				content: "Legal disclosure and imprint information for zias.be.",
+			},
+			{ property: "og:url", content: `${SITE_URL}/imprint` },
+		],
+		links: [{ rel: "canonical", href: `${SITE_URL}/imprint` }],
+	}),
 	component: ImprintPage,
 });
 
@@ -11,7 +29,7 @@ function ImprintPage() {
 	return (
 		<>
 			<Nav />
-			<Section variant="hero" className="min-h-svh pt-[72px]">
+			<Section id="main-content" variant="hero" className="min-h-svh pt-[72px]">
 				<SectionInner className="py-24">
 					<div className="max-w-2xl">
 						<Link
@@ -33,8 +51,8 @@ function ImprintPage() {
 								<h2 className="font-semibold text-lg text-section-hero-fg">
 									Responsible person
 								</h2>
-								<address className="not-italic space-y-1 text-sm leading-relaxed">
-									<p>Zias Vannes</p>
+								<address className="space-y-1 text-sm not-italic leading-relaxed">
+									<p>Zias van Nes</p>
 									<p>Leuven, Belgium</p>
 									<p>
 										<a
@@ -65,8 +83,8 @@ function ImprintPage() {
 									accuracy, completeness, or timeliness of the content.
 								</p>
 								<p className="text-sm leading-relaxed">
-									Links to external websites are outside my control. I accept
-									no responsibility for the content of linked pages.
+									Links to external websites are outside my control. I accept no
+									responsibility for the content of linked pages.
 								</p>
 							</section>
 

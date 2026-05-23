@@ -36,13 +36,16 @@ function AdminLogin() {
 	return (
 		<>
 			<Nav />
-			<Section variant="hero" className="min-h-svh pt-[72px]">
-				<SectionInner className="flex items-center py-24">
-					<div className="w-full max-w-sm">
-						<h1 className="mb-2 font-display font-extrabold text-4xl">
-							Admin
+			<Section id="main-content" variant="hero" className="min-h-svh pt-[72px]">
+				<SectionInner className="grid min-h-[calc(100svh-72px)] place-items-center py-8 sm:py-12">
+					<div className="w-full max-w-md rounded-3xl border border-white/20 bg-black/20 p-6 shadow-2xl shadow-black/30 backdrop-blur-md sm:p-8">
+						<p className="mb-2 font-medium text-section-hero-subtext text-xs uppercase tracking-[0.18em]">
+							Admin control center
+						</p>
+						<h1 className="mb-2 font-display font-extrabold text-4xl text-section-hero-fg sm:text-5xl">
+							Sign in
 						</h1>
-						<p className="mb-8 text-section-hero-subtext text-subtext">
+						<p className="mb-8 text-section-hero-subtext text-sm sm:text-base">
 							Sign in to manage your content.
 						</p>
 						<form
@@ -50,35 +53,51 @@ function AdminLogin() {
 								e.preventDefault();
 								form.handleSubmit();
 							}}
-							className="space-y-4"
+							className="space-y-5"
 						>
 							<form.Field name="email">
 								{(f) => (
 									<label className="flex flex-col gap-1.5">
-										<span className="font-medium text-section-hero-fg/70 text-sm uppercase tracking-widest text-label">
+										<span className="font-medium text-label text-section-hero-fg/70 text-xs uppercase tracking-[0.16em]">
 											Email
 										</span>
 										<input
+											id="admin-email"
 											type="email"
 											value={f.state.value}
 											onChange={(e) => f.handleChange(e.target.value)}
-											className="rounded-lg border border-white/20 bg-white/10 px-3 py-2.5 text-sm text-section-hero-fg placeholder:text-section-hero-fg/40 focus:outline-none focus:ring-2 focus:ring-white/40"
+											onBlur={f.handleBlur}
+											aria-invalid={Boolean(f.state.meta.errors[0])}
+											className="rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-section-hero-fg text-sm placeholder:text-section-hero-fg/40 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
 										/>
+										{f.state.meta.errors[0] ? (
+											<span className="text-white/75 text-xs">
+												{String(f.state.meta.errors[0])}
+											</span>
+										) : null}
 									</label>
 								)}
 							</form.Field>
 							<form.Field name="password">
 								{(f) => (
 									<label className="flex flex-col gap-1.5">
-										<span className="font-medium text-section-hero-fg/70 text-label text-sm uppercase tracking-widest">
+										<span className="font-medium text-label text-section-hero-fg/70 text-xs uppercase tracking-[0.16em]">
 											Password
 										</span>
 										<input
+											id="admin-password"
 											type="password"
 											value={f.state.value}
 											onChange={(e) => f.handleChange(e.target.value)}
-											className="rounded-lg border border-white/20 bg-white/10 px-3 py-2.5 text-sm text-section-hero-fg placeholder:text-section-hero-fg/40 focus:outline-none focus:ring-2 focus:ring-white/40"
+											onBlur={f.handleBlur}
+											aria-invalid={Boolean(f.state.meta.errors[0])}
+											className="rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-section-hero-fg text-sm placeholder:text-section-hero-fg/40 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
 										/>
+										{f.state.meta.errors[0] ? (
+											<span className="text-white/75 text-xs">
+												{String(f.state.meta.errors[0])}
+											</span>
+										) : null}
 									</label>
 								)}
 							</form.Field>

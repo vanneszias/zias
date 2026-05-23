@@ -153,7 +153,7 @@
 	--font-hand: "Grape Nuts", "Caveat", cursive;
 
 	/* Typography scale — clamp ensures readable sizes across all viewports */
-	--text-mega: clamp(2.75rem, 8vw + 1rem, 8rem);   /* 44–128px */
+	--text-mega: clamp(2.75rem, 8vw + 1rem, 8rem); /* 44–128px */
 	--text-mega--line-height: 0.95;
 	--text-mega--letter-spacing: -0.02em;
 	--text-hero: clamp(2.25rem, 4vw + 1rem, 4.5rem); /* 36–72px */
@@ -271,6 +271,13 @@
 		outline-offset: 2px;
 	}
 
+	:where(a, button, input, textarea, select, [role="button"]):focus-visible {
+		outline: 2px solid oklch(0.99 0 0);
+		outline-offset: 2px;
+		box-shadow: 0 0 0 4px
+			color-mix(in oklab, var(--color-foreground) 28%, transparent);
+	}
+
 	/* ── Focus rings on colored section backgrounds ───────────────────────── */
 	/* White ring + dark shadow makes focus visible on any saturated color */
 	.bg-section-hero :focus-visible,
@@ -299,10 +306,10 @@
 		*,
 		*::before,
 		*::after {
-			animation-duration: 0.01ms !important;
-			animation-iteration-count: 1 !important;
-			transition-duration: 0.01ms !important;
-			scroll-behavior: auto !important;
+			animation-duration: 0.01ms;
+			animation-iteration-count: 1;
+			transition-duration: 0.01ms;
+			scroll-behavior: auto;
 		}
 	}
 }

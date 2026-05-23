@@ -23,6 +23,18 @@
 		"db:generate": {
 			"cache": false
 		},
+		"db:seed": {
+			"cache": false
+		},
+		"db:create-admin": {
+			"cache": false
+		},
+		"db:create-admin:local": {
+			"cache": false
+		},
+		"db:seed-posts:local": {
+			"cache": false
+		},
 		"deploy": {
 			"cache": false
 		},

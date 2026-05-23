@@ -32,17 +32,15 @@ export function CategoryBadge({
 }: CategoryBadgeProps) {
 	const token = CATEGORY_COLOR_TOKEN[category];
 	const fullLabel = CATEGORY_LABELS[category];
-	const label = short
-		? (fullLabel.split(" · ")[1] ?? fullLabel)
-		: fullLabel;
+	const label = short ? (fullLabel.split(" · ")[1] ?? fullLabel) : fullLabel;
 
 	return (
 		<span
 			className={cn(
-				"inline-flex self-start items-center gap-1.5 rounded-full px-3 py-1 font-semibold text-label uppercase tracking-widest",
+				"inline-flex items-center gap-1.5 self-start rounded-full px-3 py-1 font-semibold text-label uppercase tracking-widest",
 				variant === "on-color"
-					? "bg-white/10 border border-white/20 text-white"
-					: "bg-black/8 border border-black/12 text-foreground",
+					? "border border-white/20 bg-white/10 text-white"
+					: "border border-black/12 bg-black/8 text-foreground",
 				className,
 			)}
 		>

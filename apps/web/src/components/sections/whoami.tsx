@@ -1,5 +1,5 @@
 import { Section, SectionInner } from "@zias/ui/components/section";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 
 const STATS = [
 	{ label: "Based in", value: "Leuven, BE" },
@@ -8,8 +8,15 @@ const STATS = [
 ] as const;
 
 export function WhoAmISection() {
+	const prefersReducedMotion = useReducedMotion();
+
 	return (
-		<Section id="whoami" variant="pink" className="min-h-svh" aria-labelledby="whoami-heading">
+		<Section
+			id="whoami"
+			variant="pink"
+			className="min-h-svh"
+			aria-labelledby="whoami-heading"
+		>
 			<SectionInner className="flex min-h-svh flex-col justify-center py-24 sm:py-32">
 				<div className="flex flex-col gap-16 lg:flex-row lg:items-start lg:gap-0">
 					{/* Main copy */}
@@ -17,8 +24,10 @@ export function WhoAmISection() {
 						<motion.h2
 							id="whoami-heading"
 							className="font-display font-extrabold text-hero leading-tight"
-							initial={{ opacity: 0, y: 32 }}
-							whileInView={{ opacity: 1, y: 0 }}
+							initial={prefersReducedMotion ? undefined : { opacity: 0, y: 32 }}
+							whileInView={
+								prefersReducedMotion ? undefined : { opacity: 1, y: 0 }
+							}
 							viewport={{ once: true, margin: "-100px" }}
 							transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
 						>
@@ -27,8 +36,10 @@ export function WhoAmISection() {
 
 						<motion.p
 							className="mt-8 max-w-lg text-section-pink-subtext text-subtext"
-							initial={{ opacity: 0, y: 20 }}
-							whileInView={{ opacity: 1, y: 0 }}
+							initial={prefersReducedMotion ? undefined : { opacity: 0, y: 20 }}
+							whileInView={
+								prefersReducedMotion ? undefined : { opacity: 1, y: 0 }
+							}
 							viewport={{ once: true, margin: "-100px" }}
 							transition={{
 								duration: 0.6,
@@ -53,9 +64,13 @@ export function WhoAmISection() {
 						{STATS.map(({ label, value }, i) => (
 							<motion.div
 								key={label}
-								className="flex items-baseline justify-between gap-6 border-dashed border-white/35 border-t py-6 first:border-t-0"
-								initial={{ opacity: 0, x: 20 }}
-								whileInView={{ opacity: 1, x: 0 }}
+								className="flex items-baseline justify-between gap-6 border-white/35 border-t border-dashed py-6 first:border-t-0"
+								initial={
+									prefersReducedMotion ? undefined : { opacity: 0, x: 20 }
+								}
+								whileInView={
+									prefersReducedMotion ? undefined : { opacity: 1, x: 0 }
+								}
 								viewport={{ once: true, margin: "-80px" }}
 								transition={{
 									duration: 0.5,
@@ -63,10 +78,10 @@ export function WhoAmISection() {
 									ease: [0.16, 1, 0.3, 1],
 								}}
 							>
-								<dt className="font-semibold text-label text-section-pink-subtext uppercase tracking-widest shrink-0">
+								<dt className="shrink-0 font-semibold text-label text-section-pink-subtext uppercase tracking-widest">
 									{label}
 								</dt>
-								<dd className="font-bold font-display text-right text-xl">
+								<dd className="text-right font-bold font-display text-xl">
 									{value}
 								</dd>
 							</motion.div>

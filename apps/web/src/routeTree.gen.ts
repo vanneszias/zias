@@ -15,6 +15,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as JournalIndexRouteImport } from './routes/journal/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as JournalSlugRouteImport } from './routes/journal/$slug'
+import { Route as AdminSeoRouteImport } from './routes/admin/seo'
 import { Route as AdminMessagesRouteImport } from './routes/admin/messages'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminPostsIndexRouteImport } from './routes/admin/posts/index'
@@ -51,6 +52,11 @@ const JournalSlugRoute = JournalSlugRouteImport.update({
   path: '/journal/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSeoRoute = AdminSeoRouteImport.update({
+  id: '/admin/seo',
+  path: '/admin/seo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminMessagesRoute = AdminMessagesRouteImport.update({
   id: '/admin/messages',
   path: '/admin/messages',
@@ -83,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/messages': typeof AdminMessagesRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/journal/': typeof JournalIndexRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/messages': typeof AdminMessagesRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/admin': typeof AdminIndexRoute
   '/journal': typeof JournalIndexRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/messages': typeof AdminMessagesRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/journal/': typeof JournalIndexRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/admin/login'
     | '/admin/messages'
+    | '/admin/seo'
     | '/journal/$slug'
     | '/admin/'
     | '/journal/'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/admin/login'
     | '/admin/messages'
+    | '/admin/seo'
     | '/journal/$slug'
     | '/admin'
     | '/journal'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/admin/login'
     | '/admin/messages'
+    | '/admin/seo'
     | '/journal/$slug'
     | '/admin/'
     | '/journal/'
@@ -165,6 +177,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminMessagesRoute: typeof AdminMessagesRoute
+  AdminSeoRoute: typeof AdminSeoRoute
   JournalSlugRoute: typeof JournalSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
   JournalIndexRoute: typeof JournalIndexRoute
@@ -217,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JournalSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/seo': {
+      id: '/admin/seo'
+      path: '/admin/seo'
+      fullPath: '/admin/seo'
+      preLoaderRoute: typeof AdminSeoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/messages': {
       id: '/admin/messages'
       path: '/admin/messages'
@@ -261,6 +281,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminMessagesRoute: AdminMessagesRoute,
+  AdminSeoRoute: AdminSeoRoute,
   JournalSlugRoute: JournalSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
   JournalIndexRoute: JournalIndexRoute,

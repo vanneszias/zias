@@ -1,3 +1,3 @@
-export { buildRssFeed } from "./rss";
-export type { FeedPost, FeedOptions } from "./rss";
 export { fetchPublishedPosts } from "./db";
+export type { FeedOptions, FeedPost } from "./rss";
+export { buildRssFeed } from "./rss";

@@ -10,7 +10,50 @@ import { Nav } from "@/components/nav";
 import { TiptapRenderer } from "@/components/tiptap-renderer";
 import { trpc } from "@/utils/trpc";
 
+const SITE_URL = "https://zias.be";
+
 export const Route = createFileRoute("/journal/$slug")({
+	loader: ({ context: { queryClient }, params }) =>
+		queryClient.ensureQueryData(trpc.journal.bySlug.queryOptions(params.slug)),
+
+	head: ({ loaderData: post }) => {
+		if (!post) return {};
+
+		const title = `${post.title} — Zias`;
+		const description = post.excerpt || "An article by Zias";
+		const url = `${SITE_URL}/journal/${post.slug}`;
+		const serverUrl = import.meta.env.VITE_SERVER_URL as string;
+		const ogImage = `${serverUrl}/og/journal/${post.slug}`;
+
+		return {
+			meta: [
+				{ title },
+				{ name: "description", content: description },
+				{ property: "og:type", content: "article" },
+				{ property: "og:title", content: post.title },
+				{ property: "og:description", content: description },
+				{ property: "og:url", content: url },
+				{ property: "og:image", content: ogImage },
+				{ property: "og:image:width", content: "1200" },
+				{ property: "og:image:height", content: "630" },
+				{ property: "og:site_name", content: "Zias" },
+				{ name: "twitter:card", content: "summary_large_image" },
+				{ name: "twitter:title", content: post.title },
+				{ name: "twitter:description", content: description },
+				{ name: "twitter:image", content: ogImage },
+				...(post.publishedAt
+					? [
+							{
+								property: "article:published_time",
+								content: new Date(post.publishedAt).toISOString(),
+							},
+						]
+					: []),
+			],
+			links: [{ rel: "canonical", href: url }],
+		};
+	},
+
 	component: PostPage,
 });
 
@@ -67,13 +110,13 @@ function PostPage() {
 	return (
 		<>
 			<Nav />
-			<Section variant="hero" className="pt-[72px]">
+			<Section id="main-content" variant="hero" className="pt-[72px]">
 				<SectionInner className="py-24">
 					{/* Meta header */}
 					<div className="mb-8 flex flex-col gap-4">
 						<Link
 							to="/journal"
-							className="inline-flex items-center gap-2 font-display font-semibold text-section-hero-subtext text-sm underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-white w-fit"
+							className="inline-flex w-fit items-center gap-2 font-display font-semibold text-section-hero-subtext text-sm underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-white"
 						>
 							← All articles
 						</Link>

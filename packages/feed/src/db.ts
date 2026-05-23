@@ -1,6 +1,6 @@
 import { createDb } from "@zias/db";
 import { posts } from "@zias/db/schema/journal";
-import { and, desc, isNotNull, eq } from "drizzle-orm";
+import { and, desc, eq, isNotNull } from "drizzle-orm";
 import type { FeedPost } from "./rss";
 
 /**
@@ -23,7 +23,9 @@ export async function fetchPublishedPosts(): Promise<FeedPost[]> {
 	});
 
 	return rows
-		.filter((r): r is typeof r & { publishedAt: Date } => r.publishedAt !== null)
+		.filter(
+			(r): r is typeof r & { publishedAt: Date } => r.publishedAt !== null,
+		)
 		.map((r) => ({
 			slug: r.slug,
 			title: r.title,

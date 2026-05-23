@@ -6,7 +6,33 @@ import { HeroSection } from "@/components/sections/hero";
 import { WhoAmISection } from "@/components/sections/whoami";
 import { WorkSection } from "@/components/sections/work";
 
+const SITE_URL = "https://zias.be";
+
 export const Route = createFileRoute("/")({
+	head: () => ({
+		meta: [
+			{ title: "Zias — Crafting Digital Experiences" },
+			{
+				name: "description",
+				content:
+					"A one-person studio building websites, web apps and mobile products for brands with taste.",
+			},
+			{ property: "og:title", content: "Zias — Crafting Digital Experiences" },
+			{
+				property: "og:description",
+				content:
+					"A one-person studio building websites, web apps and mobile products for brands with taste.",
+			},
+			{ property: "og:url", content: SITE_URL },
+			{ name: "twitter:title", content: "Zias — Crafting Digital Experiences" },
+			{
+				name: "twitter:description",
+				content:
+					"A one-person studio building websites, web apps and mobile products for brands with taste.",
+			},
+		],
+		links: [{ rel: "canonical", href: SITE_URL }],
+	}),
 	component: HomePage,
 });
 

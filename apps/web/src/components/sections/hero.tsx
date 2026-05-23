@@ -1,13 +1,17 @@
-import { Section, SectionInner } from "@zias/ui/components/section";
-import { PillButton } from "@zias/ui/components/pill-button";
 import { Link } from "@tanstack/react-router";
+import { PillButton } from "@zias/ui/components/pill-button";
+import { Section, SectionInner } from "@zias/ui/components/section";
 import { motion, useReducedMotion } from "motion/react";
 
 export function HeroSection() {
 	const prefersReducedMotion = useReducedMotion();
 
 	return (
-		<Section variant="hero" className="min-h-svh overflow-hidden pt-[72px]" aria-label="Hero">
+		<Section
+			variant="hero"
+			className="min-h-svh overflow-hidden pt-[72px]"
+			aria-label="Hero"
+		>
 			{/* Gradient blobs — decorative, hidden from assistive tech */}
 			<div
 				className="pointer-events-none absolute inset-0 overflow-hidden"
@@ -21,7 +25,11 @@ export function HeroSection() {
 							"radial-gradient(ellipse at center, oklch(0.6 0.28 330 / 0.7) 0%, transparent 70%)",
 						filter: "blur(60px)",
 					}}
-					animate={prefersReducedMotion ? undefined : { x: [0, 30, -20, 0], y: [0, -20, 10, 0] }}
+					animate={
+						prefersReducedMotion
+							? undefined
+							: { x: [0, 30, -20, 0], y: [0, -20, 10, 0] }
+					}
 					transition={{
 						duration: 18,
 						repeat: Number.POSITIVE_INFINITY,
@@ -36,7 +44,11 @@ export function HeroSection() {
 							"radial-gradient(ellipse at center, oklch(0.72 0.19 60 / 0.65) 0%, transparent 70%)",
 						filter: "blur(80px)",
 					}}
-					animate={prefersReducedMotion ? undefined : { x: [0, -25, 15, 0], y: [0, 20, -15, 0] }}
+					animate={
+						prefersReducedMotion
+							? undefined
+							: { x: [0, -25, 15, 0], y: [0, 20, -15, 0] }
+					}
 					transition={{
 						duration: 22,
 						repeat: Number.POSITIVE_INFINITY,

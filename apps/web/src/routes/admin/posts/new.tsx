@@ -1,18 +1,12 @@
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-	createFileRoute,
-	Link,
-	redirect,
-	useNavigate,
-} from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import type { PostCategory } from "@zias/content";
 import { generateSlug, POST_CATEGORIES } from "@zias/content";
-import { Section, SectionInner } from "@zias/ui/components/section";
 import { toast } from "sonner";
 import { z } from "zod";
+import { AdminActionLink, AdminShell } from "@/components/admin-shell";
 import { PostForm } from "@/components/post-form";
-import { Nav } from "@/components/nav";
 import { authClient } from "@/lib/auth-client";
 import { trpc } from "@/utils/trpc";
 
@@ -64,30 +58,16 @@ function NewPost() {
 	});
 
 	return (
-		<>
-			<Nav />
-			{/* Hero header */}
-			<Section variant="hero" className="pt-[72px]">
-				<SectionInner className="py-10">
-					<div className="flex items-center gap-4">
-						<Link
-							to="/admin/posts"
-							className="text-section-hero-subtext text-sm transition-colors hover:text-section-hero-fg"
-						>
-							← Posts
-						</Link>
-						<h1 className="font-display font-extrabold text-3xl">New post</h1>
-					</div>
-				</SectionInner>
-			</Section>
-			{/* Form on plain background */}
-			<Section variant="plain">
-				<SectionInner className="py-10">
-					<div className="mx-auto max-w-3xl">
-						<PostForm form={form} />
-					</div>
-				</SectionInner>
-			</Section>
-		</>
+		<AdminShell
+			title="New post"
+			description="Create content and keep drafts organized."
+			backTo="/admin/posts"
+			backLabel="Posts"
+			actions={<AdminActionLink to="/admin/messages">Messages</AdminActionLink>}
+		>
+			<div className="mx-auto max-w-4xl">
+				<PostForm form={form} />
+			</div>
+		</AdminShell>
 	);
 }

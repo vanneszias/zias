@@ -8,7 +8,9 @@ export function Footer() {
 
 	const handleSayHi = () => {
 		if (pathname === "/") {
-			document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+			document
+				.getElementById("contact")
+				?.scrollIntoView({ behavior: "smooth" });
 		} else {
 			navigate({ to: "/", hash: "contact" });
 		}
@@ -41,55 +43,181 @@ export function Footer() {
 					<div className="grid grid-cols-2 gap-10 md:ml-auto">
 						{/* Elsewhere */}
 						<FooterCol title="Elsewhere">
-							<FooterLink href="mailto:hello@zias.be" icon={
-								<svg width="14" height="14" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" viewBox="0 0 14 12" aria-hidden="true">
-									<rect x="1" y="1" width="12" height="10" rx="1.5" />
-									<path d="M1 3.5L7 7l6-3.5" />
-								</svg>
-							}>Email</FooterLink>
-							<FooterLink href="https://linkedin.com/in/ziasvannes" external icon={
-								<svg width="14" height="14" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" viewBox="0 0 14 14" aria-hidden="true">
-									<rect x="1.5" y="1.5" width="11" height="11" rx="2" />
-									<path d="M4.5 6v4.5M7.5 10.5V8.5a2 2 0 014 0v2" />
-									<circle cx="4.5" cy="4.25" r="0.65" fill="currentColor" stroke="none" />
-								</svg>
-							}>LinkedIn</FooterLink>
-							<FooterLink href="https://x.com/ziasvannes" external icon={
-								<svg width="14" height="14" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 14 14" aria-hidden="true">
-									<path d="M1.5 1.5l11 11M12.5 1.5l-11 11" />
-								</svg>
-							}>Twitter / X</FooterLink>
-							<FooterLink href="https://instagram.com/ziasvannes" external icon={
-								<svg width="14" height="14" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" viewBox="0 0 14 14" aria-hidden="true">
-									<rect x="1.5" y="1.5" width="11" height="11" rx="3.25" />
-									<circle cx="7" cy="7" r="2.75" />
-									<circle cx="10.5" cy="3.5" r="0.7" fill="currentColor" stroke="none" />
-								</svg>
-							}>Instagram</FooterLink>
+							<FooterLink
+								href="mailto:hello@zias.be"
+								icon={
+									<svg
+										width="14"
+										height="14"
+										fill="none"
+										stroke="currentColor"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="1.25"
+										viewBox="0 0 14 12"
+										aria-hidden="true"
+									>
+										<rect x="1" y="1" width="12" height="10" rx="1.5" />
+										<path d="M1 3.5L7 7l6-3.5" />
+									</svg>
+								}
+							>
+								Email
+							</FooterLink>
+							<FooterLink
+								href="https://linkedin.com/in/ziasvannes"
+								external
+								icon={
+									<svg
+										width="14"
+										height="14"
+										fill="none"
+										stroke="currentColor"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="1.25"
+										viewBox="0 0 14 14"
+										aria-hidden="true"
+									>
+										<rect x="1.5" y="1.5" width="11" height="11" rx="2" />
+										<path d="M4.5 6v4.5M7.5 10.5V8.5a2 2 0 014 0v2" />
+										<circle
+											cx="4.5"
+											cy="4.25"
+											r="0.65"
+											fill="currentColor"
+											stroke="none"
+										/>
+									</svg>
+								}
+							>
+								LinkedIn
+							</FooterLink>
+							<FooterLink
+								href="https://x.com/ziasvannes"
+								external
+								icon={
+									<svg
+										width="14"
+										height="14"
+										fill="none"
+										stroke="currentColor"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="1.5"
+										viewBox="0 0 14 14"
+										aria-hidden="true"
+									>
+										<path d="M1.5 1.5l11 11M12.5 1.5l-11 11" />
+									</svg>
+								}
+							>
+								Twitter / X
+							</FooterLink>
+							<FooterLink
+								href="https://instagram.com/ziasvannes"
+								external
+								icon={
+									<svg
+										width="14"
+										height="14"
+										fill="none"
+										stroke="currentColor"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="1.25"
+										viewBox="0 0 14 14"
+										aria-hidden="true"
+									>
+										<rect x="1.5" y="1.5" width="11" height="11" rx="3.25" />
+										<circle cx="7" cy="7" r="2.75" />
+										<circle
+											cx="10.5"
+											cy="3.5"
+											r="0.7"
+											fill="currentColor"
+											stroke="none"
+										/>
+									</svg>
+								}
+							>
+								Instagram
+							</FooterLink>
 						</FooterCol>
 
 						{/* Also on */}
 						<FooterCol title="Also on">
-							<FooterLink href="https://git.zias.be/zias/zias" external icon={
-								<svg width="14" height="14" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" viewBox="0 0 14 14" aria-hidden="true">
-									<circle cx="4" cy="3.5" r="1.5" />
-									<circle cx="4" cy="10.5" r="1.5" />
-									<circle cx="10" cy="5.5" r="1.5" />
-									<path d="M4 5V9M4.5 4.5Q7 4.5 10 6.5" strokeLinecap="round" />
-								</svg>
-							}>Git</FooterLink>
-							<FooterLink href="https://ziasbe.substack.com/" external icon={
-								<svg width="14" height="14" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" viewBox="0 0 14 14" aria-hidden="true">
-									<path d="M2 3.5h10M2 7h10" />
-									<path d="M4.5 10l2.5 2.5L9.5 10z" strokeLinejoin="round" />
-								</svg>
-							}>Substack</FooterLink>
-							<FooterLink href="https://letterboxd.com/ziasvannes" external icon={
-								<svg width="14" height="14" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25" viewBox="0 0 14 14" aria-hidden="true">
-									<circle cx="5.5" cy="7" r="4" />
-									<circle cx="8.5" cy="7" r="4" />
-								</svg>
-							}>Letterboxd</FooterLink>
+							<FooterLink
+								href="https://git.zias.be/zias/zias"
+								external
+								icon={
+									<svg
+										width="14"
+										height="14"
+										fill="none"
+										stroke="currentColor"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="1.25"
+										viewBox="0 0 14 14"
+										aria-hidden="true"
+									>
+										<circle cx="4" cy="3.5" r="1.5" />
+										<circle cx="4" cy="10.5" r="1.5" />
+										<circle cx="10" cy="5.5" r="1.5" />
+										<path
+											d="M4 5V9M4.5 4.5Q7 4.5 10 6.5"
+											strokeLinecap="round"
+										/>
+									</svg>
+								}
+							>
+								Git
+							</FooterLink>
+							<FooterLink
+								href="https://ziasbe.substack.com/"
+								external
+								icon={
+									<svg
+										width="14"
+										height="14"
+										fill="none"
+										stroke="currentColor"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="1.25"
+										viewBox="0 0 14 14"
+										aria-hidden="true"
+									>
+										<path d="M2 3.5h10M2 7h10" />
+										<path d="M4.5 10l2.5 2.5L9.5 10z" strokeLinejoin="round" />
+									</svg>
+								}
+							>
+								Substack
+							</FooterLink>
+							<FooterLink
+								href="https://letterboxd.com/ziasvannes"
+								external
+								icon={
+									<svg
+										width="14"
+										height="14"
+										fill="none"
+										stroke="currentColor"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="1.25"
+										viewBox="0 0 14 14"
+										aria-hidden="true"
+									>
+										<circle cx="5.5" cy="7" r="4" />
+										<circle cx="8.5" cy="7" r="4" />
+									</svg>
+								}
+							>
+								Letterboxd
+							</FooterLink>
 						</FooterCol>
 					</div>
 				</div>
@@ -137,7 +265,13 @@ export function Footer() {
 	);
 }
 
-function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
+function FooterCol({
+	title,
+	children,
+}: {
+	title: string;
+	children: React.ReactNode;
+}) {
 	return (
 		<nav aria-label={title}>
 			<p className="mb-4 font-semibold text-label text-section-footer-subtext uppercase tracking-widest">

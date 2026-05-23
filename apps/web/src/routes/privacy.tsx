@@ -1,9 +1,27 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, SectionInner } from "@zias/ui/components/section";
-import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
+import { Nav } from "@/components/nav";
+
+const SITE_URL = "https://zias.be";
 
 export const Route = createFileRoute("/privacy")({
+	head: () => ({
+		meta: [
+			{ title: "Privacy Policy — Zias" },
+			{
+				name: "description",
+				content: "Privacy policy for zias.be and contact form data handling.",
+			},
+			{ property: "og:title", content: "Privacy Policy — Zias" },
+			{
+				property: "og:description",
+				content: "Privacy policy for zias.be and contact form data handling.",
+			},
+			{ property: "og:url", content: `${SITE_URL}/privacy` },
+		],
+		links: [{ rel: "canonical", href: `${SITE_URL}/privacy` }],
+	}),
 	component: PrivacyPage,
 });
 
@@ -11,7 +29,7 @@ function PrivacyPage() {
 	return (
 		<>
 			<Nav />
-			<Section variant="hero" className="min-h-svh pt-[72px]">
+			<Section id="main-content" variant="hero" className="min-h-svh pt-[72px]">
 				<SectionInner className="py-24">
 					<div className="max-w-2xl">
 						<Link
@@ -34,7 +52,7 @@ function PrivacyPage() {
 									Who I am
 								</h2>
 								<p className="text-sm leading-relaxed">
-									This is the personal website of Zias Vannes, a designer and
+									This is the personal website of Zias van Nes, a designer and
 									developer based in Leuven, Belgium. You can reach me at{" "}
 									<a
 										href="mailto:hello@zias.be"
@@ -57,8 +75,8 @@ function PrivacyPage() {
 								</p>
 								<p className="text-sm leading-relaxed">
 									If you use the contact form, I store your name, email address,
-									and message. This data is used solely to reply to your
-									inquiry and is never shared with third parties.
+									and message. This data is used solely to reply to your inquiry
+									and is never shared with third parties.
 								</p>
 							</section>
 
@@ -87,8 +105,8 @@ function PrivacyPage() {
 									Your rights
 								</h2>
 								<p className="text-sm leading-relaxed">
-									Under GDPR you have the right to access, rectify, or erase
-									any personal data I hold about you. To exercise these rights,
+									Under GDPR you have the right to access, rectify, or erase any
+									personal data I hold about you. To exercise these rights,
 									email me at{" "}
 									<a
 										href="mailto:hello@zias.be"
@@ -105,8 +123,8 @@ function PrivacyPage() {
 									Changes
 								</h2>
 								<p className="text-sm leading-relaxed">
-									I may update this policy occasionally. The date at the top
-									of the page reflects the most recent revision.
+									I may update this policy occasionally. The date at the top of
+									the page reflects the most recent revision.
 								</p>
 							</section>
 						</div>

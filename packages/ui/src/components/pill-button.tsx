@@ -32,15 +32,17 @@ export function PillButton({
 			onFocus={() => setIsHovered(true)}
 			onBlur={() => setIsHovered(false)}
 			className={cn(
-				"group inline-flex items-center gap-3 rounded-full bg-pill font-bold font-display text-pill-fg",
+				"group inline-flex items-center gap-3 whitespace-nowrap rounded-full bg-pill font-bold font-display text-pill-fg",
 				"cursor-pointer select-none overflow-hidden transition-opacity hover:opacity-90 active:scale-[0.97]",
 				isSm ? "px-5 py-2.5 text-base" : "px-8 py-4 text-xl md:text-2xl",
 				className,
 			)}
 			{...props}
 		>
-			<span>{children}</span>
-			<AnimatedArrow size={arrowSize} isHovered={isHovered} />
+			<span className="shrink-0 whitespace-nowrap">{children}</span>
+			<span className="shrink-0">
+				<AnimatedArrow size={arrowSize} isHovered={isHovered} />
+			</span>
 		</button>
 	);
 }

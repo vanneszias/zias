@@ -34,7 +34,7 @@ export function PostForm({ form }: { form: any }) {
 							value={f.state.value}
 							onChange={(e) => f.handleChange(e.target.value)}
 							placeholder="Post title"
-							className="rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+							className="rounded-lg border border-input bg-background px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring"
 						/>
 						{f.state.meta.errors[0] && (
 							<span className="text-destructive text-xs">
@@ -54,7 +54,7 @@ export function PostForm({ form }: { form: any }) {
 							<select
 								value={f.state.value}
 								onChange={(e) => f.handleChange(e.target.value as PostCategory)}
-								className="rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+								className="rounded-lg border border-input bg-background px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring"
 							>
 								{POST_CATEGORIES.map((cat) => (
 									<option key={cat} value={cat}>
@@ -73,7 +73,7 @@ export function PostForm({ form }: { form: any }) {
 							<select
 								value={f.state.value ? "draft" : "published"}
 								onChange={(e) => f.handleChange(e.target.value === "draft")}
-								className="rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+								className="rounded-lg border border-input bg-background px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring"
 							>
 								<option value="draft">Draft</option>
 								<option value="published">Published</option>
@@ -90,7 +90,7 @@ export function PostForm({ form }: { form: any }) {
 								type="date"
 								value={f.state.value ?? ""}
 								onChange={(e) => f.handleChange(e.target.value || null)}
-								className="rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+								className="rounded-lg border border-input bg-background px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring"
 							/>
 						</label>
 					)}
@@ -103,7 +103,7 @@ export function PostForm({ form }: { form: any }) {
 							<select
 								value={f.state.value ? "custom" : "tiptap"}
 								onChange={(e) => f.handleChange(e.target.value === "custom")}
-								className="rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+								className="rounded-lg border border-input bg-background px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring"
 							>
 								<option value="tiptap">Rich text (Tiptap)</option>
 								<option value="custom">Custom React page</option>

@@ -34,6 +34,9 @@
 		"db:push": "turbo -F @zias/db db:push",
 		"db:generate": "turbo -F @zias/db db:generate",
 		"db:seed": "turbo -F @zias/db db:seed",
+		"db:create-admin": "turbo -F @zias/db db:create-admin",
+		"db:create-admin:local": "turbo -F @zias/db db:create-admin:local",
+		"db:seed-posts:local": "turbo -F @zias/db db:seed-posts:local",
 		"deploy": "turbo -F @zias/infra deploy",
 		"destroy": "turbo -F @zias/infra destroy",
 		"check": "biome check --write ."

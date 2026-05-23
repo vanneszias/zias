@@ -16,6 +16,12 @@ const BG_CLASSES: Record<PostCardVariant, string> = {
 	orange: "bg-section-orange", // #ed4920
 };
 
+const CATEGORY_VARIANTS = {
+	words: "purple",
+	work: "rose",
+	misc: "green",
+} as const satisfies Record<string, PostCardVariant>;
+
 interface PostCardProps {
 	post: PostMeta;
 	/** Called when the card is clicked */
@@ -27,7 +33,8 @@ interface PostCardProps {
 
 export function PostCard({ post, onClick, className, variant }: PostCardProps) {
 	const [isHovered, setIsHovered] = useState(false);
-	const colorToken = variant ?? CATEGORY_COLOR_TOKEN[post.category];
+	const colorVariant =
+		variant ?? CATEGORY_VARIANTS[CATEGORY_COLOR_TOKEN[post.category]];
 	const ariaLabel = `${post.title} — ${post.category}, ${post.readTime} minute read${post.publishedAt ? `, ${formatPostDate(new Date(post.publishedAt))}` : ""}`;
 
 	return (
@@ -42,7 +49,7 @@ export function PostCard({ post, onClick, className, variant }: PostCardProps) {
 			className={cn(
 				"group relative flex w-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl p-7",
 				"text-left text-card-fg transition-transform duration-200 hover:scale-[1.015] active:scale-[0.99]",
-				BG_CLASSES[colorToken],
+				BG_CLASSES[colorVariant],
 				className,
 			)}
 		>

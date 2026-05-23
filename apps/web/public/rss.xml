@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Zias - Journal</title>
+    <link>https://zias.be/journal</link>
+    <description>Writing, case studies, and notes from the work.</description>
+    <language>en</language>
+    <atom:link href="https://zias.be/rss.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>
