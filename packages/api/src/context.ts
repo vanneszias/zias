@@ -1,12 +1,14 @@
-import { createAuth } from "@zias/auth";
+import { getAuth } from "@zias/auth";
 import type { Context as HonoContext } from "hono";
+
+const auth = getAuth();
 
 export type CreateContextOptions = {
 	context: HonoContext;
 };
 
 export async function createContext({ context }: CreateContextOptions) {
-	const session = await createAuth().api.getSession({
+	const session = await auth.api.getSession({
 		headers: context.req.raw.headers,
 	});
 	return {

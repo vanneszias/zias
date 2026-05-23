@@ -12,6 +12,7 @@ import { cn } from "@zias/ui/lib/utils";
 import { z } from "zod";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
+import { ogBaseUrl } from "@/lib/urls";
 import { trpc } from "@/utils/trpc";
 
 const searchSchema = z.object({
@@ -35,11 +36,15 @@ export const Route = createFileRoute("/journal/")({
 				content: "Writing, case studies, and notes from the work.",
 			},
 			{ property: "og:url", content: `${SITE_URL}/journal` },
+			{ property: "og:image", content: `${ogBaseUrl}/journal` },
+			{ property: "og:image:width", content: "1200" },
+			{ property: "og:image:height", content: "630" },
 			{ name: "twitter:title", content: "Journal — Zias" },
 			{
 				name: "twitter:description",
 				content: "Writing, case studies, and notes from the work.",
 			},
+			{ name: "twitter:image", content: `${ogBaseUrl}/journal` },
 		],
 		links: [{ rel: "canonical", href: `${SITE_URL}/journal` }],
 	}),

@@ -7,6 +7,7 @@ import {
 	AdminShell,
 } from "@/components/admin-shell";
 import { authClient } from "@/lib/auth-client";
+import { ogBaseUrl, serverBaseUrl } from "@/lib/urls";
 import { trpc } from "@/utils/trpc";
 
 export const Route = createFileRoute("/admin/")({
@@ -212,19 +213,15 @@ type EndpointStatus = {
 
 function SeoPublishPreview() {
 	const [rows, setRows] = useState<EndpointStatus[]>([]);
-	const serverUrl = (import.meta.env.VITE_SERVER_URL as string).replace(
-		/\/$/,
-		"",
-	);
 
 	const endpoints = useMemo(
 		() => [
 			{ label: "Robots", url: "/robots.txt" },
 			{ label: "Sitemap", url: "/sitemap.xml" },
 			{ label: "RSS", url: "/rss.xml" },
-			{ label: "OG Site", url: `${serverUrl}/og/site` },
-			{ label: "Server Sitemap", url: `${serverUrl}/sitemap.xml` },
-			{ label: "Server Robots", url: `${serverUrl}/robots.txt` },
+			{ label: "OG Site", url: `${ogBaseUrl}/site` },
+			{ label: "Server Sitemap", url: `${serverBaseUrl}/sitemap.xml` },
+			{ label: "Server Robots", url: `${serverBaseUrl}/robots.txt` },
 		],
 		[],
 	);

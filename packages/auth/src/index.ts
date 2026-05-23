@@ -42,3 +42,10 @@ export function createAuth() {
 		},
 	});
 }
+
+let authInstance: ReturnType<typeof createAuth> | undefined;
+
+export function getAuth() {
+	if (!authInstance) authInstance = createAuth();
+	return authInstance;
+}

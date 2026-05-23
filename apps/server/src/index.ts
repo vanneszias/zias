@@ -1,7 +1,7 @@
 import { trpcServer } from "@hono/trpc-server";
 import { createContext } from "@zias/api/context";
 import { appRouter } from "@zias/api/routers/index";
-import { createAuth } from "@zias/auth";
+import { getAuth } from "@zias/auth";
 import { createDb } from "@zias/db";
 import { posts } from "@zias/db/schema/journal";
 import { env } from "@zias/env/server";
@@ -15,13 +15,23 @@ import {
 import { type EvlogVariables, evlog } from "evlog/hono";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { buildOgImage, buildSiteOgImage } from "./og";
 
 initLogger({
 	env: { service: "zias-server" },
 });
 
 const app = new Hono<EvlogVariables>();
+const auth = getAuth();
+const identifyUser = createAuthMiddleware(auth as BetterAuthInstance, {
+	exclude: [
+		"/api/auth/**",
+		"/og/**",
+		"/rss.xml",
+		"/sitemap.xml",
+		"/robots.txt",
+	],
+	maskEmail: true,
+});
 
 function resolveSiteOrigin(reqUrl: string, configuredOrigin: string) {
 	if (configuredOrigin && !configuredOrigin.includes("localhost")) {
@@ -38,13 +48,6 @@ function resolveSiteOrigin(reqUrl: string, configuredOrigin: string) {
 
 app.use(evlog());
 app.use("*", async (c, next) => {
-	const identifyUser = createAuthMiddleware(
-		createAuth() as BetterAuthInstance,
-		{
-			exclude: ["/api/auth/**"],
-			maskEmail: true,
-		},
-	);
 	await identifyUser(c.get("log"), c.req.raw.headers, c.req.path);
 	await next();
 });
@@ -54,8 +57,24 @@ app.use(
 	cors({
 		origin: (origin) => {
 			if (!origin) return null;
-			const allowed = env.CORS_ORIGIN.split(",").map((item) => item.trim());
-			return allowed.includes(origin) ? origin : null;
+			const allowed = env.CORS_ORIGIN.split(",")
+				.map((item) => item.trim())
+				.filter(Boolean);
+			if (allowed.includes(origin)) return origin;
+
+			const { hostname, protocol } = new URL(origin);
+			if (
+				protocol === "https:" &&
+				(hostname === "zias.be" || hostname.endsWith(".zias.be"))
+			) {
+				return origin;
+			}
+
+			if (hostname === "localhost" || hostname === "127.0.0.1") {
+				return origin;
+			}
+
+			return null;
 		},
 		allowMethods: ["GET", "POST", "OPTIONS"],
 		allowHeaders: ["Content-Type", "Authorization"],
@@ -63,7 +82,7 @@ app.use(
 	}),
 );
 
-app.on(["POST", "GET"], "/api/auth/*", (c) => createAuth().handler(c.req.raw));
+app.on(["POST", "GET"], "/api/auth/*", (c) => auth.handler(c.req.raw));
 
 app.use(
 	"/trpc/*",
@@ -87,52 +106,6 @@ app.get("/rss.xml", async (c) => {
 		"Content-Type": "application/rss+xml; charset=utf-8",
 		"Cache-Control": "public, max-age=3600, s-maxage=3600",
 	});
-});
-
-app.get("/og/journal/:slug", async (c) => {
-	const slug = c.req.param("slug");
-	const db = createDb();
-	const post = await db.query.posts.findFirst({
-		where: and(eq(posts.slug, slug), eq(posts.isDraft, false)),
-		columns: { title: true, excerpt: true, category: true },
-	});
-
-	if (!post) return c.notFound();
-
-	const png = await buildOgImage(post);
-	// Cast is safe: @resvg/resvg-wasm always returns a regular ArrayBuffer
-	return c.body(png as unknown as Uint8Array<ArrayBuffer>, 200, {
-		"Content-Type": "image/png",
-		"Cache-Control": "public, max-age=86400, s-maxage=604800",
-	});
-});
-
-app.get("/og/site", async (c) => {
-	try {
-		const png = await buildSiteOgImage({
-			title: "Zias",
-			subtitle: "Crafting digital experiences.",
-			background: "#2c2828",
-		});
-
-		return c.body(png as unknown as Uint8Array<ArrayBuffer>, 200, {
-			"Content-Type": "image/png",
-			"Cache-Control": "public, max-age=86400, s-maxage=604800",
-		});
-	} catch {
-		const svg = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#2c2828"/>
-  <text x="72" y="250" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="84" font-weight="800">Zias</text>
-  <text x="72" y="320" fill="rgba(255,255,255,0.8)" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="38">Crafting digital experiences.</text>
-  <text x="72" y="560" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="34" font-weight="700">zias.be</text>
-</svg>`;
-
-		return c.body(svg, 200, {
-			"Content-Type": "image/svg+xml; charset=utf-8",
-			"Cache-Control": "public, max-age=3600, s-maxage=86400",
-		});
-	}
 });
 
 app.get("/sitemap.xml", async (c) => {

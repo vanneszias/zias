@@ -8,6 +8,7 @@ import { lazy, Suspense } from "react";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { TiptapRenderer } from "@/components/tiptap-renderer";
+import { ogBaseUrl } from "@/lib/urls";
 import { trpc } from "@/utils/trpc";
 
 const SITE_URL = "https://zias.be";
@@ -22,8 +23,7 @@ export const Route = createFileRoute("/journal/$slug")({
 		const title = `${post.title} — Zias`;
 		const description = post.excerpt || "An article by Zias";
 		const url = `${SITE_URL}/journal/${post.slug}`;
-		const serverUrl = import.meta.env.VITE_SERVER_URL as string;
-		const ogImage = `${serverUrl}/og/journal/${post.slug}`;
+		const ogImage = `${ogBaseUrl}/journal/${post.slug}`;
 
 		return {
 			meta: [

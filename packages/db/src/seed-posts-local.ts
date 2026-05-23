@@ -23,7 +23,9 @@ console.log(`Using local D1: ${dbPath}`);
 
 const db = new Database(dbPath);
 
-const author = db.query<{ id: string }, []>("SELECT id FROM user LIMIT 1").get();
+const author = db
+	.query<{ id: string }, []>("SELECT id FROM user LIMIT 1")
+	.get();
 
 if (!author) {
 	console.error("No user found — run db:create-admin:local first.");

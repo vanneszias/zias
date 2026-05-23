@@ -2,9 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { AdminShell } from "@/components/admin-shell";
 import { authClient } from "@/lib/auth-client";
+import { ogBaseUrl } from "@/lib/urls";
 import { trpc } from "@/utils/trpc";
-
-const SERVER_URL = (import.meta.env.VITE_SERVER_URL as string).replace(/\/$/, "");
 
 const STATIC_PAGES: { label: string; path: string }[] = [
 	{ label: "Home", path: "/" },
@@ -21,7 +20,15 @@ export const Route = createFileRoute("/admin/seo")({
 	},
 });
 
-function OgCard({ label, path, ogUrl }: { label: string; path: string; ogUrl: string }) {
+function OgCard({
+	label,
+	path,
+	ogUrl,
+}: {
+	label: string;
+	path: string;
+	ogUrl: string;
+}) {
 	return (
 		<div className="flex flex-col gap-2">
 			<div className="overflow-hidden rounded-xl border border-white/10 bg-black/30">
@@ -62,7 +69,7 @@ function AdminSeoPreview() {
 								key={page.path}
 								label={page.label}
 								path={page.path}
-								ogUrl={`${SERVER_URL}/og/site`}
+								ogUrl={`${ogBaseUrl}/site`}
 							/>
 						))}
 					</div>
@@ -79,7 +86,7 @@ function AdminSeoPreview() {
 									key={post.id}
 									label={post.title}
 									path={`/journal/${post.slug}`}
-									ogUrl={`${SERVER_URL}/og/journal/${post.slug}`}
+									ogUrl={`${ogBaseUrl}/journal/${post.slug}`}
 								/>
 							))}
 						</div>
@@ -88,7 +95,8 @@ function AdminSeoPreview() {
 
 				{published.length === 0 && posts !== undefined ? (
 					<p className="text-section-hero-subtext text-sm">
-						No published posts yet — OG images will appear here once you publish.
+						No published posts yet — OG images will appear here once you
+						publish.
 					</p>
 				) : null}
 			</div>

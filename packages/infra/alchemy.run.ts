@@ -1,6 +1,6 @@
 // biome-ignore-all lint/style/noNonNullAssertion: alchemy env vars are guaranteed present at deploy time
 import alchemy from "alchemy";
-import { D1Database, Vite, Worker } from "alchemy/cloudflare";
+import { D1Database, R2Bucket, Vite, Worker } from "alchemy/cloudflare";
 import { config } from "dotenv";
 
 const isDeployLikeCommand = ["deploy", "destroy"].includes(
@@ -22,11 +22,16 @@ const db = await D1Database("database", {
 	migrationsDir: "../../packages/db/src/migrations",
 });
 
+const ogImages = await R2Bucket("og-images", {
+	devDomain: false,
+});
+
 export const web = await Vite("web", {
 	cwd: "../../apps/web",
 	assets: "dist",
 	bindings: {
 		VITE_SERVER_URL: alchemy.env.VITE_SERVER_URL!,
+		VITE_OG_URL: alchemy.env.VITE_OG_URL ?? alchemy.env.VITE_SERVER_URL!,
 	},
 });
 
@@ -36,6 +41,7 @@ export const server = await Worker("server", {
 	compatibility: "node",
 	bindings: {
 		DB: db,
+		OG_IMAGES: ogImages,
 		CORS_ORIGIN: alchemy.env.CORS_ORIGIN!,
 		BETTER_AUTH_SECRET: isDeployLikeCommand
 			? alchemy.secret.env.BETTER_AUTH_SECRET!
@@ -47,7 +53,21 @@ export const server = await Worker("server", {
 	},
 });
 
+export const og = await Worker("og", {
+	cwd: "../../apps/server",
+	entrypoint: "src/og-worker.ts",
+	compatibility: "node",
+	bindings: {
+		DB: db,
+		OG_IMAGES: ogImages,
+	},
+	dev: {
+		port: 3001,
+	},
+});
+
 console.log(`Web    -> ${web.url}`);
 console.log(`Server -> ${server.url}`);
+console.log(`OG     -> ${og.url}`);
 
 await app.finalize();
