@@ -16,12 +16,13 @@ export function WorkSection() {
 	const colorVariants: PostCardVariant[] = ["purple", "rose", "green", "orange"];
 
 	return (
-		<Section id="work" variant="blue" className="min-h-svh">
-			<SectionInner className="flex min-h-svh flex-col justify-center py-32">
+		<Section id="work" variant="blue" className="min-h-svh" aria-labelledby="work-heading">
+			<SectionInner className="flex min-h-svh flex-col justify-center py-24 sm:py-32">
 				{/* Head */}
 				<div className="mb-14 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
 					<div>
 						<motion.h2
+							id="work-heading"
 							className="font-display font-extrabold text-hero leading-tight"
 							initial={{ opacity: 0, y: 32 }}
 							whileInView={{ opacity: 1, y: 0 }}
@@ -40,7 +41,8 @@ export function WorkSection() {
 							And the{" "}
 							<Link
 								to="/journal"
-								className="underline decoration-white/60 underline-offset-4"
+								className="font-[family-name:var(--font-hand)] text-[1.15em] underline decoration-white/60 underline-offset-4"
+								style={{ display: "inline-block", rotate: "-2deg" }}
 							>
 								writing
 							</Link>{" "}
@@ -57,7 +59,7 @@ export function WorkSection() {
 				</div>
 
 				{/* Post grid */}
-				<div className="grid gap-5 sm:grid-cols-2">
+				<div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
 					{posts?.map((post, i) => (
 						<motion.div
 							key={post.id}

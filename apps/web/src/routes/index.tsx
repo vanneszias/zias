@@ -14,7 +14,7 @@ function HomePage() {
 	return (
 		<>
 			<Nav />
-			<main>
+			<main id="main-content">
 				<HeroSection />
 				<WhoAmISection />
 				<WorkSection />

@@ -108,6 +108,7 @@ function EditPostForm({
 		isCustomPage: boolean;
 		isDraft: boolean;
 		content: string | null;
+		publishedAt: string | Date | null;
 	};
 	onSave: (values: PostFormValues) => Promise<void>;
 }) {
@@ -119,6 +120,7 @@ function EditPostForm({
 		isCustomPage: z.boolean(),
 		isDraft: z.boolean(),
 		content: z.string().nullable(),
+		publishedAt: z.string().nullable(),
 	});
 
 	const form = useForm({
@@ -130,6 +132,9 @@ function EditPostForm({
 			isCustomPage: post.isCustomPage,
 			isDraft: post.isDraft,
 			content: post.content ?? null,
+			publishedAt: post.publishedAt
+				? new Date(post.publishedAt).toISOString().split("T")[0]
+				: null,
 		},
 		validators: { onSubmit: schema },
 		onSubmit: async ({ value }) => {

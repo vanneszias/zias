@@ -83,7 +83,7 @@ function AdminPostsList() {
 									<div className="flex items-center gap-2">
 										<CategoryBadge
 											category={post.category as PostCategory}
-											className="shrink-0 text-section-hero-fg border-white/20"
+											className="shrink-0"
 										/>
 										{post.isDraft && (
 											<span className="rounded-full border border-white/20 px-2 py-0.5 text-section-hero-fg/60 text-xs">

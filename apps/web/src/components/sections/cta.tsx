@@ -33,19 +33,27 @@ export function CTASection() {
 	});
 
 	return (
-		<Section id="contact" variant="orange" className="min-h-svh">
-			<SectionInner className="flex min-h-svh flex-col justify-center py-32">
+		<Section id="contact" variant="orange" className="min-h-svh" aria-labelledby="contact-heading">
+			<SectionInner className="flex min-h-svh flex-col justify-center py-24 sm:py-32">
 				<div className="flex flex-col gap-16 lg:flex-row lg:gap-24">
 					{/* Left — headline */}
 					<div className="lg:w-1/2">
 						<motion.h2
+							id="contact-heading"
 							className="font-display font-extrabold text-hero leading-tight"
 							initial={{ opacity: 0, y: 32 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true, margin: "-100px" }}
 							transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
 						>
-							Let&apos;s build something good.
+							Let&apos;s build something{" "}
+							<span
+								className="font-[family-name:var(--font-hand)] text-[1.1em]"
+								style={{ display: "inline-block", rotate: "-2deg" }}
+							>
+								good
+							</span>
+							.
 						</motion.h2>
 						<motion.p
 							className="mt-6 text-section-orange-subtext text-subtext"
@@ -55,11 +63,7 @@ export function CTASection() {
 							transition={{ delay: 0.1 }}
 						>
 							One inbox. One person. <br className="hidden md:block" />
-							Usually replies{" "}
-							<span className="italic underline decoration-white/60 underline-offset-4">
-								within a day
-							</span>
-							.
+							Usually replies within a day.
 						</motion.p>
 					</div>
 
@@ -113,7 +117,7 @@ export function CTASection() {
 										</PillButton>
 									)}
 								</form.Subscribe>
-								<p className="text-section-orange-subtext text-sm">
+								<p className="font-body text-section-orange-subtext text-sm">
 									Or email{" "}
 									<a
 										href="mailto:hi@zias.be"
@@ -147,27 +151,36 @@ function ContactField({
 	type?: string;
 	form: any;
 }) {
+	const id = `contact-${name}`;
+	const errorId = `${id}-error`;
+	const required = name === "email";
 	return (
 		<form.Field name={name}>
 			{(field: any) => (
-				<label className="flex flex-col gap-1.5">
-					<span className="font-semibold text-label text-section-orange-subtext uppercase tracking-widest">
+				<div className="flex flex-col gap-1.5">
+					<label
+						htmlFor={id}
+						className="font-semibold text-label text-section-orange-subtext uppercase tracking-widest"
+					>
 						{label}
-					</span>
+					</label>
 					<input
+						id={id}
 						type={type}
 						value={field.state.value}
 						onBlur={field.handleBlur}
 						onChange={(e) => field.handleChange(e.target.value)}
 						placeholder={placeholder}
+						aria-required={required}
+						aria-describedby={field.state.meta.errors[0] ? errorId : undefined}
 						className="rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
 					/>
 					{field.state.meta.errors[0] && (
-						<span className="text-white/70 text-xs">
+						<span id={errorId} role="alert" className="text-white/70 text-xs">
 							{String(field.state.meta.errors[0])}
 						</span>
 					)}
-				</label>
+				</div>
 			)}
 		</form.Field>
 	);
@@ -184,27 +197,35 @@ function ContactTextarea({
 	placeholder: string;
 	form: any;
 }) {
+	const id = `contact-${name}`;
+	const errorId = `${id}-error`;
 	return (
 		<form.Field name={name}>
 			{(field: any) => (
-				<label className="flex flex-col gap-1.5">
-					<span className="font-semibold text-label text-section-orange-subtext uppercase tracking-widest">
+				<div className="flex flex-col gap-1.5">
+					<label
+						htmlFor={id}
+						className="font-semibold text-label text-section-orange-subtext uppercase tracking-widest"
+					>
 						{label}
-					</span>
+					</label>
 					<textarea
+						id={id}
 						rows={5}
 						value={field.state.value}
 						onBlur={field.handleBlur}
 						onChange={(e) => field.handleChange(e.target.value)}
 						placeholder={placeholder}
+						aria-required
+						aria-describedby={field.state.meta.errors[0] ? errorId : undefined}
 						className="resize-none rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
 					/>
 					{field.state.meta.errors[0] && (
-						<span className="text-white/70 text-xs">
+						<span id={errorId} role="alert" className="text-white/70 text-xs">
 							{String(field.state.meta.errors[0])}
 						</span>
 					)}
-				</label>
+				</div>
 			)}
 		</form.Field>
 	);

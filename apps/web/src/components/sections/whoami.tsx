@@ -9,12 +9,13 @@ const STATS = [
 
 export function WhoAmISection() {
 	return (
-		<Section id="whoami" variant="pink" className="min-h-svh">
-			<SectionInner className="flex min-h-svh flex-col justify-center py-32">
-				<div className="flex flex-col gap-20 lg:flex-row lg:items-start lg:gap-0">
+		<Section id="whoami" variant="pink" className="min-h-svh" aria-labelledby="whoami-heading">
+			<SectionInner className="flex min-h-svh flex-col justify-center py-24 sm:py-32">
+				<div className="flex flex-col gap-16 lg:flex-row lg:items-start lg:gap-0">
 					{/* Main copy */}
 					<div className="lg:w-3/5">
 						<motion.h2
+							id="whoami-heading"
 							className="font-display font-extrabold text-hero leading-tight"
 							initial={{ opacity: 0, y: 32 }}
 							whileInView={{ opacity: 1, y: 0 }}
@@ -25,7 +26,7 @@ export function WhoAmISection() {
 						</motion.h2>
 
 						<motion.p
-							className="mt-8 max-w-2xl text-section-pink-subtext text-subtext"
+							className="mt-8 max-w-lg text-section-pink-subtext text-subtext"
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true, margin: "-100px" }}
@@ -37,19 +38,22 @@ export function WhoAmISection() {
 						>
 							I&apos;m Zias — a developer and designer building beautiful,
 							considered software for people who care about{" "}
-							<span className="underline decoration-white/60 underline-offset-4">
+							<span
+								className="font-[family-name:var(--font-hand)] text-[1.15em]"
+								style={{ display: "inline-block", rotate: "-2deg" }}
+							>
 								the details
 							</span>
 							. Independent. Experienced. Available.
 						</motion.p>
 					</div>
 
-					{/* Stats aside */}
-					<div className="lg:ml-auto lg:w-[280px]">
+					{/* Stats — semantic definition list, horizontal label/value layout */}
+					<dl className="lg:ml-auto lg:w-[360px] xl:w-[420px]">
 						{STATS.map(({ label, value }, i) => (
 							<motion.div
 								key={label}
-								className="flex flex-col gap-1 border-white/20 border-t py-6 first:border-t-0"
+								className="flex items-baseline justify-between gap-6 border-dashed border-white/35 border-t py-6 first:border-t-0"
 								initial={{ opacity: 0, x: 20 }}
 								whileInView={{ opacity: 1, x: 0 }}
 								viewport={{ once: true, margin: "-80px" }}
@@ -59,13 +63,15 @@ export function WhoAmISection() {
 									ease: [0.16, 1, 0.3, 1],
 								}}
 							>
-								<span className="font-semibold text-label text-section-pink-subtext uppercase tracking-widest">
+								<dt className="font-semibold text-label text-section-pink-subtext uppercase tracking-widest shrink-0">
 									{label}
-								</span>
-								<span className="font-bold font-display text-xl">{value}</span>
+								</dt>
+								<dd className="font-bold font-display text-right text-xl">
+									{value}
+								</dd>
 							</motion.div>
 						))}
-					</div>
+					</dl>
 				</div>
 			</SectionInner>
 		</Section>

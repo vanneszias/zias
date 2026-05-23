@@ -14,9 +14,10 @@ export function generateSlug(title: string): string {
 		.replace(/^-+|-+$/g, "");
 }
 
-/** Format a date as "Mon YYYY" (e.g. "Apr 2026"). Accepts Date or ISO string. */
+/** Format a date as "D Mon YYYY" (e.g. "23 Apr 2026"). Accepts Date or ISO string. */
 export function formatPostDate(date: Date | string): string {
 	return new Date(date).toLocaleDateString("en-GB", {
+		day: "numeric",
 		month: "short",
 		year: "numeric",
 	});

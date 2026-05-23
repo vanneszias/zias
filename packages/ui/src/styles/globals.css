@@ -3,6 +3,7 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/sora";
 @import "@fontsource/be-vietnam-pro/index.css";
+@import "@fontsource/grape-nuts/index.css";
 @plugin "@tailwindcss/typography";
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../**/*.{ts,tsx}";
@@ -149,15 +150,16 @@
 	--font-sans: "Sora Variable", ui-sans-serif, system-ui, sans-serif;
 	--font-display: "Sora Variable", ui-sans-serif, system-ui, sans-serif;
 	--font-body: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
+	--font-hand: "Grape Nuts", "Caveat", cursive;
 
-	/* Typography scale */
-	--text-mega: 8rem; /* 128px – hero h1 */
+	/* Typography scale — clamp ensures readable sizes across all viewports */
+	--text-mega: clamp(2.75rem, 8vw + 1rem, 8rem);   /* 44–128px */
 	--text-mega--line-height: 0.95;
 	--text-mega--letter-spacing: -0.02em;
-	--text-hero: 4.5rem; /* 72px  – section h2 */
+	--text-hero: clamp(2.25rem, 4vw + 1rem, 4.5rem); /* 36–72px */
 	--text-hero--line-height: 1.05;
 	--text-hero--letter-spacing: -0.015em;
-	--text-subtext: 1.25rem; /* 20px  – descriptive body */
+	--text-subtext: 1.375rem; /* 22px  – descriptive body */
 	--text-subtext--line-height: 1.6;
 	--text-label: 0.6875rem; /* 11px – small labels */
 	--text-label--letter-spacing: 0.06em;
@@ -245,5 +247,62 @@
 	/* Figma: "Font 2 = Be Vietnam Pro" used for all descriptive body/subtext copy */
 	.text-subtext {
 		font-family: var(--font-body);
+	}
+
+	/* ── Skip-to-content link ─────────────────────────────────────────────── */
+	.skip-to-content {
+		position: fixed;
+		top: -100%;
+		left: 1rem;
+		z-index: 9999;
+		padding: 0.5rem 1.25rem;
+		background: #ffffff;
+		color: #2c2828;
+		font-weight: 700;
+		font-family: var(--font-display);
+		font-size: 0.875rem;
+		border-radius: 0.25rem;
+		text-decoration: none;
+		transition: top 0.15s;
+	}
+	.skip-to-content:focus-visible {
+		top: 1rem;
+		outline: 2px solid #2c2828;
+		outline-offset: 2px;
+	}
+
+	/* ── Focus rings on colored section backgrounds ───────────────────────── */
+	/* White ring + dark shadow makes focus visible on any saturated color */
+	.bg-section-hero :focus-visible,
+	.bg-section-pink :focus-visible,
+	.bg-section-blue :focus-visible,
+	.bg-section-orange :focus-visible,
+	.bg-section-footer :focus-visible,
+	.bg-nav :focus-visible {
+		outline: 2px solid #ffffff;
+		outline-offset: 3px;
+		box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.25);
+		border-radius: 2px;
+	}
+
+	/* ── View Transitions — disable browser cross-fade, clip-path handles it */
+	@media (prefers-reduced-motion: no-preference) {
+		::view-transition-old(root),
+		::view-transition-new(root) {
+			animation: none;
+			mix-blend-mode: normal;
+		}
+	}
+
+	/* ── Respect reduced motion preference ───────────────────────────────── */
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
 	}
 }

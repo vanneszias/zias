@@ -32,6 +32,7 @@ const schema = z.object({
 	isCustomPage: z.boolean(),
 	isDraft: z.boolean(),
 	content: z.string().nullable(),
+	publishedAt: z.string().nullable(),
 });
 
 function NewPost() {
@@ -48,6 +49,7 @@ function NewPost() {
 			isCustomPage: false,
 			isDraft: true,
 			content: null as string | null,
+			publishedAt: null as string | null,
 		},
 		validators: { onSubmit: schema },
 		onSubmit: async ({ value }) => {

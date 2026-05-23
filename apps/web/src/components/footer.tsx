@@ -1,8 +1,19 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { PillButton } from "@zias/ui/components/pill-button";
 import { Section, SectionInner } from "@zias/ui/components/section";
 
 export function Footer() {
+	const navigate = useNavigate();
+	const { pathname } = useLocation();
+
+	const handleSayHi = () => {
+		if (pathname === "/") {
+			document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+		} else {
+			navigate({ to: "/", hash: "contact" });
+		}
+	};
+
 	return (
 		<Section as="footer" variant="footer">
 			<SectionInner className="py-20">
@@ -15,19 +26,12 @@ export function Footer() {
 							<br />
 							Then say hi.
 						</p>
-						<p className="text-section-footer-subtext text-sm leading-relaxed">
+						<p className="font-body text-section-footer-subtext text-sm leading-relaxed">
 							One person. One inbox. Usually a reply by tomorrow morning over
 							coffee.
 						</p>
 						<div>
-							<PillButton
-								size="sm"
-								onClick={() =>
-									document
-										.getElementById("contact")
-										?.scrollIntoView({ behavior: "smooth" })
-								}
-							>
+							<PillButton size="sm" onClick={handleSayHi}>
 								Say Hi!
 							</PillButton>
 						</div>
@@ -90,11 +94,15 @@ export function Footer() {
 					</div>
 				</div>
 
-				{/* Wordmark */}
-				<div className="mt-16 overflow-hidden">
+				{/* Wordmark — skeletal outline treatment */}
+				<div className="mt-16 overflow-hidden" aria-hidden>
 					<p
-						className="select-none font-display font-extrabold text-section-footer-fg/10 leading-none tracking-tighter"
-						style={{ fontSize: "clamp(4rem, 14vw, 14rem)" }}
+						className="select-none font-display font-extrabold leading-none tracking-tighter"
+						style={{
+							fontSize: "clamp(4rem, 14vw, 14rem)",
+							WebkitTextStroke: "1px rgba(255,255,255,0.18)",
+							color: "transparent",
+						}}
 					>
 						zias.be
 					</p>
@@ -131,12 +139,12 @@ export function Footer() {
 
 function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
 	return (
-		<div>
+		<nav aria-label={title}>
 			<p className="mb-4 font-semibold text-label text-section-footer-subtext uppercase tracking-widest">
 				{title}
 			</p>
 			<ul className="space-y-3">{children}</ul>
-		</div>
+		</nav>
 	);
 }
 

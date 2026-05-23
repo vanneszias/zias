@@ -11,6 +11,7 @@ export type PostFormValues = {
 	isCustomPage: boolean;
 	isDraft: boolean;
 	content: string | null;
+	publishedAt: string | null;
 };
 
 /** Shared create/edit form for admin journal posts. */
@@ -44,8 +45,8 @@ export function PostForm({ form }: { form: any }) {
 				)}
 			</form.Field>
 
-			{/* Category + Status + Type */}
-			<div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+			{/* Category + Status + Published date + Type */}
+			<div className="grid grid-cols-2 gap-4 md:grid-cols-4">
 				<form.Field name="category">
 					{(f: any) => (
 						<label className="flex flex-col gap-1.5">
@@ -77,6 +78,20 @@ export function PostForm({ form }: { form: any }) {
 								<option value="draft">Draft</option>
 								<option value="published">Published</option>
 							</select>
+						</label>
+					)}
+				</form.Field>
+
+				<form.Field name="publishedAt">
+					{(f: any) => (
+						<label className="flex flex-col gap-1.5">
+							<span className="font-semibold text-sm">Published date</span>
+							<input
+								type="date"
+								value={f.state.value ?? ""}
+								onChange={(e) => f.handleChange(e.target.value || null)}
+								className="rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+							/>
 						</label>
 					)}
 				</form.Field>

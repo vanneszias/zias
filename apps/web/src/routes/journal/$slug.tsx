@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import type { PostCategory } from "@zias/content";
 import { formatPostDate } from "@zias/content";
 import { CategoryBadge } from "@zias/ui/components/category-badge";
@@ -71,7 +71,12 @@ function PostPage() {
 				<SectionInner className="py-24">
 					{/* Meta header */}
 					<div className="mb-8 flex flex-col gap-4">
-						<CategoryBadge category={post.category as PostCategory} />
+						<Link
+							to="/journal"
+							className="inline-flex items-center gap-2 font-display font-semibold text-section-hero-subtext text-sm underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-white w-fit"
+						>
+							← All articles
+						</Link>
 						<h1 className="max-w-3xl font-display font-extrabold text-4xl leading-tight md:text-5xl lg:text-6xl">
 							{post.title}
 						</h1>
@@ -81,6 +86,7 @@ function PostPage() {
 								: "Draft"}{" "}
 							· {post.readTime} min read
 						</p>
+						<CategoryBadge category={post.category as PostCategory} short />
 					</div>
 				</SectionInner>
 			</Section>

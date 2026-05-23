@@ -1,13 +1,62 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { PillButton } from "@zias/ui/components/pill-button";
 import { cn } from "@zias/ui/lib/utils";
 import { Moon, Sun } from "lucide-react";
+import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 
 export function Nav() {
-	const { theme, setTheme } = useTheme();
+	const { resolvedTheme, setTheme } = useTheme();
+	const navigate = useNavigate();
+	const { pathname } = useLocation();
+
+	const handleSayHi = () => {
+		if (pathname === "/") {
+			document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+		} else {
+			navigate({ to: "/", hash: "contact" });
+		}
+	};
+
+	const handleThemeToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+		const newTheme = resolvedTheme === "dark" ? "light" : "dark";
+		const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+		if (!("startViewTransition" in document) || prefersReduced) {
+			setTheme(newTheme);
+			return;
+		}
+
+		const { clientX: x, clientY: y } = e;
+		// biome-ignore lint/suspicious/noExplicitAny: View Transitions API not yet in TS DOM lib
+		const vt = (document as any).startViewTransition(() => setTheme(newTheme));
+		const maxRadius = Math.hypot(
+			Math.max(x, window.innerWidth - x),
+			Math.max(y, window.innerHeight - y),
+		);
+
+		vt.ready.then(() => {
+			document.documentElement.animate(
+				{
+					clipPath: [
+						`circle(0px at ${x}px ${y}px)`,
+						`circle(${maxRadius}px at ${x}px ${y}px)`,
+					],
+				},
+				{
+					duration: 600,
+					easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+					pseudoElement: "::view-transition-new(root)",
+				},
+			);
+		});
+	};
 
 	return (
+		<>
+		<a href="#main-content" className="skip-to-content">
+			Skip to content
+		</a>
 		<header
 			className={cn(
 				"fixed top-0 left-0 z-50 w-full border-nav-border border-b bg-nav/95 backdrop-blur-sm transition-colors",
@@ -22,7 +71,7 @@ export function Nav() {
 				</Link>
 
 				{/* Right side */}
-				<nav className="flex items-center gap-6">
+				<nav aria-label="Main navigation" className="flex items-center gap-6">
 					<Link
 						to="/journal"
 						className="font-display font-semibold text-nav-fg/80 text-sm transition-colors hover:text-nav-fg"
@@ -32,30 +81,32 @@ export function Nav() {
 
 					<button
 						type="button"
-						aria-label="Toggle dark mode"
-						onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+						aria-label={resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+						onClick={handleThemeToggle}
 						className="flex size-8 items-center justify-center rounded-full text-nav-fg/70 transition-colors hover:text-nav-fg"
 					>
-						{theme === "dark" ? (
-							<Sun size={16} strokeWidth={2.5} />
-						) : (
-							<Moon size={16} strokeWidth={2.5} />
-						)}
+						<motion.span
+							key={resolvedTheme}
+							initial={{ rotate: -90, opacity: 0, scale: 0.4 }}
+							animate={{ rotate: 0, opacity: 1, scale: 1 }}
+							transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+							className="flex items-center justify-center"
+						>
+							{resolvedTheme === "dark" ? (
+								<Sun size={16} strokeWidth={2.5} />
+							) : (
+								<Moon size={16} strokeWidth={2.5} />
+							)}
+						</motion.span>
 					</button>
 
-					<PillButton
-						size="sm"
-						onClick={() => {
-							document
-								.getElementById("contact")
-								?.scrollIntoView({ behavior: "smooth" });
-						}}
-					>
+					<PillButton size="sm" onClick={handleSayHi}>
 						Say Hi!
 					</PillButton>
 				</nav>
 			</div>
 		</header>
+		</>
 	);
 }
 

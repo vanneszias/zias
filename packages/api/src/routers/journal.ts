@@ -16,6 +16,7 @@ const PostCreateInput = z.object({
 	isCustomPage: z.boolean().default(false),
 	isDraft: z.boolean().default(true),
 	slug: z.string().optional(),
+	publishedAt: z.string().nullable().optional(),
 });
 
 const PostUpdateInput = PostCreateInput.partial().extend({ id: z.string() });
@@ -96,7 +97,11 @@ export const journalRouter = router({
 					isCustomPage: input.isCustomPage,
 					isDraft: input.isDraft,
 					authorId: ctx.session.user.id,
-					publishedAt: input.isDraft ? null : new Date(),
+					publishedAt: input.publishedAt
+					? new Date(input.publishedAt)
+					: input.isDraft
+						? null
+						: new Date(),
 				})
 				.returning();
 
@@ -121,7 +126,11 @@ export const journalRouter = router({
 					...rest,
 					...(content !== undefined ? { content } : {}),
 					...(readTime !== undefined ? { readTime } : {}),
-					...(rest.isDraft === false ? { publishedAt: new Date() } : {}),
+					...(input.publishedAt !== undefined
+					? { publishedAt: input.publishedAt ? new Date(input.publishedAt) : null }
+					: rest.isDraft === false
+						? { publishedAt: new Date() }
+						: {}),
 				})
 				.where(eq(posts.id, id))
 				.returning();
