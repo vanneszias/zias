@@ -39,12 +39,10 @@ export function TiptapEditor({
 	});
 
 	return (
-		<div
-			className={cn("rounded-xl border border-border bg-background", className)}
-		>
+		<div className={cn("border border-border bg-background", className)}>
 			{/* Toolbar */}
 			{editor && (
-				<div className="flex flex-wrap gap-1 border-border border-b p-2">
+				<div className="flex flex-wrap gap-1 border-border border-b bg-muted/40 p-2">
 					<ToolbarButton
 						onClick={() => editor.chain().focus().toggleBold().run()}
 						active={editor.isActive("bold")}
@@ -112,7 +110,7 @@ export function TiptapEditor({
 			{/* Editor area */}
 			<EditorContent
 				editor={editor}
-				className="prose prose-neutral dark:prose-invert max-w-none p-4 prose-headings:font-display prose-headings:font-extrabold focus-within:outline-none [&_.ProseMirror]:min-h-[200px] [&_.ProseMirror]:outline-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-muted-foreground [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]"
+				className="prose prose-neutral dark:prose-invert max-w-none p-4 prose-headings:font-display prose-headings:font-extrabold focus-within:outline-none [&_.ProseMirror]:min-h-[320px] [&_.ProseMirror]:outline-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-muted-foreground [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]"
 			/>
 
 			{editor && (
@@ -138,10 +136,10 @@ function ToolbarButton({
 			type="button"
 			onClick={onClick}
 			className={cn(
-				"rounded px-2.5 py-1 font-medium text-sm transition-colors",
+				"border border-transparent px-2 py-1 font-medium text-xs transition-colors",
 				active
 					? "bg-primary text-primary-foreground"
-					: "text-muted-foreground hover:bg-muted hover:text-foreground",
+					: "text-muted-foreground hover:border-border hover:bg-background hover:text-foreground",
 			)}
 		>
 			{children}

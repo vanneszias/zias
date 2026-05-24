@@ -1,9 +1,17 @@
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Section, SectionInner } from "@zias/ui/components/section";
+import { Button } from "@zias/ui/components/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@zias/ui/components/card";
+import { Input } from "@zias/ui/components/input";
+import { Label } from "@zias/ui/components/label";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Nav } from "@/components/nav";
 import { authClient } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/admin/login")({
@@ -34,88 +42,92 @@ function AdminLogin() {
 	});
 
 	return (
-		<>
-			<Nav />
-			<Section id="main-content" variant="hero" className="min-h-svh pt-[72px]">
-				<SectionInner className="grid min-h-[calc(100svh-72px)] place-items-center py-8 sm:py-12">
-					<div className="w-full max-w-md rounded-3xl border border-white/20 bg-black/20 p-6 shadow-2xl shadow-black/30 backdrop-blur-md sm:p-8">
-						<p className="mb-2 font-medium text-section-hero-subtext text-xs uppercase tracking-[0.18em]">
-							Admin control center
+		<main className="grid min-h-svh place-items-center bg-background px-4 py-10 text-foreground">
+			<div className="w-full max-w-sm">
+				<div className="mb-4 flex items-center gap-2">
+					<div className="grid size-7 place-items-center border bg-primary text-primary-foreground">
+						<span className="font-semibold text-xs">Z</span>
+					</div>
+					<div>
+						<p className="font-medium text-sm">Zias admin</p>
+						<p className="text-muted-foreground text-xs">
+							Restricted workspace
 						</p>
-						<h1 className="mb-2 font-display font-extrabold text-4xl text-section-hero-fg sm:text-5xl">
-							Sign in
-						</h1>
-						<p className="mb-8 text-section-hero-subtext text-sm sm:text-base">
-							Sign in to manage your content.
-						</p>
+					</div>
+				</div>
+
+				<Card>
+					<CardHeader>
+						<CardTitle>Sign in</CardTitle>
+						<CardDescription>
+							Use your admin account to manage content.
+						</CardDescription>
+					</CardHeader>
+					<CardContent>
 						<form
 							onSubmit={(e) => {
 								e.preventDefault();
 								form.handleSubmit();
 							}}
-							className="space-y-5"
+							className="flex flex-col gap-4"
 						>
 							<form.Field name="email">
 								{(f) => (
-									<label className="flex flex-col gap-1.5">
-										<span className="font-medium text-label text-section-hero-fg/70 text-xs uppercase tracking-[0.16em]">
-											Email
-										</span>
-										<input
+									<div className="flex flex-col gap-1.5">
+										<Label htmlFor="admin-email">Email</Label>
+										<Input
 											id="admin-email"
 											type="email"
 											value={f.state.value}
 											onChange={(e) => f.handleChange(e.target.value)}
 											onBlur={f.handleBlur}
 											aria-invalid={Boolean(f.state.meta.errors[0])}
-											className="rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-section-hero-fg text-sm placeholder:text-section-hero-fg/40 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
+											autoComplete="email"
 										/>
 										{f.state.meta.errors[0] ? (
-											<span className="text-white/75 text-xs">
+											<p className="text-destructive text-xs">
 												{String(f.state.meta.errors[0])}
-											</span>
+											</p>
 										) : null}
-									</label>
+									</div>
 								)}
 							</form.Field>
 							<form.Field name="password">
 								{(f) => (
-									<label className="flex flex-col gap-1.5">
-										<span className="font-medium text-label text-section-hero-fg/70 text-xs uppercase tracking-[0.16em]">
-											Password
-										</span>
-										<input
+									<div className="flex flex-col gap-1.5">
+										<Label htmlFor="admin-password">Password</Label>
+										<Input
 											id="admin-password"
 											type="password"
 											value={f.state.value}
 											onChange={(e) => f.handleChange(e.target.value)}
 											onBlur={f.handleBlur}
 											aria-invalid={Boolean(f.state.meta.errors[0])}
-											className="rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-section-hero-fg text-sm placeholder:text-section-hero-fg/40 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/40"
+											autoComplete="current-password"
 										/>
 										{f.state.meta.errors[0] ? (
-											<span className="text-white/75 text-xs">
+											<p className="text-destructive text-xs">
 												{String(f.state.meta.errors[0])}
-											</span>
+											</p>
 										) : null}
-									</label>
+									</div>
 								)}
 							</form.Field>
 							<form.Subscribe selector={(s) => s.isSubmitting}>
 								{(isSubmitting) => (
-									<button
+									<Button
 										type="submit"
 										disabled={isSubmitting}
-										className="mt-2 w-full rounded-full bg-white px-4 py-2.5 font-bold font-display text-section-hero text-sm transition-opacity hover:opacity-90 disabled:opacity-50"
+										className="mt-1 w-full"
 									>
-										{isSubmitting ? "Signing in…" : "Sign in →"}
-									</button>
+										{isSubmitting ? "Signing in..." : "Sign in"}
+									</Button>
 								)}
 							</form.Subscribe>
 						</form>
-					</div>
-				</SectionInner>
-			</Section>
-		</>
+					</CardContent>
+				</Card>
+			</div>
+		</main>
 	);
 }

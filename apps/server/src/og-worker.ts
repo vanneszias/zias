@@ -1,13 +1,20 @@
 import { createDb } from "@zias/db";
 import { posts } from "@zias/db/schema/journal";
 import { and, eq } from "drizzle-orm";
-import { Hono } from "hono";
+import { type Context, Hono } from "hono";
 import { cors } from "hono/cors";
-import { buildJournalIndexOgImage, buildOgImage, buildSiteOgImage } from "./og";
+import {
+	buildJournalIndexOgImage,
+	buildOgImage,
+	buildSiteOgImage,
+	buildStaticPageOgImage,
+} from "./og";
 
 type OgBindings = {
 	OG_IMAGES: R2Bucket;
 };
+
+type OgContext = Context<{ Bindings: OgBindings }>;
 
 const app = new Hono<{ Bindings: OgBindings }>();
 
@@ -33,6 +40,7 @@ app.use(
 );
 
 const CACHE_CONTROL = "public, max-age=86400, s-maxage=604800";
+const STATIC_VERSION = "v2";
 
 function cacheHeaders() {
 	return {
@@ -46,29 +54,6 @@ function getVersion(input: string | undefined, fallback: string) {
 	const cleaned = input.trim().toLowerCase();
 	if (!/^[a-z0-9_-]{1,32}$/.test(cleaned)) return fallback;
 	return cleaned;
-}
-
-function siteFallbackSvg() {
-	return `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#6d5ac9"/>
-  <circle cx="250" cy="60" r="290" fill="#ee5cbf" fill-opacity="0.36"/>
-  <circle cx="1030" cy="520" r="280" fill="#ed4920" fill-opacity="0.32"/>
-  <text x="72" y="260" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="92" font-weight="800">Zias</text>
-  <text x="72" y="320" fill="rgba(255,255,255,0.82)" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="30">Crafting digital experiences.</text>
-  <text x="72" y="562" fill="rgba(255,255,255,0.85)" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="700">zias.be</text>
-</svg>`;
-}
-
-function journalIndexFallbackSvg() {
-	return `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#2c86df"/>
-  <rect x="0" y="0" width="589" height="304" rx="12" fill="#6d5ac9"/>
-  <rect x="611" y="0" width="589" height="304" rx="12" fill="#ee5cbf"/>
-  <rect x="0" y="326" width="589" height="304" rx="12" fill="#ed4920"/>
-  <rect x="611" y="326" width="589" height="304" rx="12" fill="#27c41f"/>
-</svg>`;
 }
 
 function journalFallbackSvg(post: {
@@ -103,6 +88,32 @@ function journalFallbackSvg(post: {
 </svg>`;
 }
 
+function staticFallbackSvg(input: {
+	title: string;
+	subtitle: string;
+	background: string;
+	accent: string;
+}) {
+	const escapedTitle = input.title
+		.replaceAll("&", "&amp;")
+		.replaceAll("<", "&lt;")
+		.replaceAll(">", "&gt;");
+	const escapedSubtitle = input.subtitle
+		.replaceAll("&", "&amp;")
+		.replaceAll("<", "&lt;")
+		.replaceAll(">", "&gt;");
+
+	return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="${input.background}"/>
+  <circle cx="220" cy="80" r="290" fill="${input.accent}" fill-opacity="0.55"/>
+  <circle cx="1030" cy="520" r="280" fill="#ed4920" fill-opacity="0.34"/>
+  <text x="72" y="270" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="90" font-weight="800">${escapedTitle}</text>
+  <text x="76" y="342" fill="rgba(255,255,255,0.78)" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="30">${escapedSubtitle}</text>
+  <text x="72" y="562" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="800">zias.be</text>
+</svg>`;
+}
+
 async function readImage(bucket: R2Bucket, key: string) {
 	const obj = await bucket.get(key);
 	if (!obj) return null;
@@ -120,9 +131,21 @@ async function writeImage(bucket: R2Bucket, key: string, png: Uint8Array) {
 	});
 }
 
-app.get("/site", async (c) => {
-	const version = getVersion(c.req.query("v"), "v1");
-	const key = `site/${version}.png`;
+async function serveStaticImage(
+	c: OgContext,
+	input: {
+		keyPrefix: string;
+		fallback: {
+			title: string;
+			subtitle: string;
+			background: string;
+			accent: string;
+		};
+		build: () => Promise<Uint8Array>;
+	},
+) {
+	const version = getVersion(c.req.query("v"), STATIC_VERSION);
+	const key = `${input.keyPrefix}/${version}.png`;
 	const cacheKey = c.req.raw;
 	const cache = caches.default;
 
@@ -136,57 +159,89 @@ app.get("/site", async (c) => {
 	}
 
 	try {
-		const png = await buildSiteOgImage({
-			title: "Zias",
-			subtitle: "Crafting digital experiences.",
-			background: "#2c2828",
-		});
-
+		const png = await input.build();
 		await writeImage(c.env.OG_IMAGES, key, png);
 
 		const res = new Response(png, { headers: cacheHeaders() });
 		c.executionCtx.waitUntil(cache.put(cacheKey, res.clone()));
 		return res;
 	} catch {
-		return new Response(siteFallbackSvg(), {
+		return new Response(staticFallbackSvg(input.fallback), {
 			headers: {
 				"Content-Type": "image/svg+xml; charset=utf-8",
 				"Cache-Control": "public, max-age=3600, s-maxage=86400",
 			},
 		});
 	}
+}
+
+app.get("/site", async (c) => {
+	return serveStaticImage(c, {
+		keyPrefix: "site",
+		fallback: {
+			title: "Zias",
+			subtitle: "Crafting digital experiences.",
+			background: "#6d5ac9",
+			accent: "#ee5cbf",
+		},
+		build: () =>
+			buildSiteOgImage({
+				title: "Crafting Digital experiences.",
+				subtitle:
+					"A one-person studio building websites, web apps and mobile products for brands with taste.",
+			}),
+	});
 });
 
 app.get("/journal", async (c) => {
-	const version = getVersion(c.req.query("v"), "v1");
-	const key = `journal/index/${version}.png`;
-	const cacheKey = c.req.raw;
-	const cache = caches.default;
+	return serveStaticImage(c, {
+		keyPrefix: "journal/index",
+		fallback: {
+			title: "The Journal.",
+			subtitle: "Writing, case studies, and notes from the work.",
+			background: "#2c86df",
+			accent: "#ee5cbf",
+		},
+		build: () => buildJournalIndexOgImage(),
+	});
+});
 
-	const cached = await cache.match(cacheKey);
-	if (cached) return cached;
+app.get("/privacy", async (c) => {
+	return serveStaticImage(c, {
+		keyPrefix: "privacy",
+		fallback: {
+			title: "Privacy Policy",
+			subtitle: "Clear data handling for zias.be.",
+			background: "#2c2828",
+			accent: "#2c86df",
+		},
+		build: () =>
+			buildStaticPageOgImage({
+				kind: "privacy",
+				title: "Privacy Policy",
+				subtitle: "Clear, boring-in-the-best-way data handling for zias.be.",
+				kicker: "Privacy / Data",
+			}),
+	});
+});
 
-	const fromR2 = await readImage(c.env.OG_IMAGES, key);
-	if (fromR2) {
-		c.executionCtx.waitUntil(cache.put(cacheKey, fromR2.clone()));
-		return fromR2;
-	}
-
-	try {
-		const png = await buildJournalIndexOgImage();
-		await writeImage(c.env.OG_IMAGES, key, png);
-
-		const res = new Response(png, { headers: cacheHeaders() });
-		c.executionCtx.waitUntil(cache.put(cacheKey, res.clone()));
-		return res;
-	} catch {
-		return new Response(journalIndexFallbackSvg(), {
-			headers: {
-				"Content-Type": "image/svg+xml; charset=utf-8",
-				"Cache-Control": "public, max-age=3600, s-maxage=86400",
-			},
-		});
-	}
+app.get("/imprint", async (c) => {
+	return serveStaticImage(c, {
+		keyPrefix: "imprint",
+		fallback: {
+			title: "Imprint",
+			subtitle: "Legal disclosure for zias.be.",
+			background: "#ed4920",
+			accent: "#fff8ed",
+		},
+		build: () =>
+			buildStaticPageOgImage({
+				kind: "imprint",
+				title: "Imprint",
+				subtitle: "Legal disclosure, contact details, and site ownership.",
+				kicker: "Legal / Contact",
+			}),
+	});
 });
 
 app.get("/journal/:slug", async (c) => {
@@ -198,6 +253,8 @@ app.get("/journal/:slug", async (c) => {
 			title: true,
 			excerpt: true,
 			category: true,
+			readTime: true,
+			publishedAt: true,
 			updatedAt: true,
 		},
 	});

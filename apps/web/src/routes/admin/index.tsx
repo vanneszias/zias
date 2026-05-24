@@ -1,5 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { Button } from "@zias/ui/components/button";
+import {
+	Card,
+	CardAction,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@zias/ui/components/card";
+import { Skeleton } from "@zias/ui/components/skeleton";
+import { cn } from "@zias/ui/lib/utils";
+import {
+	AlertCircleIcon,
+	ArrowRightIcon,
+	FileTextIcon,
+	InboxIcon,
+	RadioTowerIcon,
+} from "lucide-react";
+import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import {
 	AdminActionLink,
@@ -46,157 +65,188 @@ function AdminDashboard() {
 
 	return (
 		<AdminShell
-			title="Admin control center"
-			description="Overview, publishing health, and quick actions for day-to-day operations."
+			title="Dashboard"
+			description="Current publishing status, inbox load, and service checks."
 			actions={
 				<>
 					<AdminActionLink to="/admin/posts/new" strong>
 						New post
 					</AdminActionLink>
-					<button
+					<Button
 						type="button"
+						variant="outline"
+						size="sm"
 						onClick={() => authClient.signOut()}
-						className="rounded-full border border-white/25 bg-white/10 px-4 py-2 font-semibold text-section-hero-fg text-sm transition-colors hover:bg-white/20 focus-visible:outline-none"
 					>
 						Sign out
-					</button>
+					</Button>
 				</>
 			}
 		>
 			{hasError ? (
-				<div className="mb-6 rounded-2xl border border-red-300/35 bg-red-300/10 p-4 text-red-100">
-					<p className="font-semibold">Could not load dashboard stats.</p>
-					<p className="mt-1 text-red-100/80 text-sm">
-						Please refresh the page and try again.
-					</p>
-				</div>
+				<Card className="mb-4 border-destructive/30 bg-destructive/5">
+					<CardHeader>
+						<CardTitle className="flex items-center gap-2 text-destructive">
+							<AlertCircleIcon className="size-4" />
+							Dashboard data failed to load
+						</CardTitle>
+						<CardDescription>
+							Refresh the page before making publishing decisions.
+						</CardDescription>
+					</CardHeader>
+				</Card>
 			) : null}
 
-			<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-				<StatCard label="Published" value={published} to="/admin/posts" />
-				<StatCard label="Drafts" value={drafts} to="/admin/posts" />
-				<StatCard
-					label="Unread messages"
+			<div className="grid gap-3 md:grid-cols-3">
+				<MetricCard
+					label="Published"
+					value={published}
+					description="Public posts"
+					to="/admin/posts"
+					icon={<FileTextIcon className="size-4" />}
+					loading={loading}
+				/>
+				<MetricCard
+					label="Drafts"
+					value={drafts}
+					description="Unpublished work"
+					to="/admin/posts"
+					icon={<FileTextIcon className="size-4" />}
+					loading={loading}
+				/>
+				<MetricCard
+					label="Unread"
 					value={unread}
-					highlight={unread > 0}
+					description="Messages awaiting review"
 					to="/admin/messages"
+					icon={<InboxIcon className="size-4" />}
+					loading={loading}
+					attention={unread > 0}
 				/>
 			</div>
 
-			{loading ? (
-				<p className="mt-3 text-section-hero-subtext text-sm">
-					Updating latest numbers...
-				</p>
-			) : null}
+			<div className="mt-6 grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
+				<div className="flex flex-col gap-4">
+					<Card>
+						<CardHeader>
+							<CardTitle>Needs attention</CardTitle>
+							<CardDescription>
+								Small queues that affect daily operations.
+							</CardDescription>
+						</CardHeader>
+						<CardContent className="grid gap-3 sm:grid-cols-2">
+							<QueueItem
+								title="Inbox"
+								status={unread > 0 ? `${unread} unread` : "clear"}
+								active={unread > 0}
+								description={
+									unread > 0
+										? "Reply to new contact requests."
+										: "No new messages."
+								}
+								to="/admin/messages"
+							/>
+							<QueueItem
+								title="Draft backlog"
+								status={drafts > 0 ? `${drafts} drafts` : "clear"}
+								active={drafts > 0}
+								description={
+									drafts > 0
+										? "Finish, schedule, or archive drafts."
+										: "No drafts waiting."
+								}
+								to="/admin/posts"
+							/>
+						</CardContent>
+					</Card>
 
-			<div className="mt-6 grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-				<div className="space-y-4">
-					<Panel
-						title="Action queue"
-						subtitle="What needs attention right now."
-					>
-						<div className="grid gap-3 sm:grid-cols-2">
-							<div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-								<div className="flex items-center justify-between">
-									<p className="font-semibold text-section-hero-fg text-sm">
-										Inbox
-									</p>
-									<AdminPill variant={unread > 0 ? "warn" : "success"}>
-										{unread > 0 ? `${unread} unread` : "caught up"}
-									</AdminPill>
+					<Card>
+						<CardHeader>
+							<CardTitle>Drafts</CardTitle>
+							<CardDescription>
+								Continue recent unpublished posts.
+							</CardDescription>
+							<CardAction>
+								<AdminActionLink to="/admin/posts">All posts</AdminActionLink>
+							</CardAction>
+						</CardHeader>
+						<CardContent>
+							{loading ? (
+								<div className="flex flex-col gap-2">
+									<Skeleton className="h-9" />
+									<Skeleton className="h-9" />
+									<Skeleton className="h-9" />
 								</div>
-								<p className="mt-2 text-section-hero-subtext text-sm">
-									{unread > 0
-										? "New leads waiting for follow-up."
-										: "No pending messages right now."}
-								</p>
-								<AdminActionLink to="/admin/messages">
-									Open inbox
-								</AdminActionLink>
-							</div>
-							<div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-								<div className="flex items-center justify-between">
-									<p className="font-semibold text-section-hero-fg text-sm">
-										Draft backlog
-									</p>
-									<AdminPill variant={drafts > 0 ? "warn" : "success"}>
-										{drafts > 0 ? `${drafts} drafts` : "clear"}
-									</AdminPill>
-								</div>
-								<p className="mt-2 text-section-hero-subtext text-sm">
-									{drafts > 0
-										? "Publish or archive pending work."
-										: "No unfinished drafts."}
-								</p>
-								<AdminActionLink to="/admin/posts">
-									Review drafts
-								</AdminActionLink>
-							</div>
-						</div>
-					</Panel>
-
-					<Panel title="Quick drafts" subtitle="Jump back into recent drafts.">
-						<div className="space-y-2">
-							{recentDrafts.length === 0 ? (
-								<p className="text-section-hero-subtext text-sm">
+							) : recentDrafts.length === 0 ? (
+								<p className="text-muted-foreground text-sm">
 									No drafts in progress.
 								</p>
 							) : (
-								recentDrafts.map((draft) => (
-									<Link
-										key={draft.id}
-										to="/admin/posts/$id/edit"
-										params={{ id: draft.id }}
-										className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm transition-colors hover:bg-white/10"
-									>
-										<span className="truncate text-section-hero-fg">
-											{draft.title}
-										</span>
-										<span className="truncate text-section-hero-subtext text-xs">
-											/{draft.slug}
-										</span>
-									</Link>
-								))
+								<div className="divide-y border">
+									{recentDrafts.map((draft) => (
+										<Link
+											key={draft.id}
+											to="/admin/posts/$id/edit"
+											params={{ id: draft.id }}
+											className="flex items-center justify-between gap-3 px-3 py-2 text-sm hover:bg-muted"
+										>
+											<span className="min-w-0 truncate font-medium">
+												{draft.title}
+											</span>
+											<span className="shrink-0 text-muted-foreground text-xs">
+												/{draft.slug}
+											</span>
+										</Link>
+									))}
+								</div>
 							)}
-						</div>
-					</Panel>
+						</CardContent>
+					</Card>
 				</div>
 
-				<div className="space-y-4">
+				<div className="flex flex-col gap-4">
 					<SeoPublishPreview />
-					<Panel title="Recent messages" subtitle="Latest contact activity.">
-						<div className="space-y-2">
-							{latestMessages.length === 0 ? (
-								<p className="text-section-hero-subtext text-sm">
+					<Card>
+						<CardHeader>
+							<CardTitle>Recent messages</CardTitle>
+							<CardDescription>Latest contact form activity.</CardDescription>
+							<CardAction>
+								<AdminActionLink to="/admin/messages">
+									Open inbox
+								</AdminActionLink>
+							</CardAction>
+						</CardHeader>
+						<CardContent>
+							{loading ? (
+								<div className="flex flex-col gap-2">
+									<Skeleton className="h-14" />
+									<Skeleton className="h-14" />
+								</div>
+							) : latestMessages.length === 0 ? (
+								<p className="text-muted-foreground text-sm">
 									No messages yet.
 								</p>
 							) : (
-								latestMessages.map((msg) => (
-									<div
-										key={msg.id}
-										className="rounded-xl border border-white/10 bg-white/5 p-3"
-									>
-										<div className="flex items-center justify-between gap-2">
-											<p className="truncate font-semibold text-section-hero-fg text-sm">
-												{msg.name || "Anonymous"}
+								<div className="flex flex-col gap-2">
+									{latestMessages.map((msg) => (
+										<div key={msg.id} className="border p-3">
+											<div className="flex items-center justify-between gap-2">
+												<p className="truncate font-medium text-sm">
+													{msg.name || "Anonymous"}
+												</p>
+												<AdminPill variant={msg.isRead ? "default" : "warn"}>
+													{msg.isRead ? "read" : "new"}
+												</AdminPill>
+											</div>
+											<p className="mt-1 line-clamp-2 text-muted-foreground text-xs">
+												{msg.message}
 											</p>
-											<AdminPill variant={msg.isRead ? "default" : "warn"}>
-												{msg.isRead ? "read" : "new"}
-											</AdminPill>
 										</div>
-										<p className="mt-1 line-clamp-2 text-section-hero-subtext text-xs">
-											{msg.message}
-										</p>
-									</div>
-								))
+									))}
+								</div>
 							)}
-						</div>
-						<div className="mt-4">
-							<AdminActionLink to="/admin/messages">
-								View all messages
-							</AdminActionLink>
-						</div>
-					</Panel>
+						</CardContent>
+					</Card>
 				</div>
 			</div>
 		</AdminShell>
@@ -208,7 +258,6 @@ type EndpointStatus = {
 	label: string;
 	status: "checking" | "ok" | "error";
 	httpStatus?: number;
-	preview?: string;
 };
 
 function SeoPublishPreview() {
@@ -219,9 +268,9 @@ function SeoPublishPreview() {
 			{ label: "Robots", url: "/robots.txt" },
 			{ label: "Sitemap", url: "/sitemap.xml" },
 			{ label: "RSS", url: "/rss.xml" },
-			{ label: "OG Site", url: `${ogBaseUrl}/site` },
-			{ label: "Server Sitemap", url: `${serverBaseUrl}/sitemap.xml` },
-			{ label: "Server Robots", url: `${serverBaseUrl}/robots.txt` },
+			{ label: "OG site", url: `${ogBaseUrl}/site` },
+			{ label: "Server sitemap", url: `${serverBaseUrl}/sitemap.xml` },
+			{ label: "Server robots", url: `${serverBaseUrl}/robots.txt` },
 		],
 		[],
 	);
@@ -240,13 +289,6 @@ function SeoPublishPreview() {
 			endpoints.map(async (endpoint) => {
 				try {
 					const res = await fetch(endpoint.url, { method: "GET" });
-					const contentType = res.headers.get("content-type") ?? "";
-					let preview = "";
-					if (contentType.includes("text") || contentType.includes("xml")) {
-						const txt = await res.text();
-						preview = txt.slice(0, 120).replace(/\s+/g, " ").trim();
-					}
-
 					if (cancelled) return;
 					setRows((prev) =>
 						prev.map((row) =>
@@ -255,7 +297,6 @@ function SeoPublishPreview() {
 										...row,
 										status: res.ok ? "ok" : "error",
 										httpStatus: res.status,
-										preview,
 									}
 								: row,
 						),
@@ -277,102 +318,123 @@ function SeoPublishPreview() {
 	}, [endpoints]);
 
 	return (
-		<div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-			<h2 className="font-bold font-display text-section-hero-fg text-xl">
-				SEO + OG publish status
-			</h2>
-			<p className="mt-1 text-section-hero-subtext text-sm">
-				Quick check for robots, sitemap, RSS, and OG endpoints.
-			</p>
-
-			<div className="mt-4 space-y-2">
+		<Card>
+			<CardHeader>
+				<CardTitle className="flex items-center gap-2">
+					<RadioTowerIcon className="size-4" />
+					Publish checks
+				</CardTitle>
+				<CardDescription>
+					Robots, sitemap, RSS, and image endpoints.
+				</CardDescription>
+				<CardAction>
+					<AdminActionLink to="/admin/seo">Preview OG</AdminActionLink>
+				</CardAction>
+			</CardHeader>
+			<CardContent className="flex flex-col gap-2">
 				{rows.map((row) => (
 					<div
 						key={row.url}
-						className="rounded-xl border border-white/10 bg-black/15 p-3"
+						className="flex items-center justify-between gap-3 border px-3 py-2"
 					>
-						<div className="flex flex-wrap items-center justify-between gap-2">
-							<p className="font-semibold text-section-hero-fg text-sm">
-								{row.label}
-							</p>
-							<p
-								className={
-									row.status === "ok"
-										? "text-emerald-300 text-xs"
-										: row.status === "error"
-											? "text-red-300 text-xs"
-											: "text-section-hero-subtext text-xs"
-								}
-							>
-								{row.status === "checking"
-									? "Checking..."
-									: row.status === "ok"
-										? `OK ${row.httpStatus ?? ""}`
-										: `Error ${row.httpStatus ?? ""}`}
+						<div className="min-w-0">
+							<p className="font-medium text-sm">{row.label}</p>
+							<p className="truncate text-muted-foreground text-xs">
+								{row.url}
 							</p>
 						</div>
-						<p className="mt-1 truncate text-section-hero-subtext text-xs">
-							{row.url}
-						</p>
-						{row.preview ? (
-							<p className="mt-1 text-section-hero-fg/80 text-xs">
-								{row.preview}
-							</p>
-						) : null}
+						<AdminPill
+							variant={
+								row.status === "ok"
+									? "success"
+									: row.status === "error"
+										? "destructive"
+										: "default"
+							}
+						>
+							{row.status === "checking"
+								? "checking"
+								: row.status === "ok"
+									? `ok ${row.httpStatus ?? ""}`
+									: `error ${row.httpStatus ?? ""}`}
+						</AdminPill>
 					</div>
 				))}
-			</div>
-			<div className="mt-4">
-				<AdminActionLink to="/admin/seo">View OG previews</AdminActionLink>
-			</div>
-		</div>
+			</CardContent>
+		</Card>
 	);
 }
 
-function StatCard({
+function MetricCard({
 	label,
 	value,
-	highlight,
+	description,
 	to,
+	icon,
+	loading,
+	attention,
 }: {
 	label: string;
 	value: number;
-	highlight?: boolean;
+	description: string;
+	to: string;
+	icon: ReactNode;
+	loading: boolean;
+	attention?: boolean;
+}) {
+	return (
+		<Link to={to as "/"}>
+			<Card
+				className={cn(
+					"transition-colors hover:bg-muted/60",
+					attention && "ring-primary/30",
+				)}
+			>
+				<CardHeader>
+					<CardTitle className="flex items-center gap-2 text-muted-foreground text-xs uppercase tracking-wide">
+						{icon}
+						{label}
+					</CardTitle>
+					<CardAction>
+						<ArrowRightIcon className="size-4" />
+					</CardAction>
+				</CardHeader>
+				<CardContent>
+					{loading ? (
+						<Skeleton className="h-9 w-20" />
+					) : (
+						<p className="font-semibold text-4xl tracking-tight">{value}</p>
+					)}
+					<p className="mt-1 text-muted-foreground text-sm">{description}</p>
+				</CardContent>
+			</Card>
+		</Link>
+	);
+}
+
+function QueueItem({
+	title,
+	status,
+	description,
+	active,
+	to,
+}: {
+	title: string;
+	status: string;
+	description: string;
+	active: boolean;
 	to: string;
 }) {
 	return (
 		<Link
 			to={to as "/"}
-			className={`rounded-2xl border p-5 transition-colors hover:bg-white/15 ${
-				highlight ? "border-white/35 bg-white/12" : "border-white/10 bg-white/5"
-			}`}
+			className="border p-3 transition-colors hover:bg-muted"
 		>
-			<p className="text-label text-section-hero-subtext text-xs uppercase tracking-[0.16em]">
-				{label}
-			</p>
-			<p className="mt-2 font-display font-extrabold text-4xl text-section-hero-fg">
-				{value}
-			</p>
+			<div className="flex items-center justify-between gap-3">
+				<p className="font-medium text-sm">{title}</p>
+				<AdminPill variant={active ? "warn" : "success"}>{status}</AdminPill>
+			</div>
+			<p className="mt-2 text-muted-foreground text-sm">{description}</p>
 		</Link>
-	);
-}
-
-function Panel({
-	title,
-	subtitle,
-	children,
-}: {
-	title: string;
-	subtitle: string;
-	children: React.ReactNode;
-}) {
-	return (
-		<section className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5">
-			<h2 className="font-bold font-display text-section-hero-fg text-xl">
-				{title}
-			</h2>
-			<p className="mt-1 text-section-hero-subtext text-sm">{subtitle}</p>
-			<div className="mt-4">{children}</div>
-		</section>
 	);
 }

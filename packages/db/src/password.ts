@@ -1,5 +1,6 @@
 const HASH_ALGORITHM = "pbkdf2-sha256";
-const HASH_ITERATIONS = 210_000;
+const HASH_ITERATIONS = 100_000;
+const MAX_HASH_ITERATIONS = 100_000;
 const SALT_BYTES = 16;
 const KEY_BYTES = 32;
 
@@ -29,7 +30,7 @@ function constantTimeEqual(a: Uint8Array, b: Uint8Array) {
 
 	let difference = 0;
 	for (let i = 0; i < a.length; i++) {
-		difference |= a[i] ^ b[i];
+		difference |= (a[i] ?? 0) ^ (b[i] ?? 0);
 	}
 	return difference === 0;
 }
@@ -94,13 +95,19 @@ export async function verifyPassword({
 	const parsedIterations = Number(iterations);
 	if (!Number.isSafeInteger(parsedIterations) || parsedIterations <= 0)
 		return false;
+	if (parsedIterations > MAX_HASH_ITERATIONS) return false;
 
 	const expectedKey = base64UrlToBytes(key);
-	const actualKey = await derivePasswordKey(
-		password,
-		base64UrlToBytes(salt),
-		parsedIterations,
-	);
+	let actualKey: Uint8Array;
+	try {
+		actualKey = await derivePasswordKey(
+			password,
+			base64UrlToBytes(salt),
+			parsedIterations,
+		);
+	} catch {
+		return false;
+	}
 
 	return constantTimeEqual(actualKey, expectedKey);
 }

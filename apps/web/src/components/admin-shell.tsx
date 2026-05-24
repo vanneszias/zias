@@ -3,10 +3,17 @@ import {
 	useHotkey,
 	useHotkeySequence,
 } from "@tanstack/react-hotkeys";
-import { Link, useNavigate } from "@tanstack/react-router";
-import { Section, SectionInner } from "@zias/ui/components/section";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { buttonVariants } from "@zias/ui/components/button";
+import { cn } from "@zias/ui/lib/utils";
+import {
+	FileTextIcon,
+	ImageIcon,
+	InboxIcon,
+	LayoutDashboardIcon,
+	PlusIcon,
+} from "lucide-react";
 import type { ReactNode } from "react";
-import { Nav } from "@/components/nav";
 
 type AdminShellProps = {
 	title: string;
@@ -17,6 +24,23 @@ type AdminShellProps = {
 	children: ReactNode;
 };
 
+const adminNav = [
+	{
+		to: "/admin",
+		label: "Dashboard",
+		icon: LayoutDashboardIcon,
+		shortcut: "G D",
+	},
+	{ to: "/admin/posts", label: "Posts", icon: FileTextIcon, shortcut: "G P" },
+	{
+		to: "/admin/messages",
+		label: "Messages",
+		icon: InboxIcon,
+		shortcut: "G M",
+	},
+	{ to: "/admin/seo", label: "SEO", icon: ImageIcon, shortcut: "G S" },
+];
+
 export function AdminShell({
 	title,
 	description,
@@ -25,6 +49,9 @@ export function AdminShell({
 	actions,
 	children,
 }: AdminShellProps) {
+	const pathname = useRouterState({
+		select: (state) => state.location.pathname,
+	});
 	const shortcuts = [
 		formatForDisplay("/"),
 		"G D",
@@ -32,51 +59,94 @@ export function AdminShell({
 		"G M",
 		"G S",
 		formatForDisplay("Mod+Shift+N"),
-	].join("  ");
+	].join(" · ");
 
 	return (
-		<>
-			<Nav />
+		<div className="min-h-svh bg-background text-foreground">
 			<AdminHotkeys />
-			<Section id="main-content" variant="hero" className="min-h-svh pt-[72px]">
-				<SectionInner className="pt-6 pb-12 sm:pt-8 lg:pt-10">
-					<div className="rounded-3xl border border-white/10 bg-black/10 p-4 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-6 lg:p-8">
-						<div className="flex flex-col gap-6 border-white/10 border-b pb-5 sm:pb-6">
-							<div className="flex flex-wrap items-start justify-between gap-4">
-								<div>
-									{backTo && backLabel ? (
-										<Link
-											to={backTo as "/"}
-											className="inline-flex items-center gap-1 text-section-hero-subtext text-sm transition-colors hover:text-section-hero-fg"
-										>
-											<span aria-hidden>←</span>
-											{backLabel}
-										</Link>
-									) : null}
-									<h1 className="mt-2 font-display font-extrabold text-3xl text-section-hero-fg sm:text-4xl">
-										{title}
-									</h1>
-									{description ? (
-										<p className="mt-1 max-w-2xl text-section-hero-subtext text-sm sm:text-base">
-											{description}
-										</p>
-									) : null}
-								</div>
-								{actions ? (
-									<div className="flex w-full flex-wrap items-center justify-start gap-2 sm:w-auto sm:justify-end">
-										{actions}
-									</div>
-								) : null}
-							</div>
+			<header className="sticky top-0 border-border border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+				<div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+					<Link to="/admin" className="flex min-w-0 items-center gap-2">
+						<div className="grid size-7 place-items-center border bg-primary text-primary-foreground">
+							<span className="font-semibold text-xs">Z</span>
 						</div>
-						<div className="pt-5 sm:pt-6">{children}</div>
-						<p className="mt-5 text-section-hero-subtext/80 text-xs">
-							Shortcuts: {shortcuts}
-						</p>
+						<div className="min-w-0">
+							<p className="truncate font-medium text-sm">Zias admin</p>
+							<p className="hidden text-muted-foreground text-xs sm:block">
+								{shortcuts}
+							</p>
+						</div>
+					</Link>
+					<AdminActionLink to="/admin/posts/new" strong>
+						<PlusIcon data-icon="inline-start" />
+						New post
+					</AdminActionLink>
+				</div>
+			</header>
+
+			<div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[220px_1fr] lg:px-8">
+				<aside className="lg:sticky lg:top-20 lg:self-start">
+					<nav className="flex gap-1 overflow-x-auto border-border border-b pb-3 lg:flex-col lg:overflow-visible lg:border-b-0 lg:pb-0">
+						{adminNav.map((item) => {
+							const Icon = item.icon;
+							const active =
+								item.to === "/admin"
+									? pathname === "/admin" || pathname === "/admin/"
+									: pathname.startsWith(item.to);
+
+							return (
+								<Link
+									key={item.to}
+									to={item.to as "/"}
+									className={cn(
+										"flex shrink-0 items-center gap-2 border px-3 py-2 text-sm transition-colors lg:justify-between",
+										active
+											? "border-foreground bg-foreground text-background"
+											: "border-transparent text-muted-foreground hover:border-border hover:bg-muted hover:text-foreground",
+									)}
+								>
+									<span className="flex items-center gap-2">
+										<Icon className="size-4" />
+										{item.label}
+									</span>
+									<span className="hidden text-xs opacity-60 lg:inline">
+										{item.shortcut}
+									</span>
+								</Link>
+							);
+						})}
+					</nav>
+				</aside>
+
+				<main id="main-content" className="min-w-0">
+					<div className="mb-6 flex flex-col gap-4 border-border border-b pb-5 sm:flex-row sm:items-end sm:justify-between">
+						<div className="min-w-0">
+							{backTo && backLabel ? (
+								<Link
+									to={backTo as "/"}
+									className="mb-2 inline-flex items-center gap-1 text-muted-foreground text-xs hover:text-foreground"
+								>
+									<span aria-hidden>←</span>
+									{backLabel}
+								</Link>
+							) : null}
+							<h1 className="font-semibold text-2xl tracking-tight sm:text-3xl">
+								{title}
+							</h1>
+							{description ? (
+								<p className="mt-1 max-w-2xl text-muted-foreground text-sm">
+									{description}
+								</p>
+							) : null}
+						</div>
+						{actions ? (
+							<div className="flex flex-wrap items-center gap-2">{actions}</div>
+						) : null}
 					</div>
-				</SectionInner>
-			</Section>
-		</>
+					{children}
+				</main>
+			</div>
+		</div>
 	);
 }
 
@@ -135,11 +205,10 @@ export function AdminActionLink({
 	return (
 		<Link
 			to={to as "/"}
-			className={`inline-flex items-center justify-center rounded-full px-4 py-2 font-semibold text-sm transition-colors focus-visible:outline-none ${
-				strong
-					? "bg-white text-section-hero hover:bg-white/90"
-					: "border border-white/25 bg-white/10 text-section-hero-fg hover:bg-white/20"
-			}`}
+			className={cn(
+				buttonVariants({ variant: strong ? "default" : "outline", size: "sm" }),
+				"w-fit",
+			)}
 		>
 			{children}
 		</Link>
@@ -151,18 +220,20 @@ export function AdminPill({
 	variant = "default",
 }: {
 	children: ReactNode;
-	variant?: "default" | "success" | "warn";
+	variant?: "default" | "success" | "warn" | "destructive";
 }) {
-	const classes =
-		variant === "success"
-			? "border-emerald-300/40 bg-emerald-300/15 text-emerald-100"
-			: variant === "warn"
-				? "border-amber-300/50 bg-amber-300/15 text-amber-100"
-				: "border-white/20 bg-white/10 text-section-hero-fg/90";
-
 	return (
 		<span
-			className={`inline-flex items-center rounded-full border px-2.5 py-1 font-semibold text-[11px] uppercase tracking-wide ${classes}`}
+			className={cn(
+				"inline-flex items-center border px-1.5 py-0.5 font-medium text-[11px] leading-none",
+				variant === "success" &&
+					"border-foreground/15 bg-muted text-foreground",
+				variant === "warn" && "border-primary/20 bg-primary/10 text-foreground",
+				variant === "destructive" &&
+					"border-destructive/20 bg-destructive/10 text-destructive",
+				variant === "default" &&
+					"border-border bg-background text-muted-foreground",
+			)}
 		>
 			{children}
 		</span>

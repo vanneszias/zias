@@ -3,6 +3,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import type { PostCategory } from "@zias/content";
 import { generateSlug, POST_CATEGORIES } from "@zias/content";
+import { buttonVariants } from "@zias/ui/components/button";
+import { cn } from "@zias/ui/lib/utils";
 import { toast } from "sonner";
 import { z } from "zod";
 import { AdminShell } from "@/components/admin-shell";
@@ -31,7 +33,7 @@ function EditPost() {
 	if (!post) {
 		return (
 			<AdminShell title="Edit post" backTo="/admin/posts" backLabel="Posts">
-				<p className="text-section-hero-subtext">Post not found.</p>
+				<p className="text-muted-foreground text-sm">Post not found.</p>
 			</AdminShell>
 		);
 	}
@@ -47,13 +49,13 @@ function EditPost() {
 					href={`/journal/${post.slug}`}
 					target="_blank"
 					rel="noopener noreferrer"
-					className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-4 py-2 font-semibold text-section-hero-fg text-sm transition-colors hover:bg-white/20 focus-visible:outline-none"
+					className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
 				>
 					View live
 				</a>
 			}
 		>
-			<div className="mx-auto max-w-4xl">
+			<div className="max-w-5xl">
 				<EditPostForm
 					post={post}
 					onSave={async (values) => {

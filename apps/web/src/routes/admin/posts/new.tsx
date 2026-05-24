@@ -65,7 +65,7 @@ function NewPost() {
 			backLabel="Posts"
 			actions={<AdminActionLink to="/admin/messages">Messages</AdminActionLink>}
 		>
-			<div className="mx-auto max-w-4xl">
+			<div className="max-w-5xl">
 				<PostForm form={form} />
 			</div>
 		</AdminShell>

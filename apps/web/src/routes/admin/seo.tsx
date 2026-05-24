@@ -1,6 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { AdminShell } from "@/components/admin-shell";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@zias/ui/components/card";
+import { AdminPill, AdminShell } from "@/components/admin-shell";
 import { authClient } from "@/lib/auth-client";
 import { ogBaseUrl } from "@/lib/urls";
 import { trpc } from "@/utils/trpc";
@@ -24,28 +31,35 @@ function OgCard({
 	label,
 	path,
 	ogUrl,
+	type,
 }: {
 	label: string;
 	path: string;
 	ogUrl: string;
+	type: "page" | "post";
 }) {
 	return (
-		<div className="flex flex-col gap-2">
-			<div className="overflow-hidden rounded-xl border border-white/10 bg-black/30">
-				<div style={{ aspectRatio: "1200 / 630" }}>
-					<img
-						src={ogUrl}
-						alt={`OG preview for ${label}`}
-						className="h-full w-full object-cover"
-						loading="lazy"
-					/>
+		<Card size="sm">
+			<CardContent className="pt-0">
+				<div className="overflow-hidden border bg-muted">
+					<div style={{ aspectRatio: "1200 / 630" }}>
+						<img
+							src={ogUrl}
+							alt={`OG preview for ${label}`}
+							className="h-full w-full object-cover"
+							loading="lazy"
+						/>
+					</div>
 				</div>
-			</div>
-			<div>
-				<p className="font-semibold text-section-hero-fg text-sm">{label}</p>
-				<p className="text-section-hero-subtext text-xs">{path}</p>
-			</div>
-		</div>
+				<div className="mt-3 flex items-start justify-between gap-3">
+					<div className="min-w-0">
+						<p className="truncate font-medium text-sm">{label}</p>
+						<p className="truncate text-muted-foreground text-xs">{path}</p>
+					</div>
+					<AdminPill>{type}</AdminPill>
+				</div>
+			</CardContent>
+		</Card>
 	);
 }
 
@@ -55,50 +69,62 @@ function AdminSeoPreview() {
 
 	return (
 		<AdminShell
-			title="OG image previews"
-			description="Visual preview of Open Graph images for all public pages."
+			title="SEO previews"
+			description="Open Graph images for public pages and published posts."
+			backTo="/admin"
+			backLabel="Dashboard"
 		>
-			<div className="flex flex-col gap-10">
-				<div>
-					<h2 className="mb-4 font-semibold text-section-hero-fg/60 text-xs uppercase tracking-widest">
-						Static pages
-					</h2>
-					<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			<div className="flex flex-col gap-6">
+				<Card>
+					<CardHeader>
+						<CardTitle>Static pages</CardTitle>
+						<CardDescription>
+							Reusable site-level OG image previews.
+						</CardDescription>
+					</CardHeader>
+					<CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
 						{STATIC_PAGES.map((page) => (
 							<OgCard
 								key={page.path}
 								label={page.label}
 								path={page.path}
 								ogUrl={`${ogBaseUrl}/site`}
+								type="page"
 							/>
 						))}
-					</div>
-				</div>
+					</CardContent>
+				</Card>
 
-				{published.length > 0 ? (
-					<div>
-						<h2 className="mb-4 font-semibold text-section-hero-fg/60 text-xs uppercase tracking-widest">
-							Journal posts
-						</h2>
-						<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-							{published.map((post) => (
-								<OgCard
-									key={post.id}
-									label={post.title}
-									path={`/journal/${post.slug}`}
-									ogUrl={`${ogBaseUrl}/journal/${post.slug}`}
-								/>
-							))}
-						</div>
-					</div>
-				) : null}
-
-				{published.length === 0 && posts !== undefined ? (
-					<p className="text-section-hero-subtext text-sm">
-						No published posts yet — OG images will appear here once you
-						publish.
-					</p>
-				) : null}
+				<Card>
+					<CardHeader>
+						<CardTitle>Journal posts</CardTitle>
+						<CardDescription>
+							{published.length} published posts with generated previews.
+						</CardDescription>
+					</CardHeader>
+					<CardContent>
+						{published.length > 0 ? (
+							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+								{published.map((post) => (
+									<OgCard
+										key={post.id}
+										label={post.title}
+										path={`/journal/${post.slug}`}
+										ogUrl={`${ogBaseUrl}/journal/${post.slug}`}
+										type="post"
+									/>
+								))}
+							</div>
+						) : posts !== undefined ? (
+							<div className="border border-dashed p-10 text-center">
+								<p className="font-medium text-sm">No published posts.</p>
+								<p className="mt-1 text-muted-foreground text-sm">
+									Post previews appear after publishing.
+								</p>
+							</div>
+						) : null}
+					</CardContent>
+				</Card>
 			</div>
 		</AdminShell>
 	);

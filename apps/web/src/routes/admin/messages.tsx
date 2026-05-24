@@ -1,6 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { Button } from "@zias/ui/components/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@zias/ui/components/card";
+import { Input } from "@zias/ui/components/input";
+import { Skeleton } from "@zias/ui/components/skeleton";
 import { cn } from "@zias/ui/lib/utils";
+import { MailIcon, SearchIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -63,131 +74,154 @@ function AdminMessages() {
 		toast.success(`Marked ${unreadVisible.length} messages as read`);
 	}
 
+	const unreadCount = messages?.filter((m) => !m.isRead).length ?? 0;
+
 	return (
 		<AdminShell
 			title="Messages"
-			description="Triage incoming contact requests quickly."
+			description="Review contact requests and clear the inbox."
 			backTo="/admin"
-			backLabel="Admin"
+			backLabel="Dashboard"
 			actions={
 				<>
 					<AdminActionLink to="/admin/posts/new">New post</AdminActionLink>
-					<button
+					<Button
 						type="button"
+						variant="outline"
+						size="sm"
 						onClick={handleMarkVisibleRead}
-						className="rounded-full border border-white/25 bg-white/10 px-4 py-2 font-semibold text-section-hero-fg text-sm transition-colors hover:bg-white/20 focus-visible:outline-none"
 					>
 						Mark visible read
-					</button>
+					</Button>
 				</>
 			}
 		>
-			<div className="mb-4 grid gap-3 md:grid-cols-[1fr_auto]">
-				<input
-					value={query}
-					onChange={(e) => setQuery(e.target.value)}
-					data-admin-search
-					placeholder="Search sender, email, or message"
-					className="w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-section-hero-fg text-sm placeholder:text-section-hero-fg/50 focus:border-white/35 focus:outline-none focus:ring-2 focus:ring-white/30"
-				/>
-				<select
-					value={mode}
-					onChange={(e) => setMode(e.target.value as "all" | "unread")}
-					className="rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-section-hero-fg text-sm focus:border-white/35 focus:outline-none focus:ring-2 focus:ring-white/30"
-				>
-					<option value="all">All messages</option>
-					<option value="unread">Unread only</option>
-				</select>
-			</div>
-
-			<div className="mb-3 flex items-center justify-between text-section-hero-subtext text-sm">
-				<p>{visibleMessages.length} results</p>
-				{mode === "unread" ? (
-					<AdminPill variant="warn">Unread view</AdminPill>
-				) : null}
-			</div>
-			{isError ? (
-				<div className="mb-4 rounded-2xl border border-red-300/35 bg-red-300/10 p-4">
-					<p className="font-semibold text-red-100">Could not load messages.</p>
-					<button
-						type="button"
-						onClick={() => refetch()}
-						className="mt-2 rounded-full border border-red-200/40 px-3 py-1.5 text-red-100 text-xs transition-colors hover:bg-red-300/15 focus-visible:outline-none"
-					>
-						Retry
-					</button>
-				</div>
-			) : null}
-
-			{isLoading && (
-				<div className="space-y-3">
-					{Array.from({ length: 3 }).map((_, i) => (
-						<div key={i} className="h-24 animate-pulse rounded-xl bg-muted" />
-					))}
-				</div>
-			)}
-
-			<div className="space-y-3">
-				{visibleMessages.map((msg) => (
-					<div
-						key={msg.id}
-						className={cn(
-							"rounded-2xl border p-4 transition-colors sm:p-5",
-							msg.isRead
-								? "border-white/10 bg-white/5"
-								: "border-amber-300/35 bg-amber-200/10",
-						)}
-					>
-						<div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-							<div className="min-w-0 flex-1">
-								<div className="flex flex-wrap items-center gap-2">
-									<p className="font-semibold">{msg.name || "Anonymous"}</p>
-									<a
-										href={`mailto:${msg.email}`}
-										className="truncate text-muted-foreground text-sm hover:text-foreground"
-									>
-										{msg.email}
-									</a>
-									{!msg.isRead ? (
-										<AdminPill variant="warn">New</AdminPill>
-									) : (
-										<AdminPill>Read</AdminPill>
-									)}
-								</div>
-								<p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed">
-									{msg.message}
-								</p>
-								<p className="mt-2 text-muted-foreground text-xs">
-									{new Date(msg.createdAt).toLocaleDateString("en-GB", {
-										day: "numeric",
-										month: "short",
-										year: "numeric",
-										hour: "2-digit",
-										minute: "2-digit",
-									})}
-								</p>
-							</div>
-							{!msg.isRead && (
-								<button
-									type="button"
-									onClick={() => handleMarkRead(msg.id)}
-									className="shrink-0 rounded-full border border-white/20 px-3 py-1.5 text-section-hero-fg text-xs transition-colors hover:bg-white/10 focus-visible:outline-none"
-								>
-									Mark read
-								</button>
-							)}
+			<Card>
+				<CardHeader>
+					<CardTitle className="flex items-center gap-2">
+						<MailIcon className="size-4" />
+						Inbox
+						{unreadCount > 0 ? (
+							<AdminPill variant="warn">{unreadCount} unread</AdminPill>
+						) : null}
+					</CardTitle>
+					<CardDescription>
+						{visibleMessages.length} messages in current view
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<div className="mb-4 grid gap-2 md:grid-cols-[1fr_160px]">
+						<div className="relative block">
+							<label htmlFor="messages-search" className="sr-only">
+								Search messages
+							</label>
+							<SearchIcon className="pointer-events-none absolute top-2 left-2 size-4 text-muted-foreground" />
+							<Input
+								id="messages-search"
+								value={query}
+								onChange={(e) => setQuery(e.target.value)}
+								data-admin-search
+								placeholder="Search sender, email, or message"
+								className="pl-8"
+							/>
 						</div>
+						<select
+							value={mode}
+							onChange={(e) => setMode(e.target.value as "all" | "unread")}
+							className="h-8 border border-input bg-background px-2.5 text-xs outline-none focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50"
+						>
+							<option value="all">All messages</option>
+							<option value="unread">Unread only</option>
+						</select>
 					</div>
-				))}
-				{visibleMessages.length === 0 && (
-					<div className="py-12 text-center">
-						<p className="font-semibold text-foreground">No messages found.</p>
-						<p className="mt-1 text-muted-foreground text-sm">
-							Try another filter or search query.
-						</p>
-					</div>
-				)}
-			</div>
+
+					{isError ? (
+						<div className="mb-4 border border-destructive/30 bg-destructive/5 p-3">
+							<p className="font-medium text-destructive text-sm">
+								Could not load messages.
+							</p>
+							<Button
+								type="button"
+								variant="outline"
+								size="sm"
+								className="mt-2"
+								onClick={() => refetch()}
+							>
+								Retry
+							</Button>
+						</div>
+					) : null}
+
+					{isLoading ? (
+						<div className="flex flex-col gap-2">
+							<Skeleton className="h-24" />
+							<Skeleton className="h-24" />
+							<Skeleton className="h-24" />
+						</div>
+					) : (
+						<div className="flex flex-col gap-3">
+							{visibleMessages.map((msg) => (
+								<article
+									key={msg.id}
+									className={cn(
+										"border p-4 transition-colors",
+										msg.isRead ? "bg-card" : "border-primary/30 bg-primary/5",
+									)}
+								>
+									<div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+										<div className="min-w-0 flex-1">
+											<div className="flex flex-wrap items-center gap-2">
+												<p className="font-medium text-sm">
+													{msg.name || "Anonymous"}
+												</p>
+												<a
+													href={`mailto:${msg.email}`}
+													className="truncate text-muted-foreground text-xs hover:text-foreground"
+												>
+													{msg.email}
+												</a>
+												<AdminPill variant={msg.isRead ? "default" : "warn"}>
+													{msg.isRead ? "read" : "new"}
+												</AdminPill>
+											</div>
+											<p className="mt-3 whitespace-pre-wrap text-sm leading-6">
+												{msg.message}
+											</p>
+											<p className="mt-3 text-muted-foreground text-xs">
+												{new Date(msg.createdAt).toLocaleDateString("en-GB", {
+													day: "numeric",
+													month: "short",
+													year: "numeric",
+													hour: "2-digit",
+													minute: "2-digit",
+												})}
+											</p>
+										</div>
+										{!msg.isRead ? (
+											<Button
+												type="button"
+												variant="outline"
+												size="sm"
+												onClick={() => handleMarkRead(msg.id)}
+											>
+												Mark read
+											</Button>
+										) : null}
+									</div>
+								</article>
+							))}
+							{visibleMessages.length === 0 ? (
+								<div className="border border-dashed p-10 text-center">
+									<p className="font-medium text-sm">No messages found.</p>
+									<p className="mt-1 text-muted-foreground text-sm">
+										Change the filter or search query.
+									</p>
+								</div>
+							) : null}
+						</div>
+					)}
+				</CardContent>
+			</Card>
 		</AdminShell>
 	);
 }

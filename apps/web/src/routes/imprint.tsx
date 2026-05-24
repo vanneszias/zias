@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, SectionInner } from "@zias/ui/components/section";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
+import { ogBaseUrl } from "@/lib/urls";
 
 const SITE_URL = "https://zias.be";
 
@@ -19,6 +20,18 @@ export const Route = createFileRoute("/imprint")({
 				content: "Legal disclosure and imprint information for zias.be.",
 			},
 			{ property: "og:url", content: `${SITE_URL}/imprint` },
+			{ property: "og:image", content: `${ogBaseUrl}/imprint` },
+			{ property: "og:image:width", content: "1200" },
+			{ property: "og:image:height", content: "630" },
+			{ property: "og:image:alt", content: "Imprint — Zias" },
+			{ name: "twitter:card", content: "summary_large_image" },
+			{ name: "twitter:title", content: "Imprint — Zias" },
+			{
+				name: "twitter:description",
+				content: "Legal disclosure and imprint information for zias.be.",
+			},
+			{ name: "twitter:image", content: `${ogBaseUrl}/imprint` },
+			{ name: "twitter:image:alt", content: "Imprint — Zias" },
 		],
 		links: [{ rel: "canonical", href: `${SITE_URL}/imprint` }],
 	}),

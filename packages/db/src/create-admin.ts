@@ -3,7 +3,7 @@ import { config } from "dotenv";
 import { hashPassword } from "./password";
 
 config({
-	path: `${import.meta.dir}/../../../apps/server/.env.local`,
+	path: `${import.meta.dir}/../../../apps/server/.env.prod`,
 });
 
 const dbName = process.env.D1_DB_NAME || "zias-database-zias";

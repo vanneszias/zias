@@ -2,7 +2,17 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import type { PostCategory } from "@zias/content";
 import { formatPostDate } from "@zias/content";
-import { CategoryBadge } from "@zias/ui/components/category-badge";
+import { Button } from "@zias/ui/components/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@zias/ui/components/card";
+import { Input } from "@zias/ui/components/input";
+import { Skeleton } from "@zias/ui/components/skeleton";
+import { SearchIcon, Trash2Icon } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -48,10 +58,11 @@ function AdminPostsList() {
 
 	const filteredPosts = useMemo(() => {
 		const base = (posts ?? []).filter((post) => {
+			const q = query.toLowerCase();
 			const matchesQuery =
-				query.length === 0 ||
-				post.title.toLowerCase().includes(query.toLowerCase()) ||
-				post.slug.toLowerCase().includes(query.toLowerCase());
+				q.length === 0 ||
+				post.title.toLowerCase().includes(q) ||
+				post.slug.toLowerCase().includes(q);
 
 			const matchesStatus =
 				statusFilter === "all"
@@ -74,136 +85,165 @@ function AdminPostsList() {
 	return (
 		<AdminShell
 			title="Posts"
-			description="Manage publishing with fast filters and quick edit actions."
+			description="Search, review, edit, and publish journal content."
 			backTo="/admin"
-			backLabel="Admin"
+			backLabel="Dashboard"
 			actions={
 				<AdminActionLink to="/admin/posts/new" strong>
 					New post
 				</AdminActionLink>
 			}
 		>
-			<div className="mb-4 grid gap-3 md:grid-cols-[1fr_auto_auto]">
-				<input
-					value={query}
-					onChange={(e) => setQuery(e.target.value)}
-					data-admin-search
-					placeholder="Search title or slug"
-					className="w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-section-hero-fg text-sm placeholder:text-section-hero-fg/50 focus:border-white/35 focus:outline-none focus:ring-2 focus:ring-white/30"
-				/>
-				<select
-					value={statusFilter}
-					onChange={(e) =>
-						setStatusFilter(e.target.value as "all" | "draft" | "published")
-					}
-					className="rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-section-hero-fg text-sm focus:border-white/35 focus:outline-none focus:ring-2 focus:ring-white/30"
-				>
-					<option value="all">All statuses</option>
-					<option value="draft">Drafts only</option>
-					<option value="published">Published only</option>
-				</select>
-				<select
-					value={sortBy}
-					onChange={(e) => setSortBy(e.target.value as "updated" | "title")}
-					className="rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-section-hero-fg text-sm focus:border-white/35 focus:outline-none focus:ring-2 focus:ring-white/30"
-				>
-					<option value="updated">Sort: latest activity</option>
-					<option value="title">Sort: title</option>
-				</select>
-			</div>
+			<Card>
+				<CardHeader>
+					<CardTitle>Content library</CardTitle>
+					<CardDescription>
+						{filteredPosts.length} of {posts?.length ?? 0} posts shown
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<div className="mb-4 grid gap-2 md:grid-cols-[1fr_160px_190px]">
+						<div className="relative block">
+							<label htmlFor="posts-search" className="sr-only">
+								Search posts
+							</label>
+							<SearchIcon className="pointer-events-none absolute top-2 left-2 size-4 text-muted-foreground" />
+							<Input
+								id="posts-search"
+								value={query}
+								onChange={(e) => setQuery(e.target.value)}
+								data-admin-search
+								placeholder="Search title or slug"
+								className="pl-8"
+							/>
+						</div>
+						<select
+							value={statusFilter}
+							onChange={(e) =>
+								setStatusFilter(e.target.value as "all" | "draft" | "published")
+							}
+							className="h-8 border border-input bg-background px-2.5 text-xs outline-none focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50"
+						>
+							<option value="all">All statuses</option>
+							<option value="draft">Drafts</option>
+							<option value="published">Published</option>
+						</select>
+						<select
+							value={sortBy}
+							onChange={(e) => setSortBy(e.target.value as "updated" | "title")}
+							className="h-8 border border-input bg-background px-2.5 text-xs outline-none focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50"
+						>
+							<option value="updated">Latest activity</option>
+							<option value="title">Title</option>
+						</select>
+					</div>
 
-			{isError ? (
-				<div className="mb-6 rounded-2xl border border-red-300/35 bg-red-300/10 p-4 text-red-100">
-					<p className="font-semibold">Could not load posts.</p>
-					<button
-						type="button"
-						onClick={() => refetch()}
-						className="mt-2 rounded-full border border-red-200/40 px-3 py-1.5 text-xs transition-colors hover:bg-red-300/15 focus-visible:outline-none"
-					>
-						Retry
-					</button>
-				</div>
-			) : null}
+					{isError ? (
+						<div className="mb-4 border border-destructive/30 bg-destructive/5 p-3">
+							<p className="font-medium text-destructive text-sm">
+								Could not load posts.
+							</p>
+							<Button
+								type="button"
+								variant="outline"
+								size="sm"
+								className="mt-2"
+								onClick={() => refetch()}
+							>
+								Retry
+							</Button>
+						</div>
+					) : null}
 
-			{isLoading && (
-				<div className="space-y-3">
-					{Array.from({ length: 4 }).map((_, i) => (
-						<div
-							key={i}
-							className="h-16 animate-pulse rounded-xl bg-white/10"
-						/>
-					))}
-				</div>
-			)}
-
-			<div className="mb-3 flex items-center justify-between text-section-hero-subtext text-sm">
-				<p>{filteredPosts.length} results</p>
-				{query ? <p>Query: {query}</p> : null}
-			</div>
-
-			<div className="divide-y divide-white/10 overflow-hidden rounded-2xl border border-white/10">
-				{filteredPosts.map((post) => (
-					<div
-						key={post.id}
-						className="flex flex-col gap-4 bg-white/5 p-4 transition-colors hover:bg-white/10 sm:flex-row sm:items-center"
-					>
-						<div className="min-w-0 flex-1">
-							<div className="flex items-center gap-2">
-								<CategoryBadge
-									category={post.category as PostCategory}
-									className="shrink-0"
-								/>
-								{post.isDraft ? (
-									<AdminPill variant="warn">Draft</AdminPill>
-								) : (
-									<AdminPill variant="success">Published</AdminPill>
-								)}
-								{post.isCustomPage && <AdminPill>Custom</AdminPill>}
+					{isLoading ? (
+						<div className="flex flex-col gap-2">
+							{Array.from({ length: 5 }).map((_, i) => (
+								<Skeleton key={i} className="h-14" />
+							))}
+						</div>
+					) : (
+						<div className="overflow-hidden border">
+							<div className="hidden grid-cols-[1fr_120px_120px_120px_92px] border-b bg-muted/50 px-3 py-2 text-muted-foreground text-xs md:grid">
+								<span>Title</span>
+								<span>Status</span>
+								<span>Category</span>
+								<span>Published</span>
+								<span className="text-right">Actions</span>
 							</div>
-							<p className="mt-1 truncate font-medium text-section-hero-fg">
-								{post.title}
-							</p>
-							<p className="text-section-hero-subtext text-xs sm:text-sm">
-								{post.publishedAt
-									? formatPostDate(new Date(post.publishedAt))
-									: "Draft"}{" "}
-								· {post.readTime} min read · /{post.slug}
-							</p>
+							{filteredPosts.map((post) => (
+								<div
+									key={post.id}
+									className="grid gap-3 border-b px-3 py-3 last:border-b-0 md:grid-cols-[1fr_120px_120px_120px_92px] md:items-center"
+								>
+									<div className="min-w-0">
+										<div className="flex items-center gap-2">
+											<p className="truncate font-medium text-sm">
+												{post.title}
+											</p>
+											{post.isCustomPage ? <AdminPill>custom</AdminPill> : null}
+										</div>
+										<p className="truncate text-muted-foreground text-xs">
+											/{post.slug} · {post.readTime} min read
+										</p>
+									</div>
+									<div>
+										<AdminPill variant={post.isDraft ? "warn" : "success"}>
+											{post.isDraft ? "draft" : "published"}
+										</AdminPill>
+									</div>
+									<p className="text-muted-foreground text-xs">
+										{categoryLabel(post.category as PostCategory)}
+									</p>
+									<p className="text-muted-foreground text-xs">
+										{post.publishedAt
+											? formatPostDate(new Date(post.publishedAt))
+											: "Not published"}
+									</p>
+									<div className="flex justify-end gap-2">
+										<Button
+											type="button"
+											variant="outline"
+											size="sm"
+											onClick={() =>
+												navigate({
+													to: "/admin/posts/$id/edit",
+													params: { id: post.id },
+												})
+											}
+										>
+											Edit
+										</Button>
+										<Button
+											type="button"
+											variant="destructive"
+											size="icon-sm"
+											onClick={() => handleDelete(post.id, post.title)}
+											aria-label={`Delete ${post.title}`}
+										>
+											<Trash2Icon />
+										</Button>
+									</div>
+								</div>
+							))}
+							{filteredPosts.length === 0 ? (
+								<div className="p-8 text-center">
+									<p className="font-medium text-sm">No posts found.</p>
+									<p className="mt-1 text-muted-foreground text-sm">
+										Change the filters or create a new post.
+									</p>
+									<AdminActionLink to="/admin/posts/new" strong>
+										Create post
+									</AdminActionLink>
+								</div>
+							) : null}
 						</div>
-						<div className="flex w-full shrink-0 gap-2 sm:w-auto">
-							<button
-								type="button"
-								onClick={() =>
-									navigate({
-										to: "/admin/posts/$id/edit",
-										params: { id: post.id },
-									})
-								}
-								className="flex-1 rounded-full border border-white/20 px-3 py-2 text-section-hero-fg text-sm transition-colors hover:bg-white/10 focus-visible:outline-none sm:flex-none"
-							>
-								Edit
-							</button>
-							<button
-								type="button"
-								onClick={() => handleDelete(post.id, post.title)}
-								className="flex-1 rounded-full border border-white/20 px-3 py-2 text-section-hero-fg/60 text-sm transition-colors hover:border-red-400/40 hover:text-red-400 focus-visible:outline-none sm:flex-none"
-							>
-								Delete
-							</button>
-						</div>
-					</div>
-				))}
-				{filteredPosts.length === 0 && (
-					<div className="p-8 text-center">
-						<p className="font-semibold text-section-hero-fg">
-							No posts found.
-						</p>
-						<p className="mt-1 text-section-hero-subtext text-sm">
-							Try another filter or create a new post.
-						</p>
-					</div>
-				)}
-			</div>
+					)}
+				</CardContent>
+			</Card>
 		</AdminShell>
 	);
+}
+
+function categoryLabel(category: PostCategory) {
+	return category.split(":").at(-1)?.replace(/-/g, " ") ?? category;
 }
