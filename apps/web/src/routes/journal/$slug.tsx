@@ -1,5 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	Link,
+	notFound,
+	Outlet,
+	redirect,
+} from "@tanstack/react-router";
 import type { PostCategory } from "@zias/content";
 import { formatPostDate } from "@zias/content";
 import { CategoryBadge } from "@zias/ui/components/category-badge";
@@ -8,14 +14,40 @@ import { lazy, Suspense } from "react";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { TiptapRenderer } from "@/components/tiptap-renderer";
+import type { SeriesManifest } from "@/lib/multi-page-manifest";
 import { ogBaseUrl } from "@/lib/urls";
 import { trpc } from "@/utils/trpc";
 
 const SITE_URL = "https://zias.be";
 
+/* Eagerly scan for multi-page series manifests */
+const manifests = import.meta.glob<{ manifest: SeriesManifest }>(
+	"../../content/journal/*/_manifest.ts",
+	{ eager: true },
+);
+
 export const Route = createFileRoute("/journal/$slug")({
-	loader: ({ context: { queryClient }, params }) =>
-		queryClient.ensureQueryData(trpc.journal.bySlug.queryOptions(params.slug)),
+	loader: async ({ context: { queryClient }, location, params }) => {
+		/* Multi-page series: redirect to first page before touching the DB */
+		const manifestModule =
+			manifests[`../../content/journal/${params.slug}/_manifest.ts`];
+		if (manifestModule) {
+			const currentPath = location.pathname.replace(/\/$/, "");
+			const seriesPath = `/journal/${params.slug}`;
+
+			if (currentPath !== seriesPath) return null;
+
+			const firstPage = manifestModule.manifest.pages[0];
+			throw redirect({
+				to: "/journal/$slug/$page",
+				params: { slug: params.slug, page: firstPage.slug },
+			});
+		}
+
+		return queryClient.ensureQueryData(
+			trpc.journal.bySlug.queryOptions(params.slug),
+		);
+	},
 
 	head: ({ loaderData: post }) => {
 		if (!post) return {};
@@ -70,6 +102,15 @@ const customPages = import.meta.glob<{ default: React.ComponentType }>(
 
 function PostPage() {
 	const { slug } = Route.useParams();
+	const manifestModule =
+		manifests[`../../content/journal/${slug}/_manifest.ts`];
+
+	if (manifestModule) return <Outlet />;
+
+	return <SinglePostPage slug={slug} />;
+}
+
+function SinglePostPage({ slug }: { slug: string }) {
 	const {
 		data: post,
 		isLoading,

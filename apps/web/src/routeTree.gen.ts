@@ -19,6 +19,7 @@ import { Route as AdminSeoRouteImport } from './routes/admin/seo'
 import { Route as AdminMessagesRouteImport } from './routes/admin/messages'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminPostsIndexRouteImport } from './routes/admin/posts/index'
+import { Route as JournalSlugPageRouteImport } from './routes/journal/$slug/$page'
 import { Route as AdminPostsNewRouteImport } from './routes/admin/posts/new'
 import { Route as AdminPostsIdEditRouteImport } from './routes/admin/posts/$id/edit'
 
@@ -72,6 +73,11 @@ const AdminPostsIndexRoute = AdminPostsIndexRouteImport.update({
   path: '/admin/posts/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JournalSlugPageRoute = JournalSlugPageRouteImport.update({
+  id: '/$page',
+  path: '/$page',
+  getParentRoute: () => JournalSlugRoute,
+} as any)
 const AdminPostsNewRoute = AdminPostsNewRouteImport.update({
   id: '/admin/posts/new',
   path: '/admin/posts/new',
@@ -90,10 +96,11 @@ export interface FileRoutesByFullPath {
   '/admin/login': typeof AdminLoginRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/seo': typeof AdminSeoRoute
-  '/journal/$slug': typeof JournalSlugRoute
+  '/journal/$slug': typeof JournalSlugRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/journal/': typeof JournalIndexRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
+  '/journal/$slug/$page': typeof JournalSlugPageRoute
   '/admin/posts/': typeof AdminPostsIndexRoute
   '/admin/posts/$id/edit': typeof AdminPostsIdEditRoute
 }
@@ -104,10 +111,11 @@ export interface FileRoutesByTo {
   '/admin/login': typeof AdminLoginRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/seo': typeof AdminSeoRoute
-  '/journal/$slug': typeof JournalSlugRoute
+  '/journal/$slug': typeof JournalSlugRouteWithChildren
   '/admin': typeof AdminIndexRoute
   '/journal': typeof JournalIndexRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
+  '/journal/$slug/$page': typeof JournalSlugPageRoute
   '/admin/posts': typeof AdminPostsIndexRoute
   '/admin/posts/$id/edit': typeof AdminPostsIdEditRoute
 }
@@ -119,10 +127,11 @@ export interface FileRoutesById {
   '/admin/login': typeof AdminLoginRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/seo': typeof AdminSeoRoute
-  '/journal/$slug': typeof JournalSlugRoute
+  '/journal/$slug': typeof JournalSlugRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/journal/': typeof JournalIndexRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
+  '/journal/$slug/$page': typeof JournalSlugPageRoute
   '/admin/posts/': typeof AdminPostsIndexRoute
   '/admin/posts/$id/edit': typeof AdminPostsIdEditRoute
 }
@@ -139,6 +148,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/journal/'
     | '/admin/posts/new'
+    | '/journal/$slug/$page'
     | '/admin/posts/'
     | '/admin/posts/$id/edit'
   fileRoutesByTo: FileRoutesByTo
@@ -153,6 +163,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/journal'
     | '/admin/posts/new'
+    | '/journal/$slug/$page'
     | '/admin/posts'
     | '/admin/posts/$id/edit'
   id:
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/journal/'
     | '/admin/posts/new'
+    | '/journal/$slug/$page'
     | '/admin/posts/'
     | '/admin/posts/$id/edit'
   fileRoutesById: FileRoutesById
@@ -178,7 +190,7 @@ export interface RootRouteChildren {
   AdminLoginRoute: typeof AdminLoginRoute
   AdminMessagesRoute: typeof AdminMessagesRoute
   AdminSeoRoute: typeof AdminSeoRoute
-  JournalSlugRoute: typeof JournalSlugRoute
+  JournalSlugRoute: typeof JournalSlugRouteWithChildren
   AdminIndexRoute: typeof AdminIndexRoute
   JournalIndexRoute: typeof JournalIndexRoute
   AdminPostsNewRoute: typeof AdminPostsNewRoute
@@ -258,6 +270,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPostsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/journal/$slug/$page': {
+      id: '/journal/$slug/$page'
+      path: '/$page'
+      fullPath: '/journal/$slug/$page'
+      preLoaderRoute: typeof JournalSlugPageRouteImport
+      parentRoute: typeof JournalSlugRoute
+    }
     '/admin/posts/new': {
       id: '/admin/posts/new'
       path: '/admin/posts/new'
@@ -275,6 +294,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface JournalSlugRouteChildren {
+  JournalSlugPageRoute: typeof JournalSlugPageRoute
+}
+
+const JournalSlugRouteChildren: JournalSlugRouteChildren = {
+  JournalSlugPageRoute: JournalSlugPageRoute,
+}
+
+const JournalSlugRouteWithChildren = JournalSlugRoute._addFileChildren(
+  JournalSlugRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ImprintRoute: ImprintRoute,
@@ -282,7 +313,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminLoginRoute: AdminLoginRoute,
   AdminMessagesRoute: AdminMessagesRoute,
   AdminSeoRoute: AdminSeoRoute,
-  JournalSlugRoute: JournalSlugRoute,
+  JournalSlugRoute: JournalSlugRouteWithChildren,
   AdminIndexRoute: AdminIndexRoute,
   JournalIndexRoute: JournalIndexRoute,
   AdminPostsNewRoute: AdminPostsNewRoute,
