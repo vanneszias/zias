@@ -1,5 +1,6 @@
-import { hashPassword } from "better-auth/crypto";
 import { config } from "dotenv";
+
+import { hashPassword } from "./password";
 
 config({
 	path: `${import.meta.dir}/../../../apps/server/.env.local`,
@@ -59,15 +60,25 @@ const existing = runD1(
 	`SELECT id, email FROM user WHERE email = ${q(adminEmail.toLowerCase())} LIMIT 1;`,
 );
 
+const passwordHash = await hashPassword(adminPassword);
+
 if (existing[0]?.results?.length) {
-	console.log(`Admin user already exists: ${adminEmail}`);
+	const userId = existing[0].results[0]?.id;
+	if (typeof userId !== "string") {
+		console.error(`Admin user exists but has invalid id: ${adminEmail}`);
+		process.exit(1);
+	}
+
+	runD1(
+		`UPDATE account SET password = ${q(passwordHash)}, updated_at = ${Date.now()} WHERE user_id = ${q(userId)} AND provider_id = 'credential';`,
+	);
+	console.log(`Admin password updated: ${adminEmail}`);
 	process.exit(0);
 }
 
 const userId = crypto.randomUUID();
 const accountId = crypto.randomUUID();
 const nowMs = Date.now();
-const passwordHash = await hashPassword(adminPassword);
 
 const sql = `
 INSERT INTO user (id, name, email, email_verified, image, created_at, updated_at)

@@ -1,8 +1,9 @@
 import { Database } from "bun:sqlite";
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
-import { hashPassword } from "better-auth/crypto";
 import { config } from "dotenv";
+
+import { hashPassword } from "./password";
 
 config({
 	path: `${import.meta.dir}/../../../apps/server/.env.local`,
@@ -46,17 +47,23 @@ const db = new Database(dbPath);
 
 const existing = db
 	.query("SELECT id FROM user WHERE email = ? LIMIT 1")
-	.get(adminEmail.toLowerCase());
+	.get(adminEmail.toLowerCase()) as { id: string } | null;
+
+const passwordHash = await hashPassword(adminPassword);
 
 if (existing) {
-	console.log(`Admin user already exists: ${adminEmail}`);
+	db.run(
+		"UPDATE account SET password = ?, updated_at = ? WHERE user_id = ? AND provider_id = 'credential'",
+		[passwordHash, Date.now(), existing.id],
+	);
+	db.close();
+	console.log(`Local admin password updated: ${adminEmail}`);
 	process.exit(0);
 }
 
 const userId = crypto.randomUUID();
 const accountId = crypto.randomUUID();
 const nowMs = Date.now();
-const passwordHash = await hashPassword(adminPassword);
 
 db.run(
 	"INSERT INTO user (id, name, email, email_verified, image, created_at, updated_at) VALUES (?, ?, ?, 1, NULL, ?, ?)",

@@ -1,4 +1,5 @@
 import { createDb } from "@zias/db";
+import { hashPassword, verifyPassword } from "@zias/db/password";
 import * as schema from "@zias/db/schema/auth";
 import { env } from "@zias/env/server";
 import { betterAuth } from "better-auth";
@@ -17,6 +18,10 @@ export function createAuth() {
 		emailAndPassword: {
 			enabled: true,
 			disableSignUp: true,
+			password: {
+				hash: hashPassword,
+				verify: verifyPassword,
+			},
 		},
 		// uncomment cookieCache setting when ready to deploy to Cloudflare using *.workers.dev domains
 		// session: {
