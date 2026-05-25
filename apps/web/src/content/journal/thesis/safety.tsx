@@ -1,3 +1,6 @@
+import { BenchmarkExplorer } from "./components/benchmark-explorer";
+import { safetyBenchmarkMetrics } from "./data/benchmarks";
+
 export default function SafetyChapter() {
 	return (
 		<>
@@ -376,148 +379,12 @@ python run_eval.py --model claude-3-5-sonnet --scenario all`}</code>
 				attack method for each model.
 			</p>
 
-			<table>
-				<thead>
-					<tr>
-						<th>Benchmark / Metric</th>
-						<th>GPT-4o</th>
-						<th>Claude 3.5 Sonnet</th>
-						<th>Llama 3 70B</th>
-						<th>Llama 3 8B</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th colSpan={5}>
-							HarmBench — Attack Success Rate (ASR, lower is safer)
-						</th>
-					</tr>
-					<tr>
-						<td>GCG attack ASR</td>
-						<td>9%</td>
-						<td>7%</td>
-						<td>31%</td>
-						<td>47%</td>
-					</tr>
-					<tr>
-						<td>PAIR attack ASR</td>
-						<td>18%</td>
-						<td>11%</td>
-						<td>24%</td>
-						<td>39%</td>
-					</tr>
-					<tr>
-						<td>AutoDAN attack ASR</td>
-						<td>11%</td>
-						<td>8%</td>
-						<td>38%</td>
-						<td>53%</td>
-					</tr>
-					<tr>
-						<td>Best adaptive ASR †</td>
-						<td>38%</td>
-						<td>28%</td>
-						<td>68%</td>
-						<td>84%</td>
-					</tr>
-					<tr>
-						<th colSpan={5}>JailbreakBench — Adaptive attack success</th>
-					</tr>
-					<tr>
-						<td>100-behaviour adaptive</td>
-						<td>100%</td>
-						<td>100%</td>
-						<td>100%</td>
-						<td>100%</td>
-					</tr>
-					<tr>
-						<th colSpan={5}>SALAD-Bench — Safety score (higher is safer)</th>
-					</tr>
-					<tr>
-						<td>Baseline safety score</td>
-						<td>84%</td>
-						<td>88%</td>
-						<td>71%</td>
-						<td>63%</td>
-					</tr>
-					<tr>
-						<td>Under adversarial augmentation</td>
-						<td>47%</td>
-						<td>52%</td>
-						<td>34%</td>
-						<td>28%</td>
-					</tr>
-					<tr>
-						<th colSpan={5}>OR-Bench — Over-refusal / safety–helpfulness</th>
-					</tr>
-					<tr>
-						<td>Over-refusal rate (tier 10)</td>
-						<td>31%</td>
-						<td>44%</td>
-						<td>19%</td>
-						<td>15%</td>
-					</tr>
-					<tr>
-						<td>Safety–helpfulness correlation</td>
-						<td colSpan={4}>r = 0.878 across models</td>
-					</tr>
-					<tr>
-						<th colSpan={5}>AIR-Bench — Regulatory alignment</th>
-					</tr>
-					<tr>
-						<td>Full regulatory compliance</td>
-						<td>No</td>
-						<td>No</td>
-						<td>No</td>
-						<td>No</td>
-					</tr>
-					<tr>
-						<td>Compliance score (of 100)</td>
-						<td>67</td>
-						<td>71</td>
-						<td>51</td>
-						<td>44</td>
-					</tr>
-					<tr>
-						<th colSpan={5}>Agent-SafetyBench — Agentic safety</th>
-					</tr>
-					<tr>
-						<td>Behavioral safety score</td>
-						<td>52%</td>
-						<td>57%</td>
-						<td>41%</td>
-						<td>33%</td>
-					</tr>
-					<tr>
-						<td>Content safety score</td>
-						<td>79%</td>
-						<td>82%</td>
-						<td>68%</td>
-						<td>59%</td>
-					</tr>
-					<tr>
-						<td>Gap (content – behavioral)</td>
-						<td>27pp</td>
-						<td>25pp</td>
-						<td>27pp</td>
-						<td>26pp</td>
-					</tr>
-					<tr>
-						<th colSpan={5}>MCP-SafetyBench — Tool-use attack success</th>
-					</tr>
-					<tr>
-						<td>Host-side attack success</td>
-						<td>&gt;80%</td>
-						<td>&gt;80%</td>
-						<td>&gt;80%</td>
-						<td>&gt;80%</td>
-					</tr>
-					<tr>
-						<td>Safety prompt effect (OSS)</td>
-						<td colSpan={4}>Worsens safety by 2–4pp for open-source models</td>
-					</tr>
-				</tbody>
-			</table>
+			<BenchmarkExplorer
+				title="Interactive Safety Benchmark Explorer"
+				description="Switch between the benchmark metrics discussed in this chapter, sort by best-performing model, and inspect the underlying values as an accessible table."
+				metrics={safetyBenchmarkMetrics}
+				defaultMetricId="harmbench-best-adaptive-asr"
+			/>
 
 			<p>
 				Benchmark comparison: key safety metrics across representative models.

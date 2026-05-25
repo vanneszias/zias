@@ -1,3 +1,6 @@
+import { BenchmarkExplorer } from "./components/benchmark-explorer";
+import { transparencyBenchmarkMetrics } from "./data/benchmarks";
+
 export default function TransparencyChapter() {
 	return (
 		<>
@@ -349,6 +352,12 @@ helm-server # local web UI at localhost:8000`}</code>
 				published FMTI data, model cards, and provider documentation reviewed in
 				March 2026.
 			</p>
+			<BenchmarkExplorer
+				title="Interactive Transparency Benchmark Explorer"
+				description="Compare approximate transparency and documentation scores across the representative model providers."
+				metrics={transparencyBenchmarkMetrics}
+				defaultMetricId="fmti-overall-approx"
+			/>
 			<table>
 				<thead>
 					<tr>

@@ -1,3 +1,6 @@
+import { BenchmarkExplorer } from "./components/benchmark-explorer";
+import { allBenchmarkMetrics } from "./data/benchmarks";
+
 export default function FrameworkChapter() {
 	return (
 		<>
@@ -213,6 +216,13 @@ export default function FrameworkChapter() {
 				uniformly high across both model types — the open/proprietary
 				distinction matters less than the deployment context.
 			</p>
+
+			<BenchmarkExplorer
+				title="Cross-Chapter Benchmark Explorer"
+				description="A single interactive view over the benchmark data used throughout the copyright, safety, transparency, and compliance chapters."
+				metrics={allBenchmarkMetrics}
+				defaultMetricId="airbench-compliance-score"
+			/>
 
 			<h2>Weighted Risk Score</h2>
 			<p>

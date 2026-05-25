@@ -47,6 +47,11 @@ export const manifest: SeriesManifest = {
 			shortTitle: "Manifest",
 		},
 		{
+			slug: "model-fit",
+			title: "Model Fit Test",
+			shortTitle: "Model Fit",
+		},
+		{
 			slug: "bibliography",
 			title: "Bibliography",
 			shortTitle: "Bibliography",

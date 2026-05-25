@@ -1,3 +1,6 @@
+import { BenchmarkExplorer } from "./components/benchmark-explorer";
+import { copyrightBenchmarkMetrics } from "./data/benchmarks";
+
 export default function CopyrightChapter() {
 	return (
 		<>
@@ -243,43 +246,13 @@ python evaluate_license.py --generated_dir outputs/codellama`}</code>
 				((Chen et al., 2024); (Xu et al., 2024)).
 			</p>
 
-			<h3>CopyBench: Reproduction Rates by Model</h3>
-			<table>
-				<thead>
-					<tr>
-						<th>Model</th>
-						<th>Literal (ROUGE-L)</th>
-						<th>Non-Literal (BERTScore)</th>
-						<th>Note</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>GPT-4</td>
-						<td>11%</td>
-						<td>49%</td>
-						<td>High non-literal; low literal</td>
-					</tr>
-					<tr>
-						<td>Claude 3</td>
-						<td>7%</td>
-						<td>54%</td>
-						<td>Lowest literal; highest non-literal</td>
-					</tr>
-					<tr>
-						<td>Llama-2-70B</td>
-						<td>17%</td>
-						<td>42%</td>
-						<td>Highest literal among tested models</td>
-					</tr>
-					<tr>
-						<td>Mistral-7B</td>
-						<td>15%</td>
-						<td>39%</td>
-						<td>Moderate on both dimensions</td>
-					</tr>
-				</tbody>
-			</table>
+			<h3>CopyBench and LiCoEval: Results by Model</h3>
+			<BenchmarkExplorer
+				title="Interactive Copyright Benchmark Explorer"
+				description="Compare literal reproduction, non-literal reproduction, and GPL violation rates. New benchmark releases can be added by editing the typed benchmark data."
+				metrics={copyrightBenchmarkMetrics}
+				defaultMetricId="copybench-non-literal"
+			/>
 			<p>
 				CopyBench reproduction rates (approximate, books split). Literal copying
 				is measured by ROUGE-L; non-literal by BERTScore semantic similarity.
@@ -299,42 +272,6 @@ python evaluate_license.py --generated_dir outputs/codellama`}</code>
 			</p>
 
 			<h3>LiCoEval: License Compliance in Code Generation</h3>
-			<table>
-				<thead>
-					<tr>
-						<th>Model</th>
-						<th>Overall Compliance</th>
-						<th>GPL Violation Rate</th>
-						<th>Copyleft Awareness</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Claude 3.5 Sonnet</td>
-						<td>78%</td>
-						<td>14%</td>
-						<td>Yes — reduces output similarity to GPL functions</td>
-					</tr>
-					<tr>
-						<td>GPT-4o</td>
-						<td>71%</td>
-						<td>22%</td>
-						<td>Partial — inconsistent avoidance</td>
-					</tr>
-					<tr>
-						<td>Llama 3 70B</td>
-						<td>64%</td>
-						<td>31%</td>
-						<td>No</td>
-					</tr>
-					<tr>
-						<td>CodeLlama-34B</td>
-						<td>58%</td>
-						<td>38%</td>
-						<td>No</td>
-					</tr>
-				</tbody>
-			</table>
 			<p>
 				LiCoEval license compliance scores. Only Claude 3.5 Sonnet demonstrated
 				systematic copyleft awareness — measurably reducing output similarity to
