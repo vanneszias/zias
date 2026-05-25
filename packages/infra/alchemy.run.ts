@@ -18,15 +18,36 @@ const app = await alchemy("zias", {
 	password: process.env.ALCHEMY_PASSWORD,
 });
 
+const databaseName = "zias-database-zias";
+const ogImagesBucketName = "zias-og-images-zias";
+const webWorkerName = "zias-web-zias";
+const serverWorkerName = "zias-server-zias";
+const ogWorkerName = "zias-og-zias";
+
 const db = await D1Database("database", {
+	name: databaseName,
+	adopt: true,
+	delete: false,
+	dev: {
+		remote: false,
+	},
 	migrationsDir: "../../packages/db/src/migrations",
 });
 
 const ogImages = await R2Bucket("og-images", {
+	name: ogImagesBucketName,
+	adopt: true,
+	delete: false,
+	dev: {
+		remote: false,
+	},
 	devDomain: false,
 });
 
 export const web = await Vite("web", {
+	name: webWorkerName,
+	adopt: true,
+	delete: false,
 	cwd: "../../apps/web",
 	assets: "dist",
 	bindings: {
@@ -36,6 +57,9 @@ export const web = await Vite("web", {
 });
 
 export const server = await Worker("server", {
+	name: serverWorkerName,
+	adopt: true,
+	delete: false,
 	cwd: "../../apps/server",
 	entrypoint: "src/index.ts",
 	compatibility: "node",
@@ -54,6 +78,9 @@ export const server = await Worker("server", {
 });
 
 export const og = await Worker("og", {
+	name: ogWorkerName,
+	adopt: true,
+	delete: false,
 	cwd: "../../apps/server",
 	entrypoint: "src/og-worker.ts",
 	compatibility: "node",
