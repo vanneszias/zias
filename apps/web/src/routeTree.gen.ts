@@ -12,8 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ThesisIndexRouteImport } from './routes/thesis/index'
 import { Route as JournalIndexRouteImport } from './routes/journal/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as ThesisPageRouteImport } from './routes/thesis/$page'
 import { Route as JournalSlugRouteImport } from './routes/journal/$slug'
 import { Route as AdminSeoRouteImport } from './routes/admin/seo'
 import { Route as AdminMessagesRouteImport } from './routes/admin/messages'
@@ -38,6 +40,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ThesisIndexRoute = ThesisIndexRouteImport.update({
+  id: '/thesis/',
+  path: '/thesis/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JournalIndexRoute = JournalIndexRouteImport.update({
   id: '/journal/',
   path: '/journal/',
@@ -46,6 +53,11 @@ const JournalIndexRoute = JournalIndexRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThesisPageRoute = ThesisPageRouteImport.update({
+  id: '/thesis/$page',
+  path: '/thesis/$page',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JournalSlugRoute = JournalSlugRouteImport.update({
@@ -97,8 +109,10 @@ export interface FileRoutesByFullPath {
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/seo': typeof AdminSeoRoute
   '/journal/$slug': typeof JournalSlugRouteWithChildren
+  '/thesis/$page': typeof ThesisPageRoute
   '/admin/': typeof AdminIndexRoute
   '/journal/': typeof JournalIndexRoute
+  '/thesis/': typeof ThesisIndexRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
   '/journal/$slug/$page': typeof JournalSlugPageRoute
   '/admin/posts/': typeof AdminPostsIndexRoute
@@ -112,8 +126,10 @@ export interface FileRoutesByTo {
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/seo': typeof AdminSeoRoute
   '/journal/$slug': typeof JournalSlugRouteWithChildren
+  '/thesis/$page': typeof ThesisPageRoute
   '/admin': typeof AdminIndexRoute
   '/journal': typeof JournalIndexRoute
+  '/thesis': typeof ThesisIndexRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
   '/journal/$slug/$page': typeof JournalSlugPageRoute
   '/admin/posts': typeof AdminPostsIndexRoute
@@ -128,8 +144,10 @@ export interface FileRoutesById {
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/seo': typeof AdminSeoRoute
   '/journal/$slug': typeof JournalSlugRouteWithChildren
+  '/thesis/$page': typeof ThesisPageRoute
   '/admin/': typeof AdminIndexRoute
   '/journal/': typeof JournalIndexRoute
+  '/thesis/': typeof ThesisIndexRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
   '/journal/$slug/$page': typeof JournalSlugPageRoute
   '/admin/posts/': typeof AdminPostsIndexRoute
@@ -145,8 +163,10 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/seo'
     | '/journal/$slug'
+    | '/thesis/$page'
     | '/admin/'
     | '/journal/'
+    | '/thesis/'
     | '/admin/posts/new'
     | '/journal/$slug/$page'
     | '/admin/posts/'
@@ -160,8 +180,10 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/seo'
     | '/journal/$slug'
+    | '/thesis/$page'
     | '/admin'
     | '/journal'
+    | '/thesis'
     | '/admin/posts/new'
     | '/journal/$slug/$page'
     | '/admin/posts'
@@ -175,8 +197,10 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/seo'
     | '/journal/$slug'
+    | '/thesis/$page'
     | '/admin/'
     | '/journal/'
+    | '/thesis/'
     | '/admin/posts/new'
     | '/journal/$slug/$page'
     | '/admin/posts/'
@@ -191,8 +215,10 @@ export interface RootRouteChildren {
   AdminMessagesRoute: typeof AdminMessagesRoute
   AdminSeoRoute: typeof AdminSeoRoute
   JournalSlugRoute: typeof JournalSlugRouteWithChildren
+  ThesisPageRoute: typeof ThesisPageRoute
   AdminIndexRoute: typeof AdminIndexRoute
   JournalIndexRoute: typeof JournalIndexRoute
+  ThesisIndexRoute: typeof ThesisIndexRoute
   AdminPostsNewRoute: typeof AdminPostsNewRoute
   AdminPostsIndexRoute: typeof AdminPostsIndexRoute
   AdminPostsIdEditRoute: typeof AdminPostsIdEditRoute
@@ -221,6 +247,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/thesis/': {
+      id: '/thesis/'
+      path: '/thesis'
+      fullPath: '/thesis/'
+      preLoaderRoute: typeof ThesisIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/journal/': {
       id: '/journal/'
       path: '/journal'
@@ -233,6 +266,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/thesis/$page': {
+      id: '/thesis/$page'
+      path: '/thesis/$page'
+      fullPath: '/thesis/$page'
+      preLoaderRoute: typeof ThesisPageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journal/$slug': {
@@ -314,8 +354,10 @@ const rootRouteChildren: RootRouteChildren = {
   AdminMessagesRoute: AdminMessagesRoute,
   AdminSeoRoute: AdminSeoRoute,
   JournalSlugRoute: JournalSlugRouteWithChildren,
+  ThesisPageRoute: ThesisPageRoute,
   AdminIndexRoute: AdminIndexRoute,
   JournalIndexRoute: JournalIndexRoute,
+  ThesisIndexRoute: ThesisIndexRoute,
   AdminPostsNewRoute: AdminPostsNewRoute,
   AdminPostsIndexRoute: AdminPostsIndexRoute,
   AdminPostsIdEditRoute: AdminPostsIdEditRoute,

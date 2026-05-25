@@ -79,7 +79,7 @@ function JournalPage() {
 						The Journal.
 					</h1>
 					<p className="mt-4 text-section-hero-subtext text-subtext">
-						Writing, case studies, and notes from the work.
+						Writing, case studies, and notes from my work &amp; life.
 					</p>
 
 					{/* Category filter */}
@@ -122,20 +122,22 @@ function JournalPage() {
 									className="h-64 animate-pulse rounded-2xl bg-white/10"
 								/>
 							))}
-						{posts?.map((post, index) => (
-							<PostCard
-								key={post.id}
-								post={post as PostMeta}
-								onClick={() =>
-									navigate({
-										to: "/journal/$slug",
-										params: { slug: post.slug },
-									})
-								}
-								variant={getVariant(index)}
-								className={index === 0 ? "sm:col-span-2 lg:col-span-3" : ""}
-							/>
-						))}
+						{posts?.map((post, index) => {
+							return (
+								<PostCard
+									key={post.id}
+									post={post as PostMeta}
+									onClick={() => {
+										navigate({
+											to: "/journal/$slug",
+											params: { slug: post.slug },
+										});
+									}}
+									variant={getVariant(index)}
+									className={index === 0 ? "sm:col-span-2 lg:col-span-3" : ""}
+								/>
+							);
+						})}
 						{posts?.length === 0 && (
 							<div className="col-span-full rounded-2xl border border-white/20 bg-white/5 p-6 text-center">
 								<p className="font-semibold text-section-hero-fg">

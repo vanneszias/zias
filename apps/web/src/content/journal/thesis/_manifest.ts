@@ -2,12 +2,17 @@ import type { SeriesManifest } from "@/lib/multi-page-manifest";
 
 export const manifest: SeriesManifest = {
 	seriesTitle: "AI Licensing, Legal Compliance & Ethics",
-	subtitle: "Bachelor's Thesis · 20 May 2026",
+	subtitle: "Bachelor's Thesis",
 	description:
 		"Measuring Copyright Risks and Ethical Implications in Open-Weight vs. Proprietary Language Models",
 	pages: [
 		{
-			slug: "introduction",
+			slug: "index",
+			title: "Abstract",
+			shortTitle: "Abstract",
+		},
+		{
+			slug: "intro",
 			title: "Introduction",
 			shortTitle: "Introduction",
 		},

@@ -394,8 +394,6 @@ export default function FrameworkChapter() {
 					to the model vendor.
 				</li>
 			</ol>
-
-			<hr />
 		</>
 	);
 }

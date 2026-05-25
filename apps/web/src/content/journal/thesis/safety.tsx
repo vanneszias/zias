@@ -996,8 +996,6 @@ python run_eval.py --model claude-3-5-sonnet --scenario all`}</code>
 				touches security-sensitive components is not optional; it is the only
 				currently available mitigation for the agentic safety gap.
 			</p>
-
-			<hr />
 		</>
 	);
 }

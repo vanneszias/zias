@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
 import { Footer } from "@/components/footer";
 import { MultiPageLayout } from "@/components/multi-page-layout";
@@ -18,6 +18,15 @@ const pageComponents = import.meta.glob<{ default: React.ComponentType }>(
 
 export const Route = createFileRoute("/journal/$slug/$page")({
 	loader: ({ params }) => {
+		if (params.slug === "thesis") {
+			const thesisPage = params.page === "introduction" ? "intro" : params.page;
+
+			throw redirect({
+				to: thesisPage === "index" ? "/thesis" : "/thesis/$page",
+				params: thesisPage === "index" ? undefined : { page: thesisPage },
+			});
+		}
+
 		const manifestModule =
 			manifests[`../../../content/journal/${params.slug}/_manifest.ts`];
 		if (!manifestModule) throw notFound();

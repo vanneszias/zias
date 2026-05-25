@@ -32,6 +32,10 @@ export const Route = createFileRoute("/journal/$slug")({
 		const manifestModule =
 			manifests[`../../content/journal/${params.slug}/_manifest.ts`];
 		if (manifestModule) {
+			if (params.slug === "thesis") {
+				throw redirect({ to: "/thesis" });
+			}
+
 			const currentPath = location.pathname.replace(/\/$/, "");
 			const seriesPath = `/journal/${params.slug}`;
 

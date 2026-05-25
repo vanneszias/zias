@@ -1,16 +1,89 @@
-import { Link } from "@tanstack/react-router";
 import { Section, SectionInner } from "@zias/ui/components/section";
 import { cn } from "@zias/ui/lib/utils";
 import { AlignLeft, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { SeriesManifest } from "@/lib/multi-page-manifest";
 import { MultiPageSidebar } from "./multi-page-sidebar";
+
+export interface PageHeading {
+	id: string;
+	text: string;
+	level: 2 | 3;
+}
+
+export type PageHeadingsBySlug = Record<string, PageHeading[]>;
+
+const chapterSources = import.meta.glob<string>("../content/journal/*/*.tsx", {
+	eager: true,
+	query: "?raw",
+	import: "default",
+});
+
+function slugifyHeading(value: string) {
+	return value
+		.toLowerCase()
+		.trim()
+		.replace(/&amp;/g, "and")
+		.replace(/[^a-z0-9\s-]/g, "")
+		.replace(/\s+/g, "-")
+		.replace(/-+/g, "-")
+		.replace(/^-|-$/g, "");
+}
+
+function extractHeadingText(value: string) {
+	return value
+		.replace(/<[^>]+>/g, "")
+		.replace(/\{\s*"\s*"\s*\}/g, " ")
+		.replace(/&amp;/g, "&")
+		.replace(/\s+/g, " ")
+		.trim();
+}
+
+function extractHeadings(source: string): PageHeading[] {
+	const headingMatches = source.matchAll(/<h([23])[^>]*>([\s\S]*?)<\/h\1>/g);
+	const slugCounts = new Map<string, number>();
+
+	return Array.from(headingMatches)
+		.map((match) => {
+			const text = extractHeadingText(match[2] ?? "");
+			if (!text) return null;
+
+			const baseId = slugifyHeading(text) || "section";
+			const count = slugCounts.get(baseId) ?? 0;
+			slugCounts.set(baseId, count + 1);
+
+			return {
+				id: count ? `${baseId}-${count + 1}` : baseId,
+				text,
+				level: Number(match[1]) as 2 | 3,
+			};
+		})
+		.filter((heading): heading is PageHeading => Boolean(heading));
+}
+
+function getHeadingsForSeries(seriesSlug: string): PageHeadingsBySlug {
+	return Object.fromEntries(
+		Object.entries(chapterSources)
+			.filter(([path]) => path.includes(`/journal/${seriesSlug}/`))
+			.map(([path, source]) => {
+				const pageSlug =
+					path
+						.split("/")
+						.pop()
+						?.replace(/\.tsx$/, "") ?? "";
+				return [pageSlug, extractHeadings(source)];
+			}),
+	);
+}
 
 interface MultiPageLayoutProps {
 	manifest: SeriesManifest;
 	seriesSlug: string;
 	pageSlug: string;
+	basePath?: string;
+	parentHref?: string;
+	parentLabel?: string;
 	children: React.ReactNode;
 }
 
@@ -18,16 +91,125 @@ export function MultiPageLayout({
 	manifest,
 	seriesSlug,
 	pageSlug,
+	basePath = `/journal/${seriesSlug}`,
+	parentHref = "/journal",
+	parentLabel = "Journal",
 	children,
 }: MultiPageLayoutProps) {
-	const [sidebarOpen, setSidebarOpen] = useState(true);
 	const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+	const [activeHeadingId, setActiveHeadingId] = useState<string | null>(null);
+	const articleRef = useRef<HTMLElement>(null);
+	const mobileActiveItemRef = useRef<HTMLAnchorElement | null>(null);
+	const scrolledHashRef = useRef<string | null>(null);
 
 	const pageIdx = manifest.pages.findIndex((p) => p.slug === pageSlug);
 	const currentPage = manifest.pages[pageIdx];
+	const chapterPages = manifest.pages.filter((page) => page.slug !== "index");
+	const currentChapterIdx = chapterPages.findIndex((p) => p.slug === pageSlug);
+	const pageProgressLabel =
+		pageSlug === "index"
+			? "Index"
+			: `Chapter ${currentChapterIdx + 1} of ${chapterPages.length}`;
 	const prevPage = pageIdx > 0 ? manifest.pages[pageIdx - 1] : null;
 	const nextPage =
 		pageIdx < manifest.pages.length - 1 ? manifest.pages[pageIdx + 1] : null;
+	const headingsByPage = useMemo(
+		() => getHeadingsForSeries(seriesSlug),
+		[seriesSlug],
+	);
+	const currentHeadings = headingsByPage[pageSlug] ?? [];
+	const activeMobileNavKey = `${pageSlug}:${activeHeadingId ?? ""}`;
+	const getPageHref = (slug: string) =>
+		slug === "index" ? basePath : `${basePath}/${slug}`;
+
+	useEffect(() => {
+		if (!mobileDrawerOpen) return;
+		void activeMobileNavKey;
+
+		requestAnimationFrame(() => {
+			mobileActiveItemRef.current?.scrollIntoView({
+				block: "center",
+				inline: "nearest",
+			});
+		});
+	}, [mobileDrawerOpen, activeMobileNavKey]);
+
+	useEffect(() => {
+		const article = articleRef.current;
+		if (!article) return;
+		scrolledHashRef.current = null;
+
+		const updateActiveHeading = () => {
+			const headingElements = Array.from(
+				article.querySelectorAll<HTMLElement>("h2, h3"),
+			);
+			const activeHeading = headingElements
+				.filter((heading) => heading.getBoundingClientRect().top <= 130)
+				.at(-1);
+
+			setActiveHeadingId(activeHeading?.id ?? null);
+		};
+
+		const applyHeadingIds = () => {
+			Array.from(article.querySelectorAll("h2, h3")).forEach(
+				(heading, index) => {
+					const id = currentHeadings[index]?.id;
+					if (!id) return;
+
+					heading.id = id;
+					(heading as HTMLElement).style.scrollMarginTop = "96px";
+				},
+			);
+			updateActiveHeading();
+
+			const hashId = decodeURIComponent(window.location.hash.slice(1));
+			if (!hashId || scrolledHashRef.current === hashId) return;
+
+			const hashTarget = document.getElementById(hashId);
+			if (!hashTarget) return;
+
+			scrolledHashRef.current = hashId;
+			requestAnimationFrame(() => {
+				hashTarget.scrollIntoView({ block: "start" });
+			});
+		};
+
+		applyHeadingIds();
+
+		let animationFrame = 0;
+		const scheduleActiveHeadingUpdate = () => {
+			cancelAnimationFrame(animationFrame);
+			animationFrame = requestAnimationFrame(updateActiveHeading);
+		};
+
+		const observer = new MutationObserver(applyHeadingIds);
+
+		observer.observe(article, { childList: true, subtree: true });
+		window.addEventListener("scroll", scheduleActiveHeadingUpdate, {
+			passive: true,
+		});
+		window.addEventListener("resize", scheduleActiveHeadingUpdate);
+
+		return () => {
+			observer.disconnect();
+			cancelAnimationFrame(animationFrame);
+			window.removeEventListener("scroll", scheduleActiveHeadingUpdate);
+			window.removeEventListener("resize", scheduleActiveHeadingUpdate);
+		};
+	}, [currentHeadings]);
+
+	const scrollToCurrentPageHeading = (
+		event: React.MouseEvent<HTMLAnchorElement>,
+		headingId: string,
+	) => {
+		event.preventDefault();
+		document.getElementById(headingId)?.scrollIntoView({
+			behavior: "smooth",
+			block: "start",
+		});
+		history.pushState(null, "", `#${headingId}`);
+		setMobileDrawerOpen(false);
+	};
 
 	return (
 		<>
@@ -35,12 +217,12 @@ export function MultiPageLayout({
 			<Section id="main-content" variant="hero" className="pt-[72px]">
 				<SectionInner className="py-10 md:py-12">
 					<div className="flex items-center justify-between">
-						<Link
-							to="/journal"
+						<a
+							href={parentHref}
 							className="inline-flex items-center gap-1.5 font-medium text-section-hero-subtext text-sm underline decoration-white/30 underline-offset-4 transition-colors hover:text-section-hero-fg hover:decoration-white"
 						>
-							← Journal
-						</Link>
+							← {parentLabel}
+						</a>
 
 						{/* Mobile: chapters button */}
 						<button
@@ -54,7 +236,7 @@ export function MultiPageLayout({
 					</div>
 
 					<p className="mt-8 font-display font-semibold text-section-hero-subtext text-xs uppercase tracking-widest">
-						Chapter {pageIdx + 1} of {manifest.pages.length}
+						{pageProgressLabel}
 					</p>
 					<h1 className="mt-2 font-display font-extrabold text-3xl leading-tight md:text-5xl">
 						{currentPage.title}
@@ -67,24 +249,33 @@ export function MultiPageLayout({
 				</SectionInner>
 			</Section>
 
-			{/* ── Body: desktop sidebar + content ───────────────────── */}
-			<div className="flex items-start">
-				{/* Desktop sidebar */}
-				<MultiPageSidebar
-					manifest={manifest}
-					seriesSlug={seriesSlug}
-					currentPage={pageSlug}
-					isOpen={sidebarOpen}
-					onToggle={() => setSidebarOpen((v) => !v)}
-					className="hidden lg:flex"
-				/>
+			{/* Desktop sidebar */}
+			<MultiPageSidebar
+				manifest={manifest}
+				seriesSlug={seriesSlug}
+				currentPage={pageSlug}
+				basePath={basePath}
+				activeHeadingId={activeHeadingId}
+				headingsByPage={headingsByPage}
+				className="hidden lg:flex"
+			/>
 
-				{/* Main content column */}
-				<div className="min-w-0 flex-1">
-					<div className="px-6 py-16 md:px-12 xl:px-16">
+			<button
+				type="button"
+				onClick={() => setMobileDrawerOpen(true)}
+				aria-label="Open chapters"
+				className="fixed right-4 bottom-4 z-30 flex items-center gap-1.5 rounded-full border border-border bg-background/85 px-3 py-2 font-medium text-foreground text-sm shadow-foreground/10 shadow-lg backdrop-blur-md transition-colors hover:bg-background lg:hidden"
+			>
+				<AlignLeft size={13} strokeWidth={2.5} />
+				Chapters
+			</button>
+
+			<Section variant="plain">
+				<SectionInner className="py-16">
+					<div className="mx-auto max-w-2xl">
 						<article
+							ref={articleRef}
 							className={cn(
-								"mx-auto max-w-2xl",
 								"prose prose-lg prose-neutral dark:prose-invert max-w-none",
 								"prose-headings:font-bold prose-headings:font-display prose-headings:tracking-tight",
 								"prose-h2:mt-12 prose-h3:mt-8 prose-h2:text-2xl prose-h3:text-xl",
@@ -100,16 +291,13 @@ export function MultiPageLayout({
 						>
 							{children}
 						</article>
-					</div>
 
-					{/* Prev / Next navigation */}
-					<div className="px-6 pb-16 md:px-12 xl:px-16">
-						<div className="mx-auto max-w-2xl border-border border-t pt-8">
+						{/* Prev / Next navigation */}
+						<div className="mt-16 border-border border-t pt-8">
 							<div className="flex items-start justify-between gap-4">
 								{prevPage ? (
-									<Link
-										to="/journal/$slug/$page"
-										params={{ slug: seriesSlug, page: prevPage.slug }}
+									<a
+										href={getPageHref(prevPage.slug)}
 										className="group flex flex-col gap-1 rounded-xl border border-border p-4 transition-colors hover:bg-muted md:w-52"
 									>
 										<span className="font-medium text-muted-foreground text-xs">
@@ -118,14 +306,13 @@ export function MultiPageLayout({
 										<span className="font-display font-semibold text-foreground text-sm group-hover:underline">
 											{prevPage.shortTitle ?? prevPage.title}
 										</span>
-									</Link>
+									</a>
 								) : (
 									<span />
 								)}
 								{nextPage ? (
-									<Link
-										to="/journal/$slug/$page"
-										params={{ slug: seriesSlug, page: nextPage.slug }}
+									<a
+										href={getPageHref(nextPage.slug)}
 										className="group ml-auto flex flex-col gap-1 rounded-xl border border-border p-4 text-right transition-colors hover:bg-muted md:w-52"
 									>
 										<span className="font-medium text-muted-foreground text-xs">
@@ -134,15 +321,15 @@ export function MultiPageLayout({
 										<span className="font-display font-semibold text-foreground text-sm group-hover:underline">
 											{nextPage.shortTitle ?? nextPage.title}
 										</span>
-									</Link>
+									</a>
 								) : (
 									<span />
 								)}
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
+				</SectionInner>
+			</Section>
 
 			{/* ── Mobile drawer ──────────────────────────────────────── */}
 			<AnimatePresence>
@@ -205,6 +392,11 @@ export function MultiPageLayout({
 									{manifest.pages.map((page, index) => {
 										const isActive = page.slug === pageSlug;
 										const isPast = index < pageIdx;
+										const pageHeadings = headingsByPage[page.slug] ?? [];
+										const activeChapterRef = isActive && !activeHeadingId;
+										const chapterIndex = chapterPages.findIndex(
+											(chapterPage) => chapterPage.slug === page.slug,
+										);
 
 										return (
 											<li key={page.slug} className="relative">
@@ -219,9 +411,11 @@ export function MultiPageLayout({
 																: "bg-border",
 													)}
 												/>
-												<Link
-													to="/journal/$slug/$page"
-													params={{ slug: seriesSlug, page: page.slug }}
+												<a
+													ref={
+														activeChapterRef ? mobileActiveItemRef : undefined
+													}
+													href={getPageHref(page.slug)}
 													onClick={() => setMobileDrawerOpen(false)}
 													className={cn(
 														"block rounded-md py-2 pr-2 pl-8 text-sm leading-snug transition-colors",
@@ -230,11 +424,54 @@ export function MultiPageLayout({
 															: "text-muted-foreground hover:text-foreground",
 													)}
 												>
-													<span className="mr-1.5 text-muted-foreground/60 text-xs tabular-nums">
-														{index + 1}.
-													</span>
+													{page.slug !== "index" && (
+														<span className="mr-1.5 text-muted-foreground/60 text-xs tabular-nums">
+															{chapterIndex + 1}.
+														</span>
+													)}
 													{page.shortTitle ?? page.title}
-												</Link>
+												</a>
+												{pageHeadings.length > 0 && (
+													<ol className="flex flex-col gap-0.5 pb-2 pl-8">
+														{pageHeadings.map((heading) => {
+															const isActiveHeading =
+																page.slug === pageSlug &&
+																heading.id === activeHeadingId;
+
+															return (
+																<li key={heading.id}>
+																	<a
+																		ref={
+																			isActiveHeading
+																				? mobileActiveItemRef
+																				: undefined
+																		}
+																		href={`${getPageHref(page.slug)}#${heading.id}`}
+																		onClick={(event) => {
+																			if (page.slug === pageSlug) {
+																				scrollToCurrentPageHeading(
+																					event,
+																					heading.id,
+																				);
+																				return;
+																			}
+
+																			setMobileDrawerOpen(false);
+																		}}
+																		className={cn(
+																			"block rounded-md py-1 pr-2 text-muted-foreground text-xs leading-snug transition-colors hover:text-foreground",
+																			isActiveHeading &&
+																				"font-medium text-foreground",
+																			heading.level === 3 && "pl-3",
+																		)}
+																	>
+																		{heading.text}
+																	</a>
+																</li>
+															);
+														})}
+													</ol>
+												)}
 											</li>
 										);
 									})}

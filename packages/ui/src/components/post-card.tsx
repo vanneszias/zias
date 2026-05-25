@@ -22,6 +22,16 @@ const CATEGORY_VARIANTS = {
 	misc: "green",
 } as const satisfies Record<string, PostCardVariant>;
 
+const EXCERPT_MAX_LENGTH = 120;
+
+function truncateExcerpt(excerpt: string) {
+	if (excerpt.length <= EXCERPT_MAX_LENGTH) {
+		return excerpt;
+	}
+
+	return `${excerpt.slice(0, EXCERPT_MAX_LENGTH).trimEnd()}...`;
+}
+
 interface PostCardProps {
 	post: PostMeta;
 	/** Called when the card is clicked */
@@ -35,7 +45,8 @@ export function PostCard({ post, onClick, className, variant }: PostCardProps) {
 	const [isHovered, setIsHovered] = useState(false);
 	const colorVariant =
 		variant ?? CATEGORY_VARIANTS[CATEGORY_COLOR_TOKEN[post.category]];
-	const ariaLabel = `${post.title} — ${post.category}, ${post.readTime} minute read${post.publishedAt ? `, ${formatPostDate(new Date(post.publishedAt))}` : ""}`;
+	const excerpt = truncateExcerpt(post.excerpt);
+	const ariaLabel = `${post.title} — ${post.excerpt}, ${post.category}, ${post.readTime} minute read${post.publishedAt ? `, ${formatPostDate(new Date(post.publishedAt))}` : ""}`;
 
 	return (
 		<button
@@ -58,10 +69,16 @@ export function PostCard({ post, onClick, className, variant }: PostCardProps) {
 				<CategoryBadge category={post.category} />
 			</div>
 
-			{/* Title */}
-			<h3 className="mt-6 font-bold font-display text-xl leading-snug md:text-2xl">
-				{post.title}
-			</h3>
+			<div className="mt-6 space-y-3">
+				{/* Title */}
+				<h3 className="font-bold font-display text-xl leading-snug md:text-2xl">
+					{post.title}
+				</h3>
+
+				<p className="text-sm leading-relaxed opacity-80 md:text-base">
+					{excerpt}
+				</p>
+			</div>
 
 			{/* Bottom row: meta + arrow */}
 			<div className="mt-6 flex items-end justify-between">

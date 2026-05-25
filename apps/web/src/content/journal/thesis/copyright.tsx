@@ -425,7 +425,6 @@ python evaluate_license.py --generated_dir outputs/codellama`}</code>
 				unavailable for proprietary black-box models, making the risk trade-off
 				more nuanced than the indemnification gap suggests.
 			</p>
-			<hr />
 		</>
 	);
 }

@@ -1,4 +1,4 @@
-export default function IntroductionChapter() {
+export default function IntroChapter() {
 	return (
 		<>
 			<h2>Context</h2>
@@ -129,8 +129,6 @@ export default function IntroductionChapter() {
 				manifest grounded in the benchmark findings and failure cases documented
 				in the preceding chapters.
 			</p>
-
-			<hr />
 		</>
 	);
 }

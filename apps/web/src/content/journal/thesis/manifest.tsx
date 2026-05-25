@@ -239,8 +239,6 @@ export default function ManifestChapter() {
 					Use AI only when necessary. When you do, own the consequences.
 				</strong>
 			</blockquote>
-
-			<hr />
 		</>
 	);
 }

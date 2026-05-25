@@ -678,8 +678,6 @@ helm-server # local web UI at localhost:8000`}</code>
 					trend is toward further divergence.
 				</li>
 			</ol>
-
-			<hr />
 		</>
 	);
 }

@@ -352,8 +352,6 @@ export default function RecommendationsChapter() {
 				are already enforceable and where gap assessments should be conducted
 				immediately.
 			</p>
-
-			<hr />
 		</>
 	);
 }
