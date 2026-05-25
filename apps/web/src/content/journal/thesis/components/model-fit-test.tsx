@@ -36,9 +36,14 @@ function normalizeWeights(answers: Answers) {
 
 export function ModelFitTest() {
 	const [answers, setAnswers] = useState<Answers>({});
+	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
 	const answeredCount = Object.keys(answers).length;
 	const complete = answeredCount === modelFitQuestions.length;
+	const currentQuestion = modelFitQuestions[currentQuestionIndex];
+	const currentAnswer = currentQuestion
+		? answers[currentQuestion.id]
+		: undefined;
 	const weightedResults = useMemo(() => {
 		const weights = normalizeWeights(answers);
 
@@ -80,33 +85,37 @@ export function ModelFitTest() {
 			</div>
 
 			<div className="grid gap-0 lg:grid-cols-[1fr_340px]">
-				<div className="divide-y divide-border">
-					{modelFitQuestions.map((question, questionIndex) => (
-						<div key={question.id} className="p-5">
+				<div className="p-5">
+					{currentQuestion ? (
+						<>
 							<p className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
-								Question {questionIndex + 1}
+								Question {currentQuestionIndex + 1} of{" "}
+								{modelFitQuestions.length}
 							</p>
 							<p className="mt-1 font-display font-semibold text-foreground text-lg">
-								{question.question}
+								{currentQuestion.question}
 							</p>
 							<p className="mt-1 text-muted-foreground text-sm leading-relaxed">
-								{question.helper}
+								{currentQuestion.helper}
 							</p>
 
 							<div className="mt-4 grid gap-2">
-								{question.answers.map((answer, answerIndex) => {
-									const selected = answers[question.id] === answerIndex;
+								{currentQuestion.answers.map((answer, answerIndex) => {
+									const selected = currentAnswer === answerIndex;
 
 									return (
 										<button
 											key={answer.label}
 											type="button"
-											onClick={() =>
+											onClick={() => {
 												setAnswers((current) => ({
 													...current,
-													[question.id]: answerIndex,
-												}))
-											}
+													[currentQuestion.id]: answerIndex,
+												}));
+												setCurrentQuestionIndex((current) =>
+													Math.min(current + 1, modelFitQuestions.length - 1),
+												);
+											}}
 											className={cn(
 												"rounded-2xl border p-3 text-left transition-colors",
 												selected
@@ -131,8 +140,38 @@ export function ModelFitTest() {
 									);
 								})}
 							</div>
-						</div>
-					))}
+
+							<div className="mt-5 flex items-center justify-between gap-3">
+								<button
+									type="button"
+									onClick={() =>
+										setCurrentQuestionIndex((current) =>
+											Math.max(current - 1, 0),
+										)
+									}
+									disabled={currentQuestionIndex === 0}
+									className="rounded-full border border-border px-4 py-2 font-medium text-sm transition-colors hover:border-foreground/40 disabled:pointer-events-none disabled:opacity-40"
+								>
+									Back
+								</button>
+								<button
+									type="button"
+									onClick={() =>
+										setCurrentQuestionIndex((current) =>
+											Math.min(current + 1, modelFitQuestions.length - 1),
+										)
+									}
+									disabled={
+										currentAnswer === undefined ||
+										currentQuestionIndex === modelFitQuestions.length - 1
+									}
+									className="rounded-full bg-foreground px-4 py-2 font-medium text-background text-sm transition-opacity disabled:pointer-events-none disabled:opacity-40"
+								>
+									Next
+								</button>
+							</div>
+						</>
+					) : null}
 				</div>
 
 				<aside className="border-border border-t bg-background p-5 lg:border-t-0 lg:border-l">
