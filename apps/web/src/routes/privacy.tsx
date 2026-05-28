@@ -82,9 +82,10 @@ function PrivacyPage() {
 									What data I collect
 								</h2>
 								<p className="text-sm leading-relaxed">
-									This site does not use analytics, tracking pixels, or
-									third-party cookies. No personal data is collected passively
-									from visitors.
+									This site uses OpenPanel analytics to understand page views,
+									outgoing links, and interactions with tracked elements. This
+									tracking happens in your browser and does not use the
+									OpenPanel server-side client secret.
 								</p>
 								<p className="text-sm leading-relaxed">
 									If you use the contact form, I store your name, email address,

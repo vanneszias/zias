@@ -89,15 +89,6 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 					inLanguage: "en-US",
 				}),
 			},
-			{
-				src: "https://analytics.zias.be/js/script.file-downloads.hash.outbound-links.pageview-props.revenue.tagged-events.js",
-				defer: true,
-				"data-domain": "zias.be",
-			},
-			{
-				children:
-					"window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }",
-			},
 		],
 	}),
 });
