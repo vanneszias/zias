@@ -1,28 +1,28 @@
 /** Minimal RSS 2.0 builder — no runtime dependencies. */
 
 export interface FeedPost {
-	slug: string;
-	title: string;
-	excerpt: string;
-	category: string;
-	publishedAt: Date;
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  publishedAt: Date;
 }
 
 export interface FeedOptions {
-	/** Canonical base URL of the site, no trailing slash. E.g. "https://zias.be" */
-	baseUrl: string;
-	title?: string;
-	description?: string;
-	language?: string;
+  /** Canonical base URL of the site, no trailing slash. E.g. "https://zias.be" */
+  baseUrl: string;
+  title?: string;
+  description?: string;
+  language?: string;
 }
 
 function escapeXml(str: string): string {
-	return str
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&apos;");
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 }
 
 /**
@@ -30,21 +30,21 @@ function escapeXml(str: string): string {
  * Returns the full XML string ready to be served with `Content-Type: application/rss+xml`.
  */
 export function buildRssFeed(posts: FeedPost[], opts: FeedOptions): string {
-	const {
-		baseUrl,
-		title = "zias.be",
-		description = "Writing, case studies, and notes from the work.",
-		language = "en",
-	} = opts;
+  const {
+    baseUrl,
+    title = "zias.be",
+    description = "Writing, case studies, and notes from the work.",
+    language = "en",
+  } = opts;
 
-	const feedUrl = `${baseUrl}/rss.xml`;
-	const now = new Date().toUTCString();
+  const feedUrl = `${baseUrl}/rss.xml`;
+  const now = new Date().toUTCString();
 
-	const items = posts
-		.map((post) => {
-			const url = `${baseUrl}/journal/${post.slug}`;
-			const pubDate = post.publishedAt.toUTCString();
-			return `
+  const items = posts
+    .map((post) => {
+      const url = `${baseUrl}/journal/${post.slug}`;
+      const pubDate = post.publishedAt.toUTCString();
+      return `
 		<item>
 			<title>${escapeXml(post.title)}</title>
 			<link>${url}</link>
@@ -53,10 +53,10 @@ export function buildRssFeed(posts: FeedPost[], opts: FeedOptions): string {
 			<category>${escapeXml(post.category)}</category>
 			<description>${escapeXml(post.excerpt)}</description>
 		</item>`.trimStart();
-		})
-		.join("\n\t\t");
+    })
+    .join("\n\t\t");
 
-	return `<?xml version="1.0" encoding="UTF-8"?>
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>${escapeXml(title)}</title>

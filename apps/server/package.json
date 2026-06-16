@@ -1,39 +1,39 @@
 {
-	"name": "server",
-	"type": "module",
-	"main": "src/index.ts",
-	"scripts": {
-		"build": "tsdown",
-		"check-types": "tsc -b",
-		"compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
-		"og:preview": "bun run ./src/og-preview.ts"
-	},
-	"dependencies": {
-		"@hono/trpc-server": "^0.4.0",
-		"@resvg/resvg-wasm": "^2.6.2",
-		"@zias/api": "workspace:*",
-		"@zias/feed": "workspace:*",
-		"@zias/auth": "workspace:*",
-		"@zias/db": "workspace:*",
-		"@zias/env": "workspace:*",
-		"@trpc/server": "catalog:",
-		"better-auth": "catalog:",
-		"dotenv": "catalog:",
-		"evlog": "^2.14.1",
-		"hono": "catalog:",
-		"react": "catalog:",
-		"satori": "^0.12.0",
-		"zod": "catalog:"
-	},
-	"devDependencies": {
-		"@cloudflare/workers-types": "catalog:",
-		"@types/node": "catalog:",
-		"@types/react": "catalog:",
-		"@zias/config": "workspace:*",
-		"alchemy": "catalog:",
-		"drizzle-orm": "^0.45.1",
-		"tsdown": "^0.21.9",
-		"typescript": "catalog:",
-		"wrangler": "^4.77.0"
-	}
+  "name": "server",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsdown",
+    "check-types": "tsc -b",
+    "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
+    "og:preview": "bun run ./src/og-preview.ts"
+  },
+  "dependencies": {
+    "@hono/trpc-server": "^0.4.0",
+    "@resvg/resvg-wasm": "^2.6.2",
+    "@zias/api": "workspace:*",
+    "@zias/feed": "workspace:*",
+    "@zias/auth": "workspace:*",
+    "@zias/db": "workspace:*",
+    "@zias/env": "workspace:*",
+    "@trpc/server": "catalog:",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "evlog": "^2.14.1",
+    "hono": "catalog:",
+    "react": "catalog:",
+    "satori": "^0.12.0",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@zias/config": "workspace:*",
+    "alchemy": "catalog:",
+    "drizzle-orm": "^0.45.1",
+    "tsdown": "^0.21.9",
+    "typescript": "catalog:",
+    "wrangler": "^4.77.0"
+  }
 }

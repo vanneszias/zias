@@ -6,26 +6,26 @@ import { manifest } from "@/content/journal/thesis/_manifest";
 import ThesisIndexPage from "@/content/journal/thesis/index";
 
 export const Route = createFileRoute("/thesis/")({
-	component: ThesisPage,
+  component: ThesisPage,
 });
 
 function ThesisPage() {
-	return (
-		<>
-			<Nav />
-			<main>
-				<MultiPageLayout
-					manifest={manifest}
-					seriesSlug="thesis"
-					pageSlug="index"
-					basePath="/thesis"
-					parentHref="/journal"
-					parentLabel="Journal"
-				>
-					<ThesisIndexPage />
-				</MultiPageLayout>
-			</main>
-			<Footer />
-		</>
-	);
+  return (
+    <>
+      <Nav />
+      <main>
+        <MultiPageLayout
+          manifest={manifest}
+          seriesSlug="thesis"
+          pageSlug="index"
+          basePath="/thesis"
+          parentHref="/journal"
+          parentLabel="Journal"
+        >
+          <ThesisIndexPage />
+        </MultiPageLayout>
+      </main>
+      <Footer />
+    </>
+  );
 }
