@@ -148,7 +148,7 @@ export function Footer() {
 						{/* Also on */}
 						<FooterCol title="Also on">
 							<FooterLink
-								href="https://git.zias.be/zias/zias"
+								href="https://sr.ht/~zias/"
 								external
 								icon={
 									<svg
