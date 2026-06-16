@@ -9,14 +9,14 @@ import {
 } from "@zias/ui/components/card";
 import { AdminPill, AdminShell } from "@/components/admin-shell";
 import { authClient } from "@/lib/auth-client";
-import { ogBaseUrl } from "@/lib/urls";
+import { journalOgUrl, staticOgUrl } from "@/lib/og";
 import { trpc } from "@/utils/trpc";
 
-const STATIC_PAGES: { label: string; path: string }[] = [
-	{ label: "Home", path: "/" },
-	{ label: "Journal", path: "/journal" },
-	{ label: "Privacy", path: "/privacy" },
-	{ label: "Imprint", path: "/imprint" },
+const STATIC_PAGES: { label: string; path: string; ogPath: string }[] = [
+	{ label: "Home", path: "/", ogPath: "/site" },
+	{ label: "Journal", path: "/journal", ogPath: "/journal" },
+	{ label: "Privacy", path: "/privacy", ogPath: "/privacy" },
+	{ label: "Imprint", path: "/imprint", ogPath: "/imprint" },
 ];
 
 export const Route = createFileRoute("/admin/seo")({
@@ -88,7 +88,7 @@ function AdminSeoPreview() {
 								key={page.path}
 								label={page.label}
 								path={page.path}
-								ogUrl={`${ogBaseUrl}/site`}
+								ogUrl={staticOgUrl(page.ogPath)}
 								type="page"
 							/>
 						))}
@@ -110,7 +110,7 @@ function AdminSeoPreview() {
 										key={post.id}
 										label={post.title}
 										path={`/journal/${post.slug}`}
-										ogUrl={`${ogBaseUrl}/journal/${post.slug}`}
+										ogUrl={journalOgUrl(post.slug, post.updatedAt)}
 										type="post"
 									/>
 								))}

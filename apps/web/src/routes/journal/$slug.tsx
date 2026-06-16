@@ -15,7 +15,7 @@ import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { TiptapRenderer } from "@/components/tiptap-renderer";
 import type { SeriesManifest } from "@/lib/multi-page-manifest";
-import { ogBaseUrl } from "@/lib/urls";
+import { journalOgUrl } from "@/lib/og";
 import { trpc } from "@/utils/trpc";
 
 const SITE_URL = "https://zias.be";
@@ -59,7 +59,7 @@ export const Route = createFileRoute("/journal/$slug")({
 		const title = `${post.title} — Zias`;
 		const description = post.excerpt || "An article by Zias";
 		const url = `${SITE_URL}/journal/${post.slug}`;
-		const ogImage = `${ogBaseUrl}/journal/${post.slug}`;
+		const ogImage = journalOgUrl(post.slug, post.updatedAt);
 
 		return {
 			meta: [

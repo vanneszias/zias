@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, SectionInner } from "@zias/ui/components/section";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
-import { ogBaseUrl } from "@/lib/urls";
+import { staticOgUrl } from "@/lib/og";
 
 const SITE_URL = "https://zias.be";
 
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/privacy")({
 				content: "Privacy policy for zias.be and contact form data handling.",
 			},
 			{ property: "og:url", content: `${SITE_URL}/privacy` },
-			{ property: "og:image", content: `${ogBaseUrl}/privacy` },
+			{ property: "og:image", content: staticOgUrl("/privacy") },
 			{ property: "og:image:width", content: "1200" },
 			{ property: "og:image:height", content: "630" },
 			{ property: "og:image:alt", content: "Privacy Policy — Zias" },
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/privacy")({
 				name: "twitter:description",
 				content: "Privacy policy for zias.be and contact form data handling.",
 			},
-			{ name: "twitter:image", content: `${ogBaseUrl}/privacy` },
+			{ name: "twitter:image", content: staticOgUrl("/privacy") },
 			{ name: "twitter:image:alt", content: "Privacy Policy — Zias" },
 		],
 		links: [{ rel: "canonical", href: `${SITE_URL}/privacy` }],

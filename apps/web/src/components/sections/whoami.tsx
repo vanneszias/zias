@@ -14,10 +14,10 @@ export function WhoAmISection() {
 		<Section
 			id="whoami"
 			variant="pink"
-			className="min-h-svh"
+			className="min-h-svh lg:min-h-[min(100svh,760px)]"
 			aria-labelledby="whoami-heading"
 		>
-			<SectionInner className="flex min-h-svh flex-col justify-center py-24 sm:py-32">
+			<SectionInner className="flex min-h-svh flex-col justify-center py-24 sm:py-32 lg:min-h-[min(100svh,760px)]">
 				<div className="flex flex-col gap-16 lg:flex-row lg:items-start lg:gap-0">
 					{/* Main copy */}
 					<div className="lg:w-3/5">

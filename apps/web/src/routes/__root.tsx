@@ -8,7 +8,8 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
-import { ogBaseUrl, serverBaseUrl } from "@/lib/urls";
+import { staticOgUrl } from "@/lib/og";
+import { serverBaseUrl } from "@/lib/urls";
 import type { trpc } from "@/utils/trpc";
 
 import "../index.css";
@@ -40,7 +41,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 			{ property: "og:url", content: SITE_URL },
 			{
 				property: "og:image",
-				content: `${ogBaseUrl}/site`,
+				content: staticOgUrl("/site"),
 			},
 			{ property: "og:image:width", content: "1200" },
 			{ property: "og:image:height", content: "630" },
@@ -51,7 +52,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 			{ name: "twitter:description", content: SITE_DESCRIPTION },
 			{
 				name: "twitter:image",
-				content: `${ogBaseUrl}/site`,
+				content: staticOgUrl("/site"),
 			},
 			{ name: "twitter:image:alt", content: SITE_TITLE },
 		],

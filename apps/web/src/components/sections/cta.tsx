@@ -86,10 +86,10 @@ export function CTASection() {
 		<Section
 			id="contact"
 			variant="orange"
-			className="min-h-svh"
+			className="min-h-svh lg:min-h-[min(100svh,760px)]"
 			aria-labelledby="contact-heading"
 		>
-			<SectionInner className="flex min-h-svh flex-col justify-center py-24 sm:py-32">
+			<SectionInner className="flex min-h-svh flex-col justify-center py-24 sm:py-32 lg:min-h-[min(100svh,760px)]">
 				<div className="flex flex-col gap-16 lg:flex-row lg:gap-24">
 					{/* Left — headline */}
 					<div className="lg:w-1/2">

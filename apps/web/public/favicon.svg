@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-labelledby="favicon-title">
+  <title id="favicon-title">Zias favicon</title>
   <style>
     rect { fill: #ffffff }
     path { fill: #000000 }

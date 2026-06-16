@@ -26,7 +26,8 @@ import {
 	AdminShell,
 } from "@/components/admin-shell";
 import { authClient } from "@/lib/auth-client";
-import { ogBaseUrl, serverBaseUrl } from "@/lib/urls";
+import { staticOgUrl } from "@/lib/og";
+import { serverBaseUrl } from "@/lib/urls";
 import { trpc } from "@/utils/trpc";
 
 export const Route = createFileRoute("/admin/")({
@@ -268,7 +269,7 @@ function SeoPublishPreview() {
 			{ label: "Robots", url: "/robots.txt" },
 			{ label: "Sitemap", url: "/sitemap.xml" },
 			{ label: "RSS", url: "/rss.xml" },
-			{ label: "OG site", url: `${ogBaseUrl}/site` },
+			{ label: "OG site", url: staticOgUrl("/site") },
 			{ label: "Server sitemap", url: `${serverBaseUrl}/sitemap.xml` },
 			{ label: "Server robots", url: `${serverBaseUrl}/robots.txt` },
 		],

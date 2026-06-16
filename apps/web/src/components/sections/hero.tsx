@@ -9,7 +9,7 @@ export function HeroSection() {
 	return (
 		<Section
 			variant="hero"
-			className="min-h-svh overflow-hidden pt-[72px]"
+			className="min-h-svh overflow-hidden pt-[72px] lg:min-h-[min(100svh,820px)]"
 			aria-label="Hero"
 		>
 			{/* Gradient blobs — decorative, hidden from assistive tech */}
@@ -59,7 +59,7 @@ export function HeroSection() {
 			</div>
 
 			{/* Content */}
-			<SectionInner className="relative flex min-h-[calc(100svh-72px)] flex-col justify-center py-16 sm:py-24">
+			<SectionInner className="relative flex min-h-[calc(100svh-72px)] flex-col justify-center py-16 sm:py-24 lg:min-h-[min(calc(100svh-72px),748px)]">
 				<motion.h1
 					className="font-display font-extrabold text-mega text-section-hero-fg leading-[0.95] tracking-tight"
 					initial={{ opacity: 0, y: 40 }}

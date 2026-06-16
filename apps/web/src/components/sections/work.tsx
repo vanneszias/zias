@@ -25,10 +25,10 @@ export function WorkSection() {
 		<Section
 			id="work"
 			variant="blue"
-			className="min-h-svh"
+			className="min-h-svh lg:min-h-[min(100svh,760px)]"
 			aria-labelledby="work-heading"
 		>
-			<SectionInner className="flex min-h-svh flex-col justify-center py-24 sm:py-32">
+			<SectionInner className="flex min-h-svh flex-col justify-center py-24 sm:py-32 lg:min-h-[min(100svh,760px)]">
 				{/* Head */}
 				<div className="mb-14 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
 					<div>

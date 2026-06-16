@@ -50,6 +50,7 @@ export const web = await Vite("web", {
 	delete: false,
 	cwd: "../../apps/web",
 	assets: "dist",
+	spa: true,
 	bindings: {
 		VITE_SERVER_URL: alchemy.env.VITE_SERVER_URL!,
 		VITE_OG_URL: alchemy.env.VITE_OG_URL ?? alchemy.env.VITE_SERVER_URL!,

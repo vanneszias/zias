@@ -40,12 +40,20 @@ app.use(
 );
 
 const CACHE_CONTROL = "public, max-age=86400, s-maxage=604800";
-const STATIC_VERSION = "v2";
+const STATIC_VERSION = "v3";
 
 function cacheHeaders() {
 	return {
 		"Content-Type": "image/png",
 		"Cache-Control": CACHE_CONTROL,
+	} as const;
+}
+
+function fallbackHeaders() {
+	return {
+		"Content-Type": "image/svg+xml; charset=utf-8",
+		"Cache-Control": "public, max-age=300, s-maxage=300",
+		"X-OG-Fallback": "1",
 	} as const;
 }
 
@@ -165,12 +173,14 @@ async function serveStaticImage(
 		const res = new Response(png, { headers: cacheHeaders() });
 		c.executionCtx.waitUntil(cache.put(cacheKey, res.clone()));
 		return res;
-	} catch {
+	} catch (error) {
+		console.error("Failed to generate static OG image", {
+			keyPrefix: input.keyPrefix,
+			version,
+			error,
+		});
 		return new Response(staticFallbackSvg(input.fallback), {
-			headers: {
-				"Content-Type": "image/svg+xml; charset=utf-8",
-				"Cache-Control": "public, max-age=3600, s-maxage=86400",
-			},
+			headers: fallbackHeaders(),
 		});
 	}
 }
@@ -282,12 +292,14 @@ app.get("/journal/:slug", async (c) => {
 		const res = new Response(png, { headers: cacheHeaders() });
 		c.executionCtx.waitUntil(cache.put(cacheKey, res.clone()));
 		return res;
-	} catch {
+	} catch (error) {
+		console.error("Failed to generate journal OG image", {
+			slug,
+			version,
+			error,
+		});
 		return new Response(journalFallbackSvg(post), {
-			headers: {
-				"Content-Type": "image/svg+xml; charset=utf-8",
-				"Cache-Control": "public, max-age=3600, s-maxage=86400",
-			},
+			headers: fallbackHeaders(),
 		});
 	}
 });

@@ -1,4 +1,5 @@
 import { initWasm, Resvg } from "@resvg/resvg-wasm";
+import resvgWasm from "@resvg/resvg-wasm/index_bg.wasm";
 import { createElement, type ReactElement } from "react";
 import satori from "satori";
 
@@ -65,10 +66,7 @@ type StaticPageKind = "site" | "journal" | "privacy" | "imprint";
 
 async function ensureWasm() {
 	if (wasmReady) return;
-	const res = await fetch(
-		"https://cdn.jsdelivr.net/npm/@resvg/resvg-wasm@2.6.2/index_bg.wasm",
-	);
-	await initWasm(res);
+	await initWasm(resvgWasm);
 	wasmReady = true;
 }
 
