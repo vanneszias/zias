@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import type { LoudTone } from "../lib/astro";
+import Arrow from "./Arrow.astro";
+
+interface Props extends HTMLAttributes<"button"> {
+  /** Renders a link instead of a button. */
+  href?: string;
+  /** Default: solid. */
+  variant?: "outline";
+  /** Default: regular. */
+  size?: "l";
+  /** Fill with a loud colour. */
+  tone?: LoudTone;
+  /** Adds the arrow. */
+  arrow?: boolean;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
+}
+const { href, variant, size, tone, arrow, type = "button", class: className, ...rest } = Astro.props;
+const El = href ? "a" : "button";
+const attrs = href ? { href } : { type };
+---
+
+<El {...rest} {...attrs} class:list={["z-button", className]} data-variant={variant} data-size={size} data-tone={tone}><slot />{arrow && <Arrow />}</El>

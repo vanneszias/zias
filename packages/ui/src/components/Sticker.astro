@@ -1,0 +1,22 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { mergeStyle, type LoudTone } from "../lib/astro";
+
+interface Props extends HTMLAttributes<"span"> {
+  /** Default "butter". */
+  tone?: LoudTone | "ink";
+  /** Default: pill. */
+  shape?: "circle";
+  /** Degrees. Default -8. */
+  rotate?: number;
+}
+const { tone, shape, rotate, class: className, style, ...rest } = Astro.props;
+---
+
+<span
+  {...rest}
+  class:list={["z-sticker", className]}
+  data-tone={tone}
+  data-shape={shape}
+  style={mergeStyle(style, { rotate: rotate === undefined ? undefined : `${rotate}deg` })}
+><slot /></span>

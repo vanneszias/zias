@@ -1,0 +1,31 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { flag, ink, mergeStyle, type WordSize } from "../lib/astro";
+
+interface Props extends HTMLAttributes<"span"> {
+  /** Element to render. Default "span"; pass "h1" or "h2" for headings. */
+  as?: keyof HTMLElementTagNameMap;
+  /** Default "huge". */
+  size?: WordSize;
+  /** Token name or CSS colour. Default: the block's text colour. */
+  color?: string;
+  /** Expanded capitals, for names and wordmarks. */
+  wide?: boolean;
+  /** Stroke only. */
+  outline?: boolean;
+  /** Read bottom to top. */
+  vertical?: boolean;
+}
+const { as: Tag = "span", size = "huge", color, wide, outline, vertical, class: className, style, ...rest } = Astro.props;
+const colour = ink(color);
+---
+
+<Tag
+  {...rest}
+  class:list={["z-word", className]}
+  data-size={size}
+  data-wide={flag(wide)}
+  data-outline={flag(outline)}
+  data-vertical={flag(vertical)}
+  style={mergeStyle(style, { color: colour, "--stroke": colour })}
+><slot /></Tag>
