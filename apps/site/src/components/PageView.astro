@@ -1,5 +1,7 @@
 ---
+import { INTRO, type IntroValue } from "@zias/blocks";
 import PageBlocks from "@zias/blocks/PageBlocks.astro";
+import Status from "@zias/ui/components/Status.astro";
 import Base from "../layouts/Base.astro";
 import type { loadPage } from "../lib/pages";
 
@@ -8,6 +10,11 @@ interface Props {
 }
 
 const { page, seo } = Astro.props.loaded;
+// The intro's status sits in the header, across from the name.
+const blocks: { _type: string }[] = page.data.content ?? [];
+const intro = blocks.find(
+  (block): block is IntroValue => block._type === INTRO,
+);
 ---
 
 <Base
@@ -18,5 +25,6 @@ const { page, seo } = Astro.props.loaded;
   robots={seo.robots}
   content={{ collection: "pages", id: page.data.id, slug: page.id }}
 >
+  {intro?.status && <Status slot="aside">{intro.status}</Status>}
   <PageBlocks value={page.data.content} />
 </Base>

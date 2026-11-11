@@ -1,11 +1,4 @@
 {
-  "extends": "@zias/config/tsconfig.base.json",
-  "compilerOptions": {
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "jsx": "react-jsx",
-    "types": [],
-    "noEmit": true,
-    "paths": { "@/*": ["./src/*"] }
-  },
+  "extends": "astro/tsconfigs/strict",
   "include": ["src"]
 }

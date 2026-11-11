@@ -15,7 +15,7 @@
     {
       "binding": "DB",
       "database_name": "zias-site",
-      "database_id": "02e7e752-3efd-4d83-843e-4de86ed267da",
+      "database_id": "67557cd0-1c4b-4896-af27-2344d73c1b01",
     },
   ],
   "previews": {
@@ -25,7 +25,7 @@
       {
         "binding": "DB",
         "database_name": "zias-site-preview",
-        "database_id": "11ccd74c-8d64-43c8-b582-6fb2df7e2e94",
+        "database_id": "7ff001f0-b1f9-45f5-911c-7f542212703e",
       },
     ],
   },

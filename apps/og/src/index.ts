@@ -3,7 +3,7 @@ import { findPublishedPost } from "./posts";
 
 type Env = { OG_IMAGES: R2Bucket; DB: D1Database };
 
-const STATIC_VERSION = "v4";
+const STATIC_VERSION = "v5";
 const CACHE_CONTROL = "public, max-age=86400, s-maxage=604800";
 const pngHeaders = {
   "Content-Type": "image/png",

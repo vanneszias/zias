@@ -6,9 +6,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./PageBlocks.astro": "./src/PageBlocks.astro",
-    "./PostGrid.astro": "./src/lib/PostGrid.astro",
-    "./journal": "./src/lib/journal.ts",
-    "./forms-plugin": "./src/blocks/contact/plugin.ts"
+    "./journal": "./src/lib/journal.ts"
   },
   "scripts": {
     "check-types": "astro check"
@@ -18,14 +16,12 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
-    "@emdash-cms/plugin-forms": "^0.2.13",
     "@zias/config": "workspace:*",
     "astro": "^7.4.11",
     "emdash": "^1.5.0",
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@emdash-cms/plugin-forms": ">=0.2",
     "astro": ">=7",
     "emdash": ">=1.5"
   }

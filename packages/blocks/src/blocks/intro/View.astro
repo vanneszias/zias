@@ -1,0 +1,10 @@
+---
+import Lead from "@zias/ui/components/Lead.astro";
+import type { BlockProps } from "../../define";
+import type { fields } from "./schema";
+
+type Props = BlockProps<typeof fields>;
+const { value, index } = Astro.props;
+---
+
+<Lead as={index === 0 ? "h1" : "p"}>{value.statement}</Lead>

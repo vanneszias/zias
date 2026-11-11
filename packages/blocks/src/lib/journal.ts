@@ -61,17 +61,27 @@ export function postCategory(post: Post): TaxonomyTerm | undefined {
 
 const DATE = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
-  month: "short",
+  month: "long",
   year: "numeric",
 });
 
-/** The meta line of a post: its date and read time, for a Tag. */
+/** The line under a post's title: what it is, when it was published and how long it takes. */
 export function postMeta(post: Post): string {
   const { publishedAt, read_time } = post.data;
   return [
+    postCategory(post)?.label,
     publishedAt && DATE.format(publishedAt),
     read_time && `${read_time} min read`,
   ]
     .filter(Boolean)
-    .join(" · ");
+    .join(", ");
+}
+
+/** A post as a row of a `List`: its title, and its category as the note. */
+export function postItem(post: Post) {
+  return {
+    href: `/journal/${post.id}`,
+    title: post.data.title,
+    note: postCategory(post)?.label,
+  };
 }

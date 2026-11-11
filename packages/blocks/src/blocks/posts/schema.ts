@@ -2,13 +2,6 @@ import { defineBlock, type Field } from "../../define";
 
 export const fields = [
   {
-    slug: "word",
-    label: "Big word",
-    type: "string",
-    required: true,
-    defaultValue: "journal.",
-  },
-  {
     slug: "count",
     label: "Number of posts",
     type: "integer",
@@ -23,15 +16,15 @@ export const fields = [
   },
   {
     slug: "link_label",
-    label: "Link to the journal",
+    label: "Link to the journal (empty for no link)",
     type: "string",
-    defaultValue: "Read the journal",
+    defaultValue: "All writing",
   },
 ] as const satisfies readonly Field[];
 
 export default defineBlock(
   "posts",
   "Posts",
-  "The latest journal posts as cards",
+  "The latest journal posts as a list",
   fields,
 );

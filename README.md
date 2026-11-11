@@ -32,6 +32,8 @@ bun run dev
 
 Then open the site at the URL the dev server prints. The CMS admin is at `/_emdash/admin`. On first visit it runs setup and registers a passkey for the admin account.
 
+A site without the status entry, and so every fresh database, shows only the under construction page. Signed in to the admin you see the real site. To open it to visitors, go to **Site > Site status** in the admin and switch off **Under construction**; the message on that page is edited there too.
+
 The schema and starter content live in `apps/site/seed/`; page block types come from `packages/blocks` and are merged in automatically. A fresh database gets the schema on first request, and the pages and posts once the admin setup has run. Local state is kept in `apps/site/.wrangler` and `apps/site/.emdash`, both git-ignored.
 
 ## Commands

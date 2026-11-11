@@ -3,20 +3,6 @@ import type { ImageValue, PortableTextBlock } from "emdash";
 /** Prefix for every block slug, so ours never clash with a plugin's. */
 export const PREFIX = "zias_";
 
-export const TONES = [
-  "paper",
-  "bright",
-  "ink",
-  "cobalt",
-  "tomato",
-  "butter",
-  "pink",
-] as const;
-export const WORD_SIZES = ["colossal", "giant", "huge", "big"] as const;
-
-/** A link typed by an editor: a path, an anchor or an absolute http(s)/mailto/tel URL. */
-export const LINK_PATTERN = "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$";
-
 interface Base {
   slug: string;
   label: string;
@@ -59,24 +45,6 @@ export type Field = Base &
       }
   );
 
-/** Fields every block carries: its ground colour and an optional in-page anchor. */
-const common = [
-  {
-    slug: "tone",
-    label: "Colour",
-    type: "select",
-    required: true,
-    defaultValue: "paper",
-    validation: { options: TONES },
-  },
-  {
-    slug: "anchor_id",
-    label: "Section ID (lowercase, for links like /#work)",
-    type: "string",
-    validation: { pattern: "^(?:$|[a-z][a-z0-9_-]*)$" },
-  },
-] as const satisfies readonly Field[];
-
 type ValueOf<F> = F extends {
   type: "select";
   validation: { options: readonly (infer O)[] };
@@ -112,9 +80,7 @@ type Values<FS extends readonly Base[]> = {
 };
 
 /** The stored value of a block with these fields, as its renderer receives it. */
-export type BlockValue<FS extends readonly Field[]> = Values<
-  [...FS, ...typeof common]
-> & {
+export type BlockValue<FS extends readonly Field[]> = Values<FS> & {
   _type: string;
   _key: string;
   _version: number;
@@ -143,7 +109,7 @@ export function defineBlock(
     description,
     category: "Zias",
     currentVersion: 1,
-    versions: [{ version: 1, fields: [...fields, ...common] }],
+    versions: [{ version: 1, fields: [...fields] }],
   };
 }
 

@@ -5,133 +5,49 @@
 
 import type { BylineSummary, ContentBylineCredit, TaxonomyTerm, PortableTextBlock } from "emdash";
 
-export interface PageContentZiasHeroV1Block {
-  _type: "zias_hero";
+export interface PageContentZiasIntroV1Block {
+  _type: "zias_intro";
   _version: 1;
   _key: string;
-  "words": string;
-  "size": "colossal" | "giant" | "huge" | "big";
-  "statement"?: string | null;
-  "scribble"?: string | null;
-  "sticker"?: string | null;
-  "action_label"?: string | null;
-  "action_url"?: string | null;
-  "tone": "paper" | "bright" | "ink" | "cobalt" | "tomato" | "butter" | "pink";
-  "anchor_id"?: string | null;
-}
-
-export type PageContentZiasHeroBlock = PageContentZiasHeroV1Block;
-
-export interface PageContentZiasStatementV1Block {
-  _type: "zias_statement";
-  _version: 1;
-  _key: string;
-  "word"?: string | null;
   "statement": string;
-  "scribble"?: string | null;
-  "tag"?: string | null;
-  "tone": "paper" | "bright" | "ink" | "cobalt" | "tomato" | "butter" | "pink";
-  "anchor_id"?: string | null;
+  "status"?: string | null;
 }
 
-export type PageContentZiasStatementBlock = PageContentZiasStatementV1Block;
-
-export interface PageContentZiasWordV1Block {
-  _type: "zias_word";
-  _version: 1;
-  _key: string;
-  "word": string;
-  "size": "colossal" | "giant" | "huge" | "big";
-  "url"?: string | null;
-  "color"?: "shout" | "cobalt" | "tomato" | "butter" | "pink" | "ink" | "paper" | null;
-  "outline"?: boolean | null;
-  "wide"?: boolean | null;
-  "tone": "paper" | "bright" | "ink" | "cobalt" | "tomato" | "butter" | "pink";
-  "anchor_id"?: string | null;
-}
-
-export type PageContentZiasWordBlock = PageContentZiasWordV1Block;
-
-export interface PageContentZiasFactsV1Block {
-  _type: "zias_facts";
-  _version: 1;
-  _key: string;
-  "word"?: string | null;
-  "facts": { "label": string; "value": string }[];
-  "tone": "paper" | "bright" | "ink" | "cobalt" | "tomato" | "butter" | "pink";
-  "anchor_id"?: string | null;
-}
-
-export type PageContentZiasFactsBlock = PageContentZiasFactsV1Block;
+export type PageContentZiasIntroBlock = PageContentZiasIntroV1Block;
 
 export interface PageContentZiasPostsV1Block {
   _type: "zias_posts";
   _version: 1;
   _key: string;
-  "word": string;
   "count": number;
   "category"?: string | null;
   "link_label"?: string | null;
-  "tone": "paper" | "bright" | "ink" | "cobalt" | "tomato" | "butter" | "pink";
-  "anchor_id"?: string | null;
 }
 
 export type PageContentZiasPostsBlock = PageContentZiasPostsV1Block;
 
-export interface PageContentZiasContactV1Block {
-  _type: "zias_contact";
+export interface PageContentZiasTextV1Block {
+  _type: "zias_text";
   _version: 1;
   _key: string;
-  "word": string;
-  "statement"?: string | null;
-  "form": string;
-  "email"?: string | null;
-  "tone": "paper" | "bright" | "ink" | "cobalt" | "tomato" | "butter" | "pink";
-  "anchor_id"?: string | null;
-}
-
-export type PageContentZiasContactBlock = PageContentZiasContactV1Block;
-
-export interface PageContentZiasLinksV1Block {
-  _type: "zias_links";
-  _version: 1;
-  _key: string;
-  "links": { "label": string; "url": string }[];
-  "size": "colossal" | "giant" | "huge" | "big";
+  "title"?: string | null;
   "note"?: string | null;
-  "tone": "paper" | "bright" | "ink" | "cobalt" | "tomato" | "butter" | "pink";
-  "anchor_id"?: string | null;
+  "body": PortableTextBlock[];
 }
 
-export type PageContentZiasLinksBlock = PageContentZiasLinksV1Block;
+export type PageContentZiasTextBlock = PageContentZiasTextV1Block;
 
 export interface PageContentZiasImageV1Block {
   _type: "zias_image";
   _version: 1;
   _key: string;
   "image": { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
-  "word"?: string | null;
   "caption"?: string | null;
-  "tone": "paper" | "bright" | "ink" | "cobalt" | "tomato" | "butter" | "pink";
-  "anchor_id"?: string | null;
 }
 
 export type PageContentZiasImageBlock = PageContentZiasImageV1Block;
 
-export interface PageContentZiasTextV1Block {
-  _type: "zias_text";
-  _version: 1;
-  _key: string;
-  "word"?: string | null;
-  "tag"?: string | null;
-  "body": PortableTextBlock[];
-  "tone": "paper" | "bright" | "ink" | "cobalt" | "tomato" | "butter" | "pink";
-  "anchor_id"?: string | null;
-}
-
-export type PageContentZiasTextBlock = PageContentZiasTextV1Block;
-
-export type PageContentBlock = PageContentZiasHeroBlock | PageContentZiasStatementBlock | PageContentZiasWordBlock | PageContentZiasFactsBlock | PageContentZiasPostsBlock | PageContentZiasContactBlock | PageContentZiasLinksBlock | PageContentZiasImageBlock | PageContentZiasTextBlock;
+export type PageContentBlock = PageContentZiasIntroBlock | PageContentZiasPostsBlock | PageContentZiasTextBlock | PageContentZiasImageBlock;
 
 export interface Page {
   id: string;
@@ -163,9 +79,25 @@ export interface Post {
   terms?: Record<string, TaxonomyTerm[]>;
 }
 
+export interface Site {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  under_construction?: boolean;
+  message?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
 declare module "emdash" {
   interface EmDashCollections {
     pages: Page;
     posts: Post;
+    site: Site;
   }
 }

@@ -1,0 +1,12 @@
+---
+/** The large serif line a page opens with. */
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"p"> {
+  as?: "h1" | "h2" | "p";
+}
+
+const { as: Element = "p", class: className, ...rest } = Astro.props;
+---
+
+<Element {...rest} class:list={["max-w-wide text-pretty text-lead", className]}><slot /></Element>

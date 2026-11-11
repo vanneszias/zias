@@ -1,21 +1,18 @@
 ---
-import BigWord from "@zias/ui/components/BigWord.astro";
-import Block from "@zias/ui/components/Block.astro";
-import Tag from "@zias/ui/components/Tag.astro";
+import Lead from "@zias/ui/components/Lead.astro";
 import { PortableText } from "emdash/ui";
 import type { BlockProps } from "../../define";
-import { headingFor } from "../../lib/tone";
 import type { fields } from "./schema";
 
 type Props = BlockProps<typeof fields>;
 const { value, index } = Astro.props;
-const { word, tag, body, tone, anchor_id } = value;
+const { title, note, body } = value;
 ---
 
-<Block tone={tone} id={anchor_id || undefined}>
-  {word && <BigWord as={headingFor(index)} size="huge">{word}</BigWord>}
-  {tag && <Tag class="mt-space-3">{tag}</Tag>}
-  <div class:list={["z-prose", (word || tag) && "mt-space-4"]}>
+<section class="mt-drop first:mt-0">
+  {title && <Lead as={index === 0 ? "h1" : "h2"}>{title}</Lead>}
+  {note && <p class="mt-3 italic">{note}</p>}
+  <div class:list={["z-prose", (title || note) && "mt-12"]}>
     <PortableText value={body} />
   </div>
-</Block>
+</section>

@@ -1,13 +1,10 @@
 ---
 import { PUBLIC_OPENPANEL_CLIENT_ID } from "astro:env/client";
 import favicon from "@zias/ui/assets/favicon.svg?url";
-import ThemeScript from "@zias/ui/components/ThemeScript.astro";
 import { getMenuWithCacheHint, getSiteSettingsWithCacheHint } from "emdash";
 import { createPublicPageContext } from "emdash/page";
 import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
 import Analytics from "../components/Analytics.astro";
-import SiteFooter from "../components/SiteFooter.astro";
-import SiteNav from "../components/SiteNav.astro";
 import { staticOgUrl } from "../lib/og";
 import "../styles/site.css";
 
@@ -34,18 +31,23 @@ const {
   articleMeta,
 } = Astro.props;
 
-const [settings, primary, footer] = await Promise.all([
+const [settings, contact, legal] = await Promise.all([
   getSiteSettingsWithCacheHint(),
-  getMenuWithCacheHint("primary"),
-  getMenuWithCacheHint("footer"),
+  getMenuWithCacheHint("contact"),
+  getMenuWithCacheHint("legal"),
 ]);
 if (Astro.cache?.enabled)
-  for (const { cacheHint } of [settings, primary, footer])
+  for (const { cacheHint } of [settings, contact, legal])
     Astro.cache.set(cacheHint);
 
-const siteTitle = settings.data.title?.trim() || "Zias";
+const siteTitle = settings.data.title?.trim() || "Zias van Nes";
 const separator = settings.data.seo?.titleSeparator?.trim() || "—";
 const fullTitle = title ? `${title} ${separator} ${siteTitle}` : siteTitle;
+const home = Astro.url.pathname === "/";
+const menus = [
+  { label: "Contact", items: contact.data?.items ?? [] },
+  { label: "Legal", items: legal.data?.items ?? [] },
+].filter((menu) => menu.items.length > 0);
 
 const page = createPublicPageContext({
   Astro,
@@ -70,22 +72,40 @@ const page = createPublicPageContext({
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <link rel="icon" type="image/svg+xml" href={favicon} />
-    <link rel="alternate" type="application/rss+xml" title={`${siteTitle} journal`} href="/rss.xml" />
-    <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#17130f" media="(prefers-color-scheme: dark)" />
-    <ThemeScript />
+    <link rel="alternate" type="application/rss+xml" title={`${siteTitle}: journal`} href="/rss.xml" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
     <EmDashHead page={page} />
   </head>
-  <body>
+  <body class="flex min-h-dvh flex-col p-edge">
     <EmDashBodyStart page={page} />
-    <a href="#main-content" class="z-button fixed top-space-2 left-space-2 z-[60] -translate-y-[200%] focus:translate-y-0">
+    <a href="#main-content" class="z-link sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-edge focus:bg-paper">
       Skip to content
     </a>
-    <SiteNav items={primary.data?.items ?? []} />
-    <main id="main-content" tabindex="-1" class="outline-none">
+    <header class="flex items-baseline justify-between gap-x-8">
+      <a href="/" class:list={[!home && "z-link"]} aria-current={home ? "page" : undefined}>{siteTitle}</a>
+      <slot name="aside" />
+    </header>
+    <main id="main-content" tabindex="-1" class="flex flex-1 flex-col pt-drop outline-none">
       <slot />
     </main>
-    <SiteFooter items={footer.data?.items ?? []} />
+    <footer class="mt-drop flex flex-wrap justify-between gap-x-10 gap-y-1">
+      {
+        menus.map((menu) => (
+          <nav aria-label={menu.label}>
+            <ul class="flex flex-wrap gap-x-[1.4em] gap-y-1">
+              {menu.items.map((item) => (
+                <li>
+                  <a href={item.url} class="z-link">
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </footer>
     {PUBLIC_OPENPANEL_CLIENT_ID && <Analytics />}
     <EmDashBodyEnd page={page} />
   </body>

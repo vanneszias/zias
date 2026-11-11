@@ -1,14 +1,6 @@
 ---
-import {
-  getPosts,
-  type Post,
-  postCategory,
-  postMeta,
-} from "@zias/blocks/journal";
-import ArrowLink from "@zias/ui/components/ArrowLink.astro";
-import BigWord from "@zias/ui/components/BigWord.astro";
-import Block from "@zias/ui/components/Block.astro";
-import Tag from "@zias/ui/components/Tag.astro";
+import { type Post, postMeta } from "@zias/blocks/journal";
+import Lead from "@zias/ui/components/Lead.astro";
 import { decodeSlug, getEmDashEntry, getSeoMeta } from "emdash";
 import { PortableText } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
@@ -27,16 +19,7 @@ const seo = getSeoMeta(post, {
   path: `/journal/${slug}`,
   defaultOgImage: journalOgUrl(slug, post.data.updatedAt),
 });
-
-// Neighbours in the journal's own order, newest first.
-const { entries } = await getPosts({ limit: 200 });
-const at = entries.findIndex((p) => p.id === post.id);
-const newer = at > 0 ? entries[at - 1] : undefined;
-const older = at >= 0 ? entries[at + 1] : undefined;
-
-const category = postCategory(post);
 const meta = postMeta(post);
-const long = post.data.title.length > 18;
 ---
 
 <Base
@@ -52,25 +35,12 @@ const long = post.data.title.length > 18;
     modifiedTime: post.data.updatedAt.toISOString(),
   }}
 >
+  <a slot="aside" href="/journal" class="z-link">Journal</a>
   <article>
-    <Block>
-      <div class="mb-space-4 flex flex-wrap gap-space-2">
-        {category && <Tag href={`/journal?category=${category.slug}`}>{category.label}</Tag>}
-        {meta && <Tag>{meta}</Tag>}
-      </div>
-      <BigWord as="h1" size={long ? "big" : "huge"} class="max-w-[16ch]" {...post.edit.title}>{post.data.title}</BigWord>
-    </Block>
-    <Block tone="bright">
-      <div class="z-prose" {...post.edit.content}>
-        <PortableText value={post.data.content} />
-      </div>
-    </Block>
+    <Lead as="h1" {...post.edit.title}>{post.data.title}</Lead>
+    {meta && <p class="mt-3 italic">{meta}</p>}
+    <div class="z-prose mt-12" {...post.edit.content}>
+      <PortableText value={post.data.content} />
+    </div>
   </article>
-  <Block tone="cobalt">
-    <nav aria-label="More posts" class="flex flex-wrap justify-between gap-x-space-4 gap-y-space-2">
-      {newer && <ArrowLink href={`/journal/${newer.id}`} size="big" rel="prev">newer</ArrowLink>}
-      <ArrowLink href="/journal" size="big">journal</ArrowLink>
-      {older && <ArrowLink href={`/journal/${older.id}`} size="big" rel="next">older</ArrowLink>}
-    </nav>
-  </Block>
 </Base>

@@ -2,13 +2,13 @@
   "$schema": "https://emdashcms.com/seed.schema.json",
   "version": "1",
   "meta": {
-    "name": "Zias",
-    "description": "zias.be: a one-person studio's site and journal",
-    "author": "Zias"
+    "name": "Zias van Nes",
+    "description": "zias.be: a developer and designer's site and journal",
+    "author": "Zias van Nes"
   },
   "settings": {
-    "title": "Zias",
-    "tagline": "A one-person studio building websites, web apps and mobile products for brands with taste.",
+    "title": "Zias van Nes",
+    "tagline": "Developer and designer in Leuven. I build websites, web apps and mobile apps, and I write about how they get made.",
     "social": {
       "twitter": "@ziasvannes",
       "instagram": "ziasvannes",
@@ -73,6 +73,29 @@
           "type": "integer"
         }
       ]
+    },
+    {
+      "slug": "site",
+      "label": "Site",
+      "labelSingular": "Site status",
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "under_construction",
+          "label": "Under construction: visitors see only the message below",
+          "type": "boolean"
+        },
+        {
+          "slug": "message",
+          "label": "Message",
+          "type": "text"
+        }
+      ]
     }
   ],
   "taxonomies": [
@@ -120,50 +143,30 @@
   ],
   "menus": [
     {
-      "name": "primary",
-      "label": "Primary navigation",
+      "name": "contact",
+      "label": "Contact",
       "items": [
         {
           "type": "custom",
-          "label": "Work",
-          "url": "/#work"
+          "label": "hello@zias.be",
+          "url": "mailto:hello@zias.be"
         },
         {
           "type": "custom",
-          "label": "Journal",
-          "url": "/journal"
+          "label": "LinkedIn",
+          "url": "https://linkedin.com/in/ziasvannes"
+        },
+        {
+          "type": "custom",
+          "label": "Instagram",
+          "url": "https://instagram.com/ziasvannes"
         }
       ]
     },
     {
-      "name": "footer",
-      "label": "Footer",
+      "name": "legal",
+      "label": "Legal",
       "items": [
-        {
-          "type": "custom",
-          "label": "Substack",
-          "url": "https://ziasbe.substack.com/"
-        },
-        {
-          "type": "custom",
-          "label": "Git",
-          "url": "https://sr.ht/~zias/"
-        },
-        {
-          "type": "custom",
-          "label": "X",
-          "url": "https://x.com/ziasvannes"
-        },
-        {
-          "type": "custom",
-          "label": "Letterboxd",
-          "url": "https://letterboxd.com/ziasvannes"
-        },
-        {
-          "type": "custom",
-          "label": "RSS",
-          "url": "/rss.xml"
-        },
         {
           "type": "custom",
           "label": "Privacy",
@@ -184,95 +187,21 @@
         "slug": "home",
         "status": "published",
         "data": {
-          "title": "Crafting digital experiences",
+          "title": "Developer and designer",
           "content": [
             {
-              "_type": "zias_hero",
+              "_type": "zias_intro",
               "_version": 1,
-              "_key": "hero",
-              "words": "hi.",
-              "size": "colossal",
-              "statement": "I'm Zias, a developer and designer building considered software for people who care about the details.",
-              "sticker": "Available for work",
-              "action_label": "Start a project",
-              "action_url": "/#contact",
-              "tone": "paper"
-            },
-            {
-              "_type": "zias_statement",
-              "_version": 1,
-              "_key": "studio",
-              "word": "studio.",
-              "statement": "A one-person studio building websites, web apps and mobile products for brands with taste.",
-              "tag": "Quietly considered. Loudly shipped.",
-              "tone": "pink",
-              "anchor_id": "about"
-            },
-            {
-              "_type": "zias_facts",
-              "_version": 1,
-              "_key": "facts",
-              "facts": [
-                {
-                  "label": "Based in",
-                  "value": "Leuven, BE"
-                },
-                {
-                  "label": "Working on",
-                  "value": "Projects with impact"
-                },
-                {
-                  "label": "Experience in",
-                  "value": "Mobile, Web, UI/UX"
-                }
-              ],
-              "tone": "bright"
+              "_key": "intro",
+              "statement": "Developer and designer in Leuven. I build websites, web apps and mobile apps, and I write about how they get made.",
+              "status": "Available for new work"
             },
             {
               "_type": "zias_posts",
               "_version": 1,
-              "_key": "work",
-              "word": "selected work.",
+              "_key": "writing",
               "count": 4,
-              "link_label": "Read the journal",
-              "tone": "cobalt",
-              "anchor_id": "work"
-            },
-            {
-              "_type": "zias_contact",
-              "_version": 1,
-              "_key": "contact",
-              "word": "say hi.",
-              "statement": "Let's build something good. One inbox. One person. Usually replies within a day.",
-              "form": "contact",
-              "email": "hello@zias.be",
-              "tone": "tomato",
-              "anchor_id": "contact"
-            },
-            {
-              "_type": "zias_links",
-              "_version": 1,
-              "_key": "elsewhere",
-              "links": [
-                {
-                  "label": "journal",
-                  "url": "/journal"
-                },
-                {
-                  "label": "linkedin",
-                  "url": "https://linkedin.com/in/ziasvannes"
-                },
-                {
-                  "label": "instagram",
-                  "url": "https://instagram.com/ziasvannes"
-                },
-                {
-                  "label": "email",
-                  "url": "mailto:hello@zias.be"
-                }
-              ],
-              "size": "big",
-              "tone": "ink"
+              "link_label": "All writing"
             }
           ]
         }
@@ -288,8 +217,7 @@
               "_type": "zias_text",
               "_version": 1,
               "_key": "imprint",
-              "word": "imprint.",
-              "tag": "Legal disclosure pursuant to § 5 TMG / Art. 28 GDPR",
+              "title": "Imprint",
               "body": [
                 {
                   "_type": "block",
@@ -300,7 +228,8 @@
                     {
                       "_type": "span",
                       "_key": "k1",
-                      "text": "Responsible person"
+                      "text": "Who runs this site",
+                      "marks": []
                     }
                   ]
                 },
@@ -313,7 +242,8 @@
                     {
                       "_type": "span",
                       "_key": "k3",
-                      "text": "Zias van Nes"
+                      "text": "Zias van Nes",
+                      "marks": []
                     }
                   ]
                 },
@@ -326,7 +256,8 @@
                     {
                       "_type": "span",
                       "_key": "k5",
-                      "text": "Leuven, Belgium"
+                      "text": "Leuven, Belgium",
+                      "marks": []
                     }
                   ]
                 },
@@ -336,8 +267,8 @@
                   "style": "normal",
                   "markDefs": [
                     {
-                      "_key": "k7",
                       "_type": "link",
+                      "_key": "k7",
                       "href": "mailto:hello@zias.be"
                     }
                   ],
@@ -352,91 +283,47 @@
                 },
                 {
                   "_type": "block",
-                  "_key": "k12",
-                  "style": "normal",
-                  "markDefs": [
+                  "_key": "k11",
+                  "style": "h2",
+                  "markDefs": [],
+                  "children": [
                     {
+                      "_type": "span",
                       "_key": "k10",
-                      "_type": "link",
-                      "href": "https://zias.be"
-                    }
-                  ],
-                  "children": [
-                    {
-                      "_type": "span",
-                      "_key": "k11",
-                      "text": "zias.be",
-                      "marks": ["k10"]
+                      "text": "Content",
+                      "marks": []
                     }
                   ]
                 },
                 {
                   "_type": "block",
-                  "_key": "k14",
-                  "style": "h2",
-                  "markDefs": [],
-                  "children": [
-                    {
-                      "_type": "span",
-                      "_key": "k13",
-                      "text": "Disclaimer"
-                    }
-                  ]
-                },
-                {
-                  "_type": "block",
-                  "_key": "k16",
+                  "_key": "k13",
                   "style": "normal",
                   "markDefs": [],
                   "children": [
                     {
                       "_type": "span",
-                      "_key": "k15",
-                      "text": "The contents of this website have been compiled with the greatest possible care. However, I cannot guarantee the accuracy, completeness, or timeliness of the content."
+                      "_key": "k12",
+                      "text": "I wrote, designed and built everything on this site unless it says otherwise. Ask me before you reproduce any of it.",
+                      "marks": []
                     }
                   ]
                 },
                 {
                   "_type": "block",
-                  "_key": "k18",
+                  "_key": "k15",
                   "style": "normal",
                   "markDefs": [],
                   "children": [
                     {
                       "_type": "span",
-                      "_key": "k17",
-                      "text": "Links to external websites are outside my control. I accept no responsibility for the content of linked pages."
-                    }
-                  ]
-                },
-                {
-                  "_type": "block",
-                  "_key": "k20",
-                  "style": "h2",
-                  "markDefs": [],
-                  "children": [
-                    {
-                      "_type": "span",
-                      "_key": "k19",
-                      "text": "Copyright"
-                    }
-                  ]
-                },
-                {
-                  "_type": "block",
-                  "_key": "k22",
-                  "style": "normal",
-                  "markDefs": [],
-                  "children": [
-                    {
-                      "_type": "span",
-                      "_key": "k21",
-                      "text": "All content on this site — writing, design, and code — is my own unless stated otherwise. Please ask before reproducing anything."
+                      "_key": "k14",
+                      "text": "I keep the content accurate and current as well as I can, but I cannot guarantee it. Other sites I link to are responsible for their own content.",
+                      "marks": []
                     }
                   ]
                 }
-              ],
-              "tone": "paper"
+              ]
             }
           ]
         }
@@ -446,15 +333,61 @@
         "slug": "privacy",
         "status": "published",
         "data": {
-          "title": "Privacy Policy",
+          "title": "Privacy",
           "content": [
             {
               "_type": "zias_text",
               "_version": 1,
               "_key": "privacy",
-              "word": "privacy.",
-              "tag": "Last updated: May 2026",
+              "title": "Privacy",
+              "note": "Last updated November 2026",
               "body": [
+                {
+                  "_type": "block",
+                  "_key": "k17",
+                  "style": "h2",
+                  "markDefs": [],
+                  "children": [
+                    {
+                      "_type": "span",
+                      "_key": "k16",
+                      "text": "Who is responsible",
+                      "marks": []
+                    }
+                  ]
+                },
+                {
+                  "_type": "block",
+                  "_key": "k22",
+                  "style": "normal",
+                  "markDefs": [
+                    {
+                      "_type": "link",
+                      "_key": "k19",
+                      "href": "mailto:hello@zias.be"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "_type": "span",
+                      "_key": "k18",
+                      "text": "This is the personal site of Zias van Nes, a developer and designer in Leuven, Belgium. You can reach me at ",
+                      "marks": []
+                    },
+                    {
+                      "_type": "span",
+                      "_key": "k20",
+                      "text": "hello@zias.be",
+                      "marks": ["k19"]
+                    },
+                    {
+                      "_type": "span",
+                      "_key": "k21",
+                      "text": ".",
+                      "marks": []
+                    }
+                  ]
+                },
                 {
                   "_type": "block",
                   "_key": "k24",
@@ -464,63 +397,50 @@
                     {
                       "_type": "span",
                       "_key": "k23",
-                      "text": "Who I am"
+                      "text": "What is collected",
+                      "marks": []
                     }
                   ]
                 },
                 {
                   "_type": "block",
-                  "_key": "k29",
+                  "_key": "k26",
                   "style": "normal",
-                  "markDefs": [
-                    {
-                      "_key": "k26",
-                      "_type": "link",
-                      "href": "mailto:hello@zias.be"
-                    }
-                  ],
+                  "markDefs": [],
                   "children": [
                     {
                       "_type": "span",
                       "_key": "k25",
-                      "text": "This is the personal website of Zias van Nes, a designer and developer based in Leuven, Belgium. You can reach me at "
-                    },
-                    {
-                      "_type": "span",
-                      "_key": "k27",
-                      "text": "hello@zias.be",
-                      "marks": ["k26"]
-                    },
-                    {
-                      "_type": "span",
-                      "_key": "k28",
-                      "text": "."
+                      "text": "The site counts page views and clicks on outgoing links with OpenPanel, an analytics tool I host myself. It works without cookies.",
+                      "marks": []
                     }
                   ]
                 },
                 {
                   "_type": "block",
-                  "_key": "k31",
+                  "_key": "k28",
+                  "style": "normal",
+                  "markDefs": [],
+                  "children": [
+                    {
+                      "_type": "span",
+                      "_key": "k27",
+                      "text": "If you email me, I keep your message for as long as I need it to answer you.",
+                      "marks": []
+                    }
+                  ]
+                },
+                {
+                  "_type": "block",
+                  "_key": "k30",
                   "style": "h2",
                   "markDefs": [],
                   "children": [
                     {
                       "_type": "span",
-                      "_key": "k30",
-                      "text": "What data I collect"
-                    }
-                  ]
-                },
-                {
-                  "_type": "block",
-                  "_key": "k33",
-                  "style": "normal",
-                  "markDefs": [],
-                  "children": [
-                    {
-                      "_type": "span",
-                      "_key": "k32",
-                      "text": "This site uses OpenPanel analytics to understand page views, outgoing links, and interactions with tracked elements. This tracking happens in your browser and does not use the OpenPanel server-side client secret."
+                      "_key": "k29",
+                      "text": "Hosting",
+                      "marks": []
                     }
                   ]
                 },
@@ -528,12 +448,31 @@
                   "_type": "block",
                   "_key": "k35",
                   "style": "normal",
-                  "markDefs": [],
+                  "markDefs": [
+                    {
+                      "_type": "link",
+                      "_key": "k32",
+                      "href": "https://www.cloudflare.com/privacypolicy/"
+                    }
+                  ],
                   "children": [
                     {
                       "_type": "span",
+                      "_key": "k31",
+                      "text": "The site runs on Cloudflare. Cloudflare processes your IP address and browser headers to deliver each page. See ",
+                      "marks": []
+                    },
+                    {
+                      "_type": "span",
+                      "_key": "k33",
+                      "text": "Cloudflare's privacy policy",
+                      "marks": ["k32"]
+                    },
+                    {
+                      "_type": "span",
                       "_key": "k34",
-                      "text": "If you use the contact form, I store your name, email address, and message. This data is used solely to reply to your inquiry and is never shared with third parties."
+                      "text": " for details.",
+                      "marks": []
                     }
                   ]
                 },
@@ -546,7 +485,8 @@
                     {
                       "_type": "span",
                       "_key": "k36",
-                      "text": "Hosting & infrastructure"
+                      "text": "Your rights",
+                      "marks": []
                     }
                   ]
                 },
@@ -556,101 +496,33 @@
                   "style": "normal",
                   "markDefs": [
                     {
+                      "_type": "link",
                       "_key": "k39",
-                      "_type": "link",
-                      "href": "https://www.cloudflare.com/privacypolicy/"
-                    }
-                  ],
-                  "children": [
-                    {
-                      "_type": "span",
-                      "_key": "k38",
-                      "text": "This site is hosted on Cloudflare. Cloudflare may process request metadata (IP address, browser headers) as part of their network infrastructure. See "
-                    },
-                    {
-                      "_type": "span",
-                      "_key": "k40",
-                      "text": "Cloudflare's privacy policy",
-                      "marks": ["k39"]
-                    },
-                    {
-                      "_type": "span",
-                      "_key": "k41",
-                      "text": " for details."
-                    }
-                  ]
-                },
-                {
-                  "_type": "block",
-                  "_key": "k44",
-                  "style": "h2",
-                  "markDefs": [],
-                  "children": [
-                    {
-                      "_type": "span",
-                      "_key": "k43",
-                      "text": "Your rights"
-                    }
-                  ]
-                },
-                {
-                  "_type": "block",
-                  "_key": "k49",
-                  "style": "normal",
-                  "markDefs": [
-                    {
-                      "_key": "k46",
-                      "_type": "link",
                       "href": "mailto:hello@zias.be"
                     }
                   ],
                   "children": [
                     {
                       "_type": "span",
-                      "_key": "k45",
-                      "text": "Under GDPR you have the right to access, rectify, or erase any personal data I hold about you. To exercise these rights, email me at "
+                      "_key": "k38",
+                      "text": "Under the GDPR you can ask to see, correct or delete any personal data I hold about you. Email ",
+                      "marks": []
                     },
                     {
                       "_type": "span",
-                      "_key": "k47",
+                      "_key": "k40",
                       "text": "hello@zias.be",
-                      "marks": ["k46"]
+                      "marks": ["k39"]
                     },
                     {
                       "_type": "span",
-                      "_key": "k48",
-                      "text": "."
-                    }
-                  ]
-                },
-                {
-                  "_type": "block",
-                  "_key": "k51",
-                  "style": "h2",
-                  "markDefs": [],
-                  "children": [
-                    {
-                      "_type": "span",
-                      "_key": "k50",
-                      "text": "Changes"
-                    }
-                  ]
-                },
-                {
-                  "_type": "block",
-                  "_key": "k53",
-                  "style": "normal",
-                  "markDefs": [],
-                  "children": [
-                    {
-                      "_type": "span",
-                      "_key": "k52",
-                      "text": "I may update this policy occasionally. The date at the top of the page reflects the most recent revision."
+                      "_key": "k41",
+                      "text": ".",
+                      "marks": []
                     }
                   ]
                 }
-              ],
-              "tone": "paper"
+              ]
             }
           ]
         }
@@ -13149,6 +13021,18 @@
         },
         "taxonomies": {
           "category": ["words", "essay"]
+        }
+      }
+    ],
+    "site": [
+      {
+        "id": "site-status",
+        "slug": "status",
+        "status": "published",
+        "data": {
+          "title": "Site status",
+          "under_construction": true,
+          "message": "The new site is on its way."
         }
       }
     ]

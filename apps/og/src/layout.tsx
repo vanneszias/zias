@@ -1,144 +1,72 @@
-import { MARK_PATH, MARK_RATIO } from "./mark";
-import { color, GUTTER, HEIGHT, type Tone, WIDTH } from "./tokens";
+import { FAMILY } from "./fonts";
 
-const display = "Archivo";
-const mono = "DM Mono";
+export const WIDTH = 1200;
+export const HEIGHT = 630;
 
-export function Mark({ fill, height }: { fill: string; height: number }) {
+const PAPER = "#fff";
+const INK = "#000";
+const SIGNAL = "#00c853";
+const EDGE = 64;
+const SMALL = 34;
+
+/** The logo: a Z whose full stop is the site's green dot. */
+function Mark({ size }: { size: number }) {
+  const dot = size * 0.13;
   return (
-    <svg
-      width={height * MARK_RATIO}
-      height={height}
-      viewBox="0 0 30 28.2"
-      fill="none"
-    >
-      <path d={MARK_PATH} fill={fill} />
-    </svg>
-  );
-}
-
-/** Heavy up-and-right arrow with a square stroke, the one Zias icon. */
-export function Arrow({ fill, size }: { fill: string; size: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M5 19 L18 6 M8 5 H19 V16"
-        stroke={fill}
-        strokeWidth={3.5}
-        strokeLinecap="butt"
-        strokeLinejoin="miter"
+    <div style={{ display: "flex", alignItems: "flex-end" }}>
+      <div style={{ display: "flex", fontSize: size, lineHeight: 0.74 }}>Z</div>
+      <div
+        style={{
+          width: dot,
+          height: dot,
+          marginLeft: size * 0.04,
+          borderRadius: dot,
+          background: SIGNAL,
+        }}
       />
-    </svg>
+    </div>
   );
 }
 
-function Label({ children, fg }: { children: string; fg: string }) {
+/** Pick a size that keeps the text inside roughly five lines. */
+function textSize(text: string) {
+  const n = text.length;
+  if (n <= 12) return 220;
+  if (n <= 30) return 150;
+  if (n <= 60) return 112;
+  if (n <= 120) return 84;
+  return 68;
+}
+
+/** Every card: the name, one line of text, an italic note and the logo, black on white. */
+export function Card({ text, note }: { text: string; note?: string }) {
   return (
     <div
       style={{
-        fontFamily: mono,
-        fontWeight: 500,
-        fontSize: 26,
-        letterSpacing: "0.12em",
-        textTransform: "uppercase",
-        color: fg,
+        width: WIDTH,
+        height: HEIGHT,
         display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        padding: EDGE,
+        background: PAPER,
+        color: INK,
+        fontFamily: FAMILY,
+        fontSize: SMALL,
       }}
     >
-      {children}
-    </div>
-  );
-}
-
-const frame = {
-  width: WIDTH,
-  height: HEIGHT,
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-  padding: GUTTER,
-} as const;
-
-/** One huge word on a flat ground, with the arrow. Used for the site and index pages. */
-export function WordImage({
-  word,
-  tone,
-  top,
-  bottom,
-  arrow = color.butter,
-}: {
-  word: string;
-  tone: Tone;
-  top: string;
-  bottom: string;
-  arrow?: string;
-}) {
-  const fontSize = word.length <= 5 ? 400 : word.length <= 7 ? 300 : 230;
-  return (
-    <div style={{ ...frame, background: tone.bg, color: tone.fg }}>
-      <Label fg={tone.fg}>{top}</Label>
-      <div style={{ display: "flex", alignItems: "flex-end" }}>
-        <div
-          style={{
-            fontFamily: display,
-            fontWeight: 900,
-            fontSize,
-            lineHeight: 0.78,
-            letterSpacing: word.length <= 5 ? "-0.065em" : "-0.04em",
-            marginLeft: word.length <= 5 ? -8 : 0,
-          }}
-        >
-          {word}
-        </div>
-        <div style={{ display: "flex", marginLeft: 32, marginBottom: 16 }}>
-          <Arrow fill={arrow} size={Math.round(fontSize * 0.3)} />
-        </div>
-      </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Label fg={tone.fg}>{bottom}</Label>
-        <Label fg={tone.fg}>zias.be</Label>
-      </div>
-    </div>
-  );
-}
-
-/** Pick a headline size that keeps the title inside roughly four lines. */
-function headlineSize(title: string) {
-  const n = title.length;
-  if (n <= 14) return 190;
-  if (n <= 28) return 140;
-  if (n <= 50) return 104;
-  if (n <= 80) return 80;
-  return 64;
-}
-
-export function PostImage({
-  title,
-  tone,
-  tag,
-}: {
-  title: string;
-  tone: Tone;
-  tag: string;
-}) {
-  const size = headlineSize(title);
-  return (
-    <div style={{ ...frame, background: tone.bg, color: tone.fg }}>
-      <Label fg={tone.fg}>{tag}</Label>
+      <div style={{ display: "flex" }}>Zias van Nes</div>
       <div
         style={{
-          fontFamily: display,
-          fontWeight: 900,
-          fontSize: size,
-          lineHeight: 0.9,
-          letterSpacing: size > 100 ? "-0.055em" : "-0.045em",
-          marginLeft: -4,
           display: "flex",
-          maxHeight: 400,
+          fontSize: textSize(text),
+          lineHeight: 1.1,
+          letterSpacing: "-0.015em",
+          maxHeight: 380,
           overflow: "hidden",
         }}
       >
-        {title}
+        {text}
       </div>
       <div
         style={{
@@ -147,8 +75,10 @@ export function PostImage({
           alignItems: "flex-end",
         }}
       >
-        <Label fg={tone.fg}>zias.be</Label>
-        <Mark fill={tone.fg} height={88} />
+        <div style={{ display: "flex", fontStyle: "italic" }}>
+          {note ?? "zias.be"}
+        </div>
+        <Mark size={96} />
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import type { ReactElement } from "react";
 import satori, { init as initSatori } from "satori/standalone";
 import satoriWasm from "satori/yoga.wasm";
 import { fonts } from "./fonts";
-import { HEIGHT, WIDTH } from "./tokens";
+import { HEIGHT, WIDTH } from "./layout";
 
 let wasmReady: Promise<void> | undefined;
 

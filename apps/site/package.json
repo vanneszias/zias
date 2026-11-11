@@ -15,7 +15,6 @@
     "@astrojs/cloudflare": "^14.4.7",
     "@astrojs/react": "^7.1.8",
     "@emdash-cms/cloudflare": "^1.5.0",
-    "@emdash-cms/plugin-forms": "^0.2.13",
     "@openpanel/web": "^1.4.4",
     "@tailwindcss/vite": "^4.3.5",
     "@zias/blocks": "workspace:*",

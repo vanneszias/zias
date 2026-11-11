@@ -1,0 +1,16 @@
+---
+import Lead from "@zias/ui/components/Lead.astro";
+import Base from "../layouts/Base.astro";
+
+// Only the middleware leads here; asked for directly, the page does not exist.
+const notice = Astro.locals.underConstruction;
+if (!notice) return Astro.rewrite("/404");
+
+Astro.response.status = 503;
+Astro.response.headers.set("Retry-After", "86400");
+Astro.response.headers.set("Cache-Control", "no-store");
+---
+
+<Base title="Under construction" robots="noindex">
+  <Lead as="h1">{notice.message}</Lead>
+</Base>
