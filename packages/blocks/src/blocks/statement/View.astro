@@ -1,0 +1,29 @@
+---
+import BigWord from "@zias/ui/components/BigWord.astro";
+import Block from "@zias/ui/components/Block.astro";
+import Scribble from "@zias/ui/components/Scribble.astro";
+import Tag from "@zias/ui/components/Tag.astro";
+import type { BlockProps } from "../../define";
+import Statement from "../../lib/Statement.astro";
+import { headingFor, shoutOn } from "../../lib/tone";
+import type { fields } from "./schema";
+
+type Props = BlockProps<typeof fields>;
+const { value, index } = Astro.props;
+const { word, statement, scribble, tag, tone, anchor_id } = value;
+---
+
+<Block tone={tone} id={anchor_id || undefined}>
+  {
+    word && (
+      <BigWord as={headingFor(index)} size="giant" class="mb-space-4">
+        {word}
+      </BigWord>
+    )
+  }
+  <Statement>
+    {statement}
+    {scribble && <Scribble color={shoutOn(tone)}>{scribble}</Scribble>}
+  </Statement>
+  {tag && <Tag class="mt-space-4">{tag}</Tag>}
+</Block>

@@ -1,0 +1,743 @@
+@import "tailwindcss";
+@import "@fontsource-variable/archivo/standard.css";
+@import "@fontsource/dm-mono/400.css";
+@import "@fontsource/dm-mono/500.css";
+@import "@fontsource/grape-nuts/400.css";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@source "../";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Tokens (tokens.json). Light on :root, dark on [data-theme="dark"]. Dark swaps paper and ink and nothing loud. */
+:root {
+  color-scheme: light;
+  --paper: #f6f1e7;
+  --paper-bright: #fffdf8;
+  --ink: #17130f;
+  --ink-soft: #5c5448;
+  --line: rgba(23, 19, 15, 0.18);
+  --shout: #2740e6;
+
+  --cobalt: #2740e6;
+  --on-cobalt: #f6f1e7;
+  --tomato: #f03d1a;
+  --on-tomato: #17130f;
+  --butter: #ffd84a;
+  --on-butter: #17130f;
+  --pink: #ffb3d1;
+  --on-pink: #17130f;
+
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 48px;
+  --space-5: 96px;
+  --space-6: 160px;
+
+  /* shadcn semantic variables, mapped onto the tokens */
+  --radius: var(--radius-soft);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-bright);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-bright);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-bright);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-bright);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--paper-bright);
+  --accent-foreground: var(--ink);
+  --destructive: var(--tomato);
+  --border: var(--line);
+  --input: var(--ink);
+  --ring: var(--ink);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #17130f;
+  --paper-bright: #221d18;
+  --ink: #f6f1e7;
+  --ink-soft: #b8ae9f;
+  --line: rgba(246, 241, 231, 0.2);
+  --shout: #ffd84a;
+}
+
+/* Fonts, radii: emitted to :root so the z- classes can read them. */
+@theme static {
+  --font-display: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, Menlo, monospace;
+  --font-hand: "Grape Nuts", cursive;
+
+  --radius-none: 0px;
+  --radius-soft: 8px;
+  --radius-pill: 9999px;
+  --radius-sm: var(--radius-soft);
+  --radius-md: var(--radius-soft);
+  --radius-lg: var(--radius-soft);
+  --radius-xl: var(--radius-soft);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-bright: var(--paper-bright);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-shout: var(--shout);
+  --color-cobalt: var(--cobalt);
+  --color-on-cobalt: var(--on-cobalt);
+  --color-tomato: var(--tomato);
+  --color-on-tomato: var(--on-tomato);
+  --color-butter: var(--butter);
+  --color-on-butter: var(--on-butter);
+  --color-pink: var(--pink);
+  --color-on-pink: var(--on-pink);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --spacing-space-1: var(--space-1);
+  --spacing-space-2: var(--space-2);
+  --spacing-space-3: var(--space-3);
+  --spacing-space-4: var(--space-4);
+  --spacing-space-5: var(--space-5);
+  --spacing-space-6: var(--space-6);
+}
+
+/* Type scale: text-colossal, text-giant, text-huge, text-big, text-statement, text-body, text-small, text-label. */
+@theme {
+  --text-colossal: clamp(6rem, 26vw, 20rem);
+  --text-colossal--line-height: 0.78;
+  --text-colossal--letter-spacing: -0.065em;
+  --text-colossal--font-weight: 900;
+  --text-giant: clamp(4.5rem, 17vw, 12rem);
+  --text-giant--line-height: 0.8;
+  --text-giant--letter-spacing: -0.06em;
+  --text-giant--font-weight: 900;
+  --text-huge: clamp(3.5rem, 11vw, 7.5rem);
+  --text-huge--line-height: 0.82;
+  --text-huge--letter-spacing: -0.055em;
+  --text-huge--font-weight: 900;
+  --text-big: clamp(2.5rem, 7vw, 4.5rem);
+  --text-big--line-height: 0.9;
+  --text-big--letter-spacing: -0.045em;
+  --text-big--font-weight: 900;
+  --text-statement: 2.5rem;
+  --text-statement--line-height: 1.05;
+  --text-statement--letter-spacing: -0.035em;
+  --text-statement--font-weight: 700;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.5;
+  --text-body--letter-spacing: -0.005em;
+  --text-body--font-weight: 400;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.45;
+  --text-small--font-weight: 400;
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.12em;
+  --text-label--font-weight: 500;
+}
+
+@layer base {
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  :focus-visible {
+    outline: 3px solid var(--fg, var(--ink));
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Block: a full-bleed flat field. It sets --bg and --fg for everything inside. */
+  .z-block {
+    --bg: var(--paper);
+    --fg: var(--ink);
+    --soft: color-mix(in srgb, var(--fg) 72%, var(--bg));
+    --rule: color-mix(in srgb, var(--fg) 18%, var(--bg));
+    position: relative;
+    width: 100%;
+    background: var(--bg);
+    color: var(--fg);
+    padding: var(--space-5) var(--space-3);
+  }
+  .z-block[data-tone="bright"] {
+    --bg: var(--paper-bright);
+  }
+  .z-block[data-tone="ink"] {
+    --bg: var(--ink);
+    --fg: var(--paper);
+  }
+  .z-block[data-tone="cobalt"] {
+    --bg: var(--cobalt);
+    --fg: var(--on-cobalt);
+  }
+  .z-block[data-tone="tomato"] {
+    --bg: var(--tomato);
+    --fg: var(--on-tomato);
+  }
+  .z-block[data-tone="butter"] {
+    --bg: var(--butter);
+    --fg: var(--on-butter);
+  }
+  .z-block[data-tone="pink"] {
+    --bg: var(--pink);
+    --fg: var(--on-pink);
+  }
+  .z-block[data-pad="none"] {
+    padding: 0;
+  }
+  .z-block[data-pad="tight"] {
+    padding: var(--space-3);
+  }
+  .z-block[data-pad="loose"] {
+    padding: var(--space-6) var(--space-3);
+  }
+  .z-soft {
+    color: var(--soft, var(--ink-soft));
+  }
+
+  /* BigWord: the system's main instrument. Fluid, heavy, tight. */
+  .z-word {
+    display: block;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    line-height: 0.82;
+    letter-spacing: -0.055em;
+    font-size: clamp(3.5rem, 11vw, 7.5rem);
+    text-wrap: balance;
+  }
+  .z-word[data-size="colossal"] {
+    font-size: clamp(6rem, 26vw, 20rem);
+    letter-spacing: -0.065em;
+    line-height: 0.78;
+  }
+  .z-word[data-size="giant"] {
+    font-size: clamp(4.5rem, 17vw, 12rem);
+    letter-spacing: -0.06em;
+    line-height: 0.8;
+  }
+  .z-word[data-size="huge"] {
+    font-size: clamp(3.5rem, 11vw, 7.5rem);
+  }
+  .z-word[data-size="big"] {
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+  }
+  .z-word[data-wide] {
+    font-variation-settings: "wdth" 125;
+    font-stretch: 125%;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+  }
+  .z-word[data-outline] {
+    color: transparent;
+    -webkit-text-stroke: 0.018em var(--stroke, var(--fg, var(--ink)));
+  }
+  .z-word[data-vertical] {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    line-height: 0.8;
+  }
+
+  /* Scribble: one handwritten aside. */
+  .z-scribble {
+    display: inline-block;
+    padding: 0.1em 0.05em 0.2em;
+    font-family: var(--font-hand);
+    font-weight: 400;
+    line-height: 1;
+    font-size: 2.25rem;
+    rotate: -4deg;
+    letter-spacing: 0.02em;
+  }
+  .z-scribble[data-size="s"] {
+    font-size: 1.5rem;
+  }
+  .z-scribble[data-size="l"] {
+    font-size: 3.5rem;
+  }
+
+  /* Tag: the small mono voice. */
+  .z-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: inherit;
+    text-decoration: none;
+  }
+  a.z-tag {
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+  .z-tag[data-active] {
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+  .z-arrow {
+    display: inline-block;
+    width: 0.8em;
+    height: 0.8em;
+    flex: none;
+    transition: translate 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  a:hover > .z-arrow,
+  button:hover > .z-arrow,
+  a:hover .z-card-arrow .z-arrow {
+    translate: 0.12em -0.12em;
+  }
+
+  /* Button: a flat rectangle with a mono label. */
+  .z-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75em;
+    border: 2px solid var(--fg, var(--ink));
+    border-radius: var(--radius-soft);
+    background: var(--fg, var(--ink));
+    color: var(--bg, var(--paper));
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1;
+    padding: 0.9rem 1.1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      background 0.15s,
+      color 0.15s;
+  }
+  .z-button:hover {
+    background: transparent;
+    color: var(--fg, var(--ink));
+  }
+  .z-button[data-variant="outline"] {
+    background: transparent;
+    color: var(--fg, var(--ink));
+  }
+  .z-button[data-variant="outline"]:hover {
+    background: var(--fg, var(--ink));
+    color: var(--bg, var(--paper));
+  }
+  .z-button[data-size="l"] {
+    font-size: 0.875rem;
+    padding: 1.25rem 1.5rem;
+  }
+  .z-button[data-tone="cobalt"] {
+    background: var(--cobalt);
+    border-color: var(--cobalt);
+    color: var(--on-cobalt);
+  }
+  .z-button[data-tone="tomato"] {
+    background: var(--tomato);
+    border-color: var(--tomato);
+    color: var(--on-tomato);
+  }
+  .z-button[data-tone="butter"] {
+    background: var(--butter);
+    border-color: var(--butter);
+    color: var(--on-butter);
+  }
+  .z-button[data-tone="pink"] {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: var(--on-pink);
+  }
+  .z-button[data-tone]:hover {
+    background: var(--fg, var(--ink));
+    border-color: var(--fg, var(--ink));
+    color: var(--bg, var(--paper));
+  }
+  .z-button:disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* ArrowLink: a giant word you can click. */
+  .z-arrowlink {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.06em;
+    color: inherit;
+    text-decoration: none;
+  }
+  .z-arrowlink .z-word {
+    display: inline-block;
+  }
+  .z-arrowlink .z-arrow {
+    width: 0.3em;
+    height: 0.3em;
+    margin-top: 0.02em;
+    color: var(--accent, currentColor);
+    font-size: clamp(3.5rem, 11vw, 7.5rem);
+  }
+  .z-arrowlink[data-size="colossal"] .z-arrow {
+    font-size: clamp(6rem, 26vw, 20rem);
+  }
+  .z-arrowlink[data-size="giant"] .z-arrow {
+    font-size: clamp(4.5rem, 17vw, 12rem);
+  }
+  .z-arrowlink[data-size="big"] .z-arrow {
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+  }
+  .z-arrowlink:hover .z-arrow {
+    translate: 0.04em -0.04em;
+  }
+
+  /* NavBar: one floating strip. */
+  .z-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: 0.75rem 1rem 0.75rem 1.25rem;
+    border-radius: var(--radius-soft);
+    background: color-mix(in srgb, var(--paper) 86%, transparent);
+    color: var(--ink);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .z-nav-brand {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: inherit;
+    text-decoration: none;
+  }
+  .z-nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .z-nav .z-button {
+    padding: 0.65rem 0.85rem;
+  }
+
+  /* Sticker: a rotated stamp. */
+  .z-sticker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    rotate: -8deg;
+    background: var(--butter);
+    color: var(--on-butter);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-pill);
+  }
+  .z-sticker[data-shape="circle"] {
+    width: 7rem;
+    height: 7rem;
+    padding: 0.75rem;
+    border-radius: 50%;
+  }
+  .z-sticker[data-tone="cobalt"] {
+    background: var(--cobalt);
+    color: var(--on-cobalt);
+  }
+  .z-sticker[data-tone="tomato"] {
+    background: var(--tomato);
+    color: var(--on-tomato);
+  }
+  .z-sticker[data-tone="pink"] {
+    background: var(--pink);
+    color: var(--on-pink);
+  }
+  .z-sticker[data-tone="ink"] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* Card: a flat coloured tile for a post or project. */
+  .z-card {
+    --bg: var(--paper-bright);
+    --fg: var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-5);
+    min-height: 18rem;
+    width: 100%;
+    padding: var(--space-3);
+    border: 0;
+    border-radius: var(--radius-soft);
+    background: var(--bg);
+    color: var(--fg);
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    font: inherit;
+    transition: rotate 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .z-card:hover {
+    rotate: -1deg;
+  }
+  .z-card[data-tone="ink"] {
+    --bg: var(--ink);
+    --fg: var(--paper);
+  }
+  .z-card[data-tone="cobalt"] {
+    --bg: var(--cobalt);
+    --fg: var(--on-cobalt);
+  }
+  .z-card[data-tone="tomato"] {
+    --bg: var(--tomato);
+    --fg: var(--on-tomato);
+  }
+  .z-card[data-tone="butter"] {
+    --bg: var(--butter);
+    --fg: var(--on-butter);
+  }
+  .z-card[data-tone="pink"] {
+    --bg: var(--pink);
+    --fg: var(--on-pink);
+  }
+  .z-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+  .z-card-arrow {
+    font-size: 2rem;
+    line-height: 1;
+  }
+  .z-card-title {
+    margin: 0 0 var(--space-2);
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 2.5rem;
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  /* Field: a line to write on. */
+  .z-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--fg, var(--ink));
+  }
+  .z-field input,
+  .z-field textarea {
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid currentColor;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font-family: var(--font-sans);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    padding: 0.25rem 0 0.6rem;
+    resize: vertical;
+  }
+  .z-field input::placeholder,
+  .z-field textarea::placeholder {
+    color: currentColor;
+    opacity: 0.68;
+  }
+  .z-field input:focus-visible,
+  .z-field textarea:focus-visible {
+    outline: 0;
+    border-bottom-width: 4px;
+    padding-bottom: calc(0.6rem - 2px);
+  }
+  .z-field[data-invalid] .z-field-note {
+    font-weight: 500;
+  }
+  .z-field-note {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+  }
+
+  /* z-prose: long-form article text on the typography plugin. Reads --fg/--soft/--rule from the
+     enclosing Block, so it works on paper, in dark and on any tone. */
+  .z-prose {
+    @apply prose;
+    --tw-prose-body: var(--fg, var(--ink));
+    --tw-prose-headings: var(--fg, var(--ink));
+    --tw-prose-lead: var(--soft, var(--ink-soft));
+    --tw-prose-links: var(--fg, var(--ink));
+    --tw-prose-bold: var(--fg, var(--ink));
+    --tw-prose-counters: var(--soft, var(--ink-soft));
+    --tw-prose-bullets: var(--soft, var(--ink-soft));
+    --tw-prose-hr: var(--rule, var(--line));
+    --tw-prose-quotes: var(--fg, var(--ink));
+    --tw-prose-quote-borders: var(--fg, var(--ink));
+    --tw-prose-captions: var(--soft, var(--ink-soft));
+    --tw-prose-code: var(--fg, var(--ink));
+    --tw-prose-pre-code: var(--fg, var(--ink));
+    --tw-prose-pre-bg: transparent;
+    --tw-prose-th-borders: var(--fg, var(--ink));
+    --tw-prose-td-borders: var(--rule, var(--line));
+    max-width: 68ch;
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+  }
+  .z-prose h1,
+  .z-prose h2,
+  .z-prose h3,
+  .z-prose h4 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+  .z-prose h1 {
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    line-height: 0.9;
+    margin: 0 0 0.5em;
+  }
+  .z-prose h2 {
+    font-size: 2.5rem;
+    margin: 1.6em 0 0.5em;
+  }
+  .z-prose h3 {
+    font-size: 1.75rem;
+    margin: 1.6em 0 0.5em;
+  }
+  .z-prose h4 {
+    font-size: 1.25rem;
+    letter-spacing: -0.03em;
+    margin: 1.4em 0 0.4em;
+  }
+  .z-prose :is(h1, h2, h3, h4):first-child {
+    margin-top: 0;
+  }
+  .z-prose a {
+    color: inherit;
+    font-weight: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.18em;
+  }
+  .z-prose a:hover {
+    text-decoration-thickness: 4px;
+  }
+  .z-prose strong {
+    font-weight: 700;
+  }
+  .z-prose blockquote {
+    margin: 2em 0;
+    padding: 0 0 0 var(--space-3);
+    border-inline-start: 4px solid currentColor;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+  .z-prose blockquote p:first-of-type::before,
+  .z-prose blockquote p:last-of-type::after {
+    content: none;
+  }
+  .z-prose code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    font-weight: 500;
+  }
+  .z-prose code::before,
+  .z-prose code::after {
+    content: none;
+  }
+  .z-prose pre {
+    padding: var(--space-2);
+    border: 2px solid currentColor;
+    border-radius: var(--radius-soft);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  .z-prose img,
+  .z-prose video {
+    border-radius: var(--radius-soft);
+    height: auto;
+  }
+  .z-prose figcaption {
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+  .z-prose hr {
+    border-top-width: 1px;
+    margin: 3em 0;
+  }
+  .z-prose th {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .z-card:hover {
+    rotate: none;
+  }
+}

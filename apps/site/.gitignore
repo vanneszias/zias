@@ -1,0 +1,12 @@
+# Build output and generated state
+dist/
+.astro/
+.emdash/
+.wrangler/
+
+# Environment
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*

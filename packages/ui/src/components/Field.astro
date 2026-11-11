@@ -1,0 +1,48 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { flag } from "../lib/astro";
+
+interface Props extends HTMLAttributes<"input"> {
+  label: string;
+  hint?: string;
+  /** Replaces the hint and marks the field invalid. */
+  error?: string;
+  /** Render a textarea. */
+  multiline?: boolean;
+  rows?: number;
+  name?: string;
+  type?: string;
+  value?: string | number;
+  required?: boolean;
+  disabled?: boolean;
+  placeholder?: string;
+  autocomplete?: string;
+}
+const {
+  label,
+  hint,
+  error,
+  multiline,
+  rows = 3,
+  id,
+  class: className,
+  ...rest
+} = Astro.props;
+const fieldId =
+  id ??
+  `z-field-${rest.name ?? label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+const note = error || hint;
+const El = multiline ? "textarea" : "input";
+const attrs = {
+  ...rest,
+  id: fieldId,
+  "aria-invalid": error ? "true" : undefined,
+  "aria-describedby": note ? `${fieldId}-note` : undefined,
+};
+---
+
+<div class:list={["z-field", className]} data-invalid={flag(error)}>
+  <label class="z-tag" for={fieldId}>{label}</label>
+  {multiline ? <textarea {...attrs} rows={rows} /> : <El {...attrs} />}
+  {note && <span class="z-field-note" id={`${fieldId}-note`}>{note}</span>}
+</div>

@@ -1,0 +1,33 @@
+---
+import BigWord from "@zias/ui/components/BigWord.astro";
+import Block from "@zias/ui/components/Block.astro";
+import Tag from "@zias/ui/components/Tag.astro";
+import type { BlockProps } from "../../define";
+import Statement from "../../lib/Statement.astro";
+import { headingFor } from "../../lib/tone";
+import ContactForm from "./ContactForm.astro";
+import type { fields } from "./schema";
+
+type Props = BlockProps<typeof fields>;
+const { value, index } = Astro.props;
+const { word, statement, form, email, tone, anchor_id } = value;
+---
+
+<Block tone={tone} id={anchor_id || undefined} pad="loose">
+  <div class="grid gap-space-5 lg:grid-cols-2">
+    <div>
+      <BigWord as={headingFor(index)} size="giant">{word}</BigWord>
+      {statement && <Statement class="mt-space-4">{statement}</Statement>}
+      {
+        email && (
+          <p class="mt-space-4">
+            <Tag href={`mailto:${email}`} arrow>
+              {email}
+            </Tag>
+          </p>
+        )
+      }
+    </div>
+    <ContactForm slug={form} />
+  </div>
+</Block>

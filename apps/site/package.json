@@ -1,0 +1,38 @@
+{
+  "name": "@zias/site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 4401",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "astro build && wrangler deploy",
+    "check-types": "astro check",
+    "types": "emdash types"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^14.4.7",
+    "@astrojs/react": "^7.1.8",
+    "@emdash-cms/cloudflare": "^1.5.0",
+    "@emdash-cms/plugin-forms": "^0.2.13",
+    "@openpanel/web": "^1.4.4",
+    "@tailwindcss/vite": "^4.3.5",
+    "@zias/blocks": "workspace:*",
+    "@zias/ui": "workspace:*",
+    "astro": "^7.4.11",
+    "emdash": "^1.5.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "tailwindcss": "catalog:"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@cloudflare/workers-types": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@zias/config": "workspace:*",
+    "typescript": "catalog:",
+    "wrangler": "catalog:"
+  }
+}

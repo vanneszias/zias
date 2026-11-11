@@ -1,0 +1,16 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "types": ["@cloudflare/workers-types"]
+  },
+  "include": [
+    ".astro/types.d.ts",
+    "emdash-env.d.ts",
+    "src",
+    "seed",
+    "astro.config.mjs"
+  ],
+  "exclude": ["dist"]
+}

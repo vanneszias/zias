@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "zias-site",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-11-10",
+  "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    { "pattern": "zias.be", "custom_domain": true },
+    { "pattern": "www.zias.be", "custom_domain": true },
+  ],
+  "workers_dev": false,
+  // Workers Builds serves PR previews on workers.dev Preview URLs.
+  "preview_urls": true,
+  "observability": { "enabled": true },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "zias-site",
+      "database_id": "02e7e752-3efd-4d83-843e-4de86ed267da",
+    },
+  ],
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "zias-media" }],
+  // Astro sessions (EmDash admin login).
+  "kv_namespaces": [{ "binding": "SESSION", "id": "816dd9dae3c842e087f06b688dbbeeb4" }],
+  // EmDash maintenance, scheduled publishing and plugin cron (forms cleanup).
+  "triggers": { "crons": ["* * * * *"] },
+  // Previews (`wrangler preview`, one per branch) get their own content and
+  // media so a PR never touches production data.
+  "previews": {
+    "observability": { "enabled": true },
+    "d1_databases": [
+      {
+        "binding": "DB",
+        "database_name": "zias-site-preview",
+        "database_id": "11ccd74c-8d64-43c8-b582-6fb2df7e2e94",
+      },
+    ],
+    "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "zias-media-preview" }],
+    "kv_namespaces": [{ "binding": "SESSION", "id": "6f01eefb49ac4901b6ffe5e3c902c88d" }],
+  },
+}

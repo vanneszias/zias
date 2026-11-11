@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "zias-og",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  "routes": [{ "pattern": "og.zias.be", "custom_domain": true }],
+  "workers_dev": false,
+  // Workers Builds serves PR previews on workers.dev Preview URLs.
+  "preview_urls": true,
+  "observability": { "enabled": true },
+  "rules": [{ "type": "Data", "globs": ["**/*.woff"], "fallthrough": true }],
+  "r2_buckets": [{ "binding": "OG_IMAGES", "bucket_name": "zias-og-images-zias" }],
+  // Reads post titles from the site's EmDash database.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "zias-site",
+      "database_id": "02e7e752-3efd-4d83-843e-4de86ed267da",
+    },
+  ],
+  "previews": {
+    "observability": { "enabled": true },
+    "r2_buckets": [{ "binding": "OG_IMAGES", "bucket_name": "zias-og-images-preview" }],
+    "d1_databases": [
+      {
+        "binding": "DB",
+        "database_name": "zias-site-preview",
+        "database_id": "11ccd74c-8d64-43c8-b582-6fb2df7e2e94",
+      },
+    ],
+  },
+}

@@ -1,0 +1,27 @@
+---
+import ArrowLink from "@zias/ui/components/ArrowLink.astro";
+import BigWord from "@zias/ui/components/BigWord.astro";
+import Block from "@zias/ui/components/Block.astro";
+import type { BlockProps } from "../../define";
+import { headingFor, shoutOn } from "../../lib/tone";
+import type { fields } from "./schema";
+
+type Props = BlockProps<typeof fields>;
+const { value, index } = Astro.props;
+const { word, size, url, color, outline, wide, tone, anchor_id } = value;
+const loose = size === "colossal" || size === "giant";
+---
+
+<Block tone={tone} id={anchor_id || undefined} pad={loose ? "loose" : undefined} class="overflow-hidden">
+  {
+    url ? (
+      <ArrowLink href={url} size={size} color={color} accent={shoutOn(tone) && "tomato"}>
+        {word}
+      </ArrowLink>
+    ) : (
+      <BigWord as={headingFor(index)} size={size} color={color} outline={outline} wide={wide}>
+        {word}
+      </BigWord>
+    )
+  }
+</Block>

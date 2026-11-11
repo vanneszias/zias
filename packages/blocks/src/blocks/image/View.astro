@@ -1,0 +1,28 @@
+---
+import BigWord from "@zias/ui/components/BigWord.astro";
+import Block from "@zias/ui/components/Block.astro";
+import Tag from "@zias/ui/components/Tag.astro";
+import { Image } from "emdash/ui";
+import type { BlockProps } from "../../define";
+import type { fields } from "./schema";
+
+type Props = BlockProps<typeof fields>;
+const { value } = Astro.props;
+const { image, word, caption, tone, anchor_id } = value;
+---
+
+<Block tone={tone} id={anchor_id || undefined}>
+  <figure class="m-0 flex items-end gap-space-3">
+    {word && <BigWord vertical size="huge" aria-hidden="true">{word}</BigWord>}
+    <div class="min-w-0 flex-1">
+      <Image image={image} class="block h-auto w-full rounded-soft" sizes="100vw" />
+      {
+        caption && (
+          <figcaption class="mt-space-2">
+            <Tag>{caption}</Tag>
+          </figcaption>
+        )
+      }
+    </div>
+  </figure>
+</Block>

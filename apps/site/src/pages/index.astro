@@ -1,0 +1,10 @@
+---
+import PageView from "../components/PageView.astro";
+import { loadPage } from "../lib/pages";
+
+const loaded = await loadPage("home", Astro.url.origin);
+if (!loaded) return Astro.rewrite("/404");
+if (Astro.cache?.enabled) Astro.cache.set(loaded.cacheHint);
+---
+
+<PageView loaded={loaded} />

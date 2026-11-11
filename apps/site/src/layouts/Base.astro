@@ -1,0 +1,92 @@
+---
+import { PUBLIC_OPENPANEL_CLIENT_ID } from "astro:env/client";
+import favicon from "@zias/ui/assets/favicon.svg?url";
+import ThemeScript from "@zias/ui/components/ThemeScript.astro";
+import { getMenuWithCacheHint, getSiteSettingsWithCacheHint } from "emdash";
+import { createPublicPageContext } from "emdash/page";
+import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
+import Analytics from "../components/Analytics.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteNav from "../components/SiteNav.astro";
+import { staticOgUrl } from "../lib/og";
+import "../styles/site.css";
+
+interface Props {
+  /** The page's own title; the site title is appended. */
+  title?: string | null;
+  description?: string | null;
+  image?: string | null;
+  canonical?: string | null;
+  robots?: string | null;
+  pageType?: "website" | "article";
+  content?: { collection: string; id: string; slug?: string | null };
+  articleMeta?: { publishedTime?: string | null; modifiedTime?: string | null };
+}
+
+const {
+  title,
+  description,
+  image,
+  canonical,
+  robots,
+  pageType = "website",
+  content,
+  articleMeta,
+} = Astro.props;
+
+const [settings, primary, footer] = await Promise.all([
+  getSiteSettingsWithCacheHint(),
+  getMenuWithCacheHint("primary"),
+  getMenuWithCacheHint("footer"),
+]);
+if (Astro.cache?.enabled)
+  for (const { cacheHint } of [settings, primary, footer])
+    Astro.cache.set(cacheHint);
+
+const siteTitle = settings.data.title?.trim() || "Zias";
+const separator = settings.data.seo?.titleSeparator?.trim() || "—";
+const fullTitle = title ? `${title} ${separator} ${siteTitle}` : siteTitle;
+
+const page = createPublicPageContext({
+  Astro,
+  kind: content ? "content" : "custom",
+  pageType,
+  title: fullTitle,
+  pageTitle: title ?? siteTitle,
+  description: description || settings.data.tagline,
+  canonical: canonical ?? `${Astro.url.origin}${Astro.url.pathname}`,
+  image: image ?? staticOgUrl("/site"),
+  content,
+  articleMeta,
+  seo: { ogImage: image, robots },
+  siteName: siteTitle,
+});
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <link rel="icon" type="image/svg+xml" href={favicon} />
+    <link rel="alternate" type="application/rss+xml" title={`${siteTitle} journal`} href="/rss.xml" />
+    <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#17130f" media="(prefers-color-scheme: dark)" />
+    <ThemeScript />
+    <EmDashHead page={page} />
+  </head>
+  <body>
+    <EmDashBodyStart page={page} />
+    <a href="#main-content" class="z-button fixed top-space-2 left-space-2 z-[60] -translate-y-[200%] focus:translate-y-0">
+      Skip to content
+    </a>
+    <SiteNav items={primary.data?.items ?? []} />
+    <main id="main-content" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+    <SiteFooter items={footer.data?.items ?? []} />
+    {PUBLIC_OPENPANEL_CLIENT_ID && <Analytics />}
+    <EmDashBodyEnd page={page} />
+  </body>
+</html>

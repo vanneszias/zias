@@ -1,0 +1,9 @@
+@import "@zias/ui/globals.css";
+
+@source "../";
+@source "../../../../packages/blocks/src";
+
+/* The first block on a page clears the floating nav. */
+#main-content > .z-block:first-child:not([data-pad="loose"]) {
+  padding-top: calc(var(--space-5) + var(--space-4));
+}

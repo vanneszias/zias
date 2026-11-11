@@ -1,0 +1,48 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import type { NavLink } from "../lib/astro";
+import Scribble from "./Scribble.astro";
+
+interface Props extends HTMLAttributes<"header"> {
+  /** The name as text. Use the `brand` slot for the logo mark instead. */
+  brand?: string;
+  /** A scribbled word after the name. */
+  note?: string;
+  links?: NavLink[];
+  /** Default "/". */
+  homeHref?: string;
+}
+const {
+  brand,
+  note,
+  links = [],
+  homeHref = "/",
+  class: className,
+  ...rest
+} = Astro.props;
+const hasBrandSlot = Astro.slots.has("brand");
+const hasAction = Astro.slots.has("action");
+---
+
+<header {...rest} class:list={["z-nav", className]}>
+  <a class="z-nav-brand" href={homeHref}>
+    {hasBrandSlot ? <slot name="brand" /> : brand}
+    {note && <Scribble size="s" rotate={-6} color="shout">{note}</Scribble>}
+  </a>
+  <nav class="z-nav-links" aria-label="Main">
+    {
+      links.map((l) => (
+        <a
+          href={l.href}
+          class="z-tag"
+          data-active={l.active ? "" : undefined}
+          aria-current={l.active ? "page" : undefined}
+          style={`border-bottom-color:${l.active ? "currentColor" : "transparent"}`}
+        >
+          {l.label}
+        </a>
+      ))
+    }
+    {hasAction && <slot name="action" />}
+  </nav>
+</header>

@@ -1,0 +1,35 @@
+---
+import BigWord from "@zias/ui/components/BigWord.astro";
+import Block from "@zias/ui/components/Block.astro";
+import Button from "@zias/ui/components/Button.astro";
+import Tag from "@zias/ui/components/Tag.astro";
+import type { BlockProps } from "../../define";
+import { getPosts } from "../../lib/journal";
+import PostGrid from "../../lib/PostGrid.astro";
+import { headingFor } from "../../lib/tone";
+import type { fields } from "./schema";
+
+type Props = BlockProps<typeof fields>;
+const { value, index } = Astro.props;
+const { word, count, category, link_label, tone, anchor_id } = value;
+
+const { entries, cacheHint } = await getPosts({ limit: count, category });
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+const journal = category
+  ? `/journal?category=${encodeURIComponent(category)}`
+  : "/journal";
+---
+
+<Block tone={tone} id={anchor_id || undefined}>
+  <div class="mb-space-4 flex flex-wrap items-end justify-between gap-space-3">
+    <BigWord as={headingFor(index)} size="huge">{word}</BigWord>
+    {
+      link_label && (
+        <Button href={journal} variant="outline" arrow>
+          {link_label}
+        </Button>
+      )
+    }
+  </div>
+  {entries.length > 0 ? <PostGrid posts={entries} ground={tone} /> : <Tag>Nothing here yet</Tag>}
+</Block>

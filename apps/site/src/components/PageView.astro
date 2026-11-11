@@ -1,0 +1,22 @@
+---
+import PageBlocks from "@zias/blocks/PageBlocks.astro";
+import Base from "../layouts/Base.astro";
+import type { loadPage } from "../lib/pages";
+
+interface Props {
+  loaded: NonNullable<Awaited<ReturnType<typeof loadPage>>>;
+}
+
+const { page, seo } = Astro.props.loaded;
+---
+
+<Base
+  title={seo.title}
+  description={seo.description}
+  image={seo.ogImage}
+  canonical={seo.canonical}
+  robots={seo.robots}
+  content={{ collection: "pages", id: page.data.id, slug: page.id }}
+>
+  <PageBlocks value={page.data.content} />
+</Base>
