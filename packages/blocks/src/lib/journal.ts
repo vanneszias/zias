@@ -23,8 +23,7 @@ export async function getCategories(): Promise<TaxonomyTerm[]> {
 /** A category and all its descendants, so filtering on `work` also finds case studies. */
 function family(slug: string, terms: TaxonomyTerm[]): string[] {
   const term = terms.find((t) => t.slug === slug);
-  if (!term) return [slug];
-  return [slug, ...terms.filter((t) => t.parentId === term.id).flatMap((t) => family(t.slug, terms))];
+  return term ? flatten([term]).map((t) => t.slug) : [slug];
 }
 
 /** Published posts, newest first, optionally limited to a category and its children. */
