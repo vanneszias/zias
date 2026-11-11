@@ -1,0 +1,44 @@
+---
+import BigWord from "@zias/ui/components/BigWord.astro";
+import Block from "@zias/ui/components/Block.astro";
+import Button from "@zias/ui/components/Button.astro";
+import Scribble from "@zias/ui/components/Scribble.astro";
+import Sticker from "@zias/ui/components/Sticker.astro";
+import type { BlockProps } from "../../define";
+import Statement from "../../lib/Statement.astro";
+import { lines } from "../../lib/text";
+import { headingFor, shoutOn } from "../../lib/tone";
+import type { fields } from "./schema";
+
+type Props = BlockProps<typeof fields>;
+const { value, index } = Astro.props;
+const { words, size, statement, scribble, sticker, action_label, action_url, tone, anchor_id } = value;
+const small = size === "huge" || size === "big";
+---
+
+<Block tone={tone} id={anchor_id || undefined} pad={small ? undefined : "loose"} class="overflow-hidden">
+  <div class="relative inline-block max-w-full">
+    <BigWord as={headingFor(index)} size={size}>
+      {lines(words).map((line, i) => (i > 0 ? [<br />, line] : line))}
+    </BigWord>
+    {
+      sticker ? (
+        <Sticker class="absolute top-0 right-0 -translate-y-1/2">{sticker}</Sticker>
+      ) : (
+        scribble && (
+          <Scribble size="l" color={shoutOn(tone)} class="absolute right-0 bottom-0 translate-y-3/4">
+            {scribble}
+          </Scribble>
+        )
+      )
+    }
+  </div>
+  {statement && <Statement class="mt-space-5">{statement}</Statement>}
+  {
+    action_label && action_url && (
+      <Button href={action_url} size="l" arrow class="mt-space-4">
+        {action_label}
+      </Button>
+    )
+  }
+</Block>

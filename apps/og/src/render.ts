@@ -2,7 +2,7 @@ import { initWasm, Resvg } from "@resvg/resvg-wasm";
 import resvgWasm from "@resvg/resvg-wasm/index_bg.wasm";
 import type { ReactElement } from "react";
 import satori, { init as initSatori } from "satori/standalone";
-import satoriWasm from "satori/layout.wasm";
+import satoriWasm from "satori/yoga.wasm";
 import { fonts } from "./fonts";
 import { HEIGHT, WIDTH } from "./tokens";
 

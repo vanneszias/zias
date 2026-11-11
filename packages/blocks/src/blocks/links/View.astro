@@ -1,0 +1,27 @@
+---
+import ArrowLink from "@zias/ui/components/ArrowLink.astro";
+import Block from "@zias/ui/components/Block.astro";
+import Tag from "@zias/ui/components/Tag.astro";
+import type { BlockProps } from "../../define";
+import { shoutOn } from "../../lib/tone";
+import type { fields } from "./schema";
+
+type Props = BlockProps<typeof fields>;
+const { value } = Astro.props;
+const { links, size, note, tone, anchor_id } = value;
+---
+
+<Block tone={tone} id={anchor_id || undefined}>
+  <ul class="m-0 flex list-none flex-wrap justify-between gap-x-space-4 gap-y-space-2 p-0">
+    {
+      links.map((link) => (
+        <li>
+          <ArrowLink href={link.url} size={size} accent={shoutOn(tone) && "tomato"}>
+            {link.label}
+          </ArrowLink>
+        </li>
+      ))
+    }
+  </ul>
+  {note && <Tag class="mt-space-4">{note}</Tag>}
+</Block>

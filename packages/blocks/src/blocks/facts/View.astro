@@ -1,0 +1,36 @@
+---
+import BigWord from "@zias/ui/components/BigWord.astro";
+import Block from "@zias/ui/components/Block.astro";
+import Tag from "@zias/ui/components/Tag.astro";
+import type { BlockProps } from "../../define";
+import { headingFor } from "../../lib/tone";
+import type { fields } from "./schema";
+
+type Props = BlockProps<typeof fields>;
+const { value, index } = Astro.props;
+const { word, facts, tone, anchor_id } = value;
+---
+
+<Block tone={tone} id={anchor_id || undefined}>
+  {
+    word && (
+      <BigWord as={headingFor(index)} size="huge" class="mb-space-4">
+        {word}
+      </BigWord>
+    )
+  }
+  <dl class="m-0">
+    {
+      facts.map((fact) => (
+        <div class="flex flex-wrap items-baseline justify-between gap-x-space-3 gap-y-space-1 border-t border-(--rule) py-space-3 first:border-t-0">
+          <dt>
+            <Tag>{fact.label}</Tag>
+          </dt>
+          <dd class="m-0">
+            <BigWord size="big">{fact.value}</BigWord>
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</Block>

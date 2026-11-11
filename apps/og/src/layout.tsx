@@ -84,8 +84,8 @@ export function WordImage({
             fontWeight: 900,
             fontSize,
             lineHeight: 0.78,
-            letterSpacing: "-0.065em",
-            marginLeft: -8,
+            letterSpacing: word.length <= 5 ? "-0.065em" : "-0.04em",
+            marginLeft: word.length <= 5 ? -8 : 0,
           }}
         >
           {word}
@@ -148,7 +148,7 @@ export function PostImage({
         }}
       >
         <Label fg={tone.fg}>zias.be</Label>
-        <Mark fill={tone.fg} height={64} />
+        <Mark fill={tone.fg} height={88} />
       </div>
     </div>
   );

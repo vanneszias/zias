@@ -4,7 +4,6 @@
   "main": "src/index.ts",
   "compatibility_date": "2026-11-01",
   "workers_dev": true,
-  "define": { "__filename": "\"/worker.js\"" },
   "rules": [{ "type": "Data", "globs": ["**/*.woff"], "fallthrough": true }],
   "r2_buckets": [{ "binding": "OG_IMAGES", "bucket_name": "zias-og-images-zias" }],
   "d1_databases": [{ "binding": "DB", "database_name": "zias-site" }],
