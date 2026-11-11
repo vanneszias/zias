@@ -1,114 +1,68 @@
-# zias
+# Zias
 
-This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines React, TanStack Router, Hono, TRPC, and more.
+The website for Zias, built on a CMS so the content can be edited without code changes.
 
-## Features
+- **Site**: [Astro](https://astro.build) with the EmDash CMS, server-rendered on Cloudflare Workers, with a D1 database for content and an R2 bucket for media.
+- **Design system**: Tailwind theme, fonts and Astro components shared across the site.
+- **Blocks**: typed page blocks (a schema and a renderer for each) that pages are composed from in the CMS.
 
-- **TypeScript** - For type safety and improved developer experience
-- **TanStack Router** - File-based routing with full type safety
-- **TailwindCSS** - Utility-first CSS for rapid UI development
-- **Shared UI package** - shadcn/ui primitives live in `packages/ui`
-- **Hono** - Lightweight, performant server framework
-- **tRPC** - End-to-end type-safe APIs
-- **workers** - Runtime environment
-- **Drizzle** - TypeScript-first ORM
-- **SQLite/Turso** - Database engine
-- **Authentication** - Better-Auth
-- **Biome** - Linting and formatting
-- **Turborepo** - Optimized monorepo build system
+## Layout
 
-## Getting Started
+```
+apps/
+  site/      @zias/site  Astro + EmDash site, deployed with Wrangler
+  og/        @zias/og    Cloudflare Worker that renders Open Graph images
+packages/
+  ui/        @zias/ui      design system: theme, fonts, Astro components
+  blocks/    @zias/blocks  block schemas and renderers used by pages
+  config/                  shared TypeScript config
+```
 
-First, install the dependencies:
+## Prerequisites
+
+- [Bun](https://bun.sh) (the version pinned in `package.json`)
+- A Cloudflare account, for deploys
+
+## Getting started
 
 ```bash
 bun install
-```
-
-## Database Setup
-
-This project uses SQLite with Drizzle ORM.
-
-1. Start the local SQLite database (optional):
-   D1 local development and migrations are handled automatically by Alchemy during dev and deploy.
-
-2. Update your `.env` file in the `apps/server` directory with the appropriate connection details if needed.
-
-3. Apply the schema to your database:
-
-```bash
-bun run db:push
-```
-
-Then, run the development server:
-
-```bash
 bun run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser to see the web application.
-The API is running at [http://localhost:3000](http://localhost:3000).
+Then open the site at the URL the dev server prints. The CMS admin is at `/_emdash/admin`. On first visit it runs setup and registers a passkey for the admin account.
 
-## UI Customization
+Seed content and schema live in `apps/site/seed/`. Local state is kept in `apps/site/.wrangler` and `apps/site/.emdash`, both git-ignored.
 
-React web apps in this stack share shadcn/ui primitives through `packages/ui`.
+## Commands
 
-- Change design tokens and global styles in `packages/ui/src/styles/globals.css`
-- Update shared primitives in `packages/ui/src/components/*`
-- Adjust shadcn aliases or style config in `packages/ui/components.json` and `apps/web/components.json`
+Run from the repo root:
 
-### Add more shared components
+| Command | What it does |
+| --- | --- |
+| `bun run dev` | Start the apps in development mode |
+| `bun run build` | Build all apps |
+| `bun run check-types` | Type-check all apps |
+| `bun run check` | Format and lint with Biome (writes fixes) |
+| `bun run deploy` | Build and deploy the apps to Cloudflare |
 
-Run this from the project root to add more primitives to the shared UI package:
+Within `apps/site`, `bun run types` regenerates the EmDash types, and `bun run preview` serves the production build locally.
 
-```bash
-npx shadcn@latest add accordion dialog popover sheet table -c packages/ui
-```
+## Deployment
 
-Import shared components like this:
+Deploys target Cloudflare Workers using the configuration in `apps/site/wrangler.jsonc`.
 
-```tsx
-import { Button } from "@zias/ui/components/button";
-```
+1. One-time setup: with Wrangler, create the D1 database and the R2 bucket named in `apps/site/wrangler.jsonc`. The bindings in that file must match the resource names.
+2. Deploy from the repo root:
 
-### Add app-specific blocks
+   ```bash
+   bun run deploy
+   ```
 
-If you want to add app-specific blocks instead of shared primitives, run the shadcn CLI from `apps/web`.
+`bun run deploy` builds the site and runs `wrangler deploy` for it.
 
-## Deployment (Cloudflare via Alchemy)
+## Tooling
 
-- Target: web + server
-- Dev: bun run dev
-- Deploy: bun run deploy
-- Destroy: bun run destroy
-
-For more details, see the guide on [Deploying to Cloudflare with Alchemy](https://www.better-t-stack.dev/docs/guides/cloudflare-alchemy).
-
-## Git Hooks and Formatting
-
-- Format and lint fix: `bun run check`
-
-## Project Structure
-
-```
-zias/
-├── apps/
-│   ├── web/         # Frontend application (React + TanStack Router)
-│   └── server/      # Backend API (Hono, TRPC)
-├── packages/
-│   ├── ui/          # Shared shadcn/ui components and styles
-│   ├── api/         # API layer / business logic
-│   ├── auth/        # Authentication configuration & logic
-│   └── db/          # Database schema & queries
-```
-
-## Available Scripts
-
-- `bun run dev`: Start all applications in development mode
-- `bun run build`: Build all applications
-- `bun run dev:web`: Start only the web application
-- `bun run dev:server`: Start only the server
-- `bun run check-types`: Check TypeScript types across all apps
-- `bun run db:push`: Push schema changes to database
-- `bun run db:generate`: Generate database client/types
-- `bun run check`: Run Biome formatting and linting
+- [Bun workspaces](https://bun.sh/docs/install/workspaces) for packages
+- [Turborepo](https://turbo.build) to run tasks across the workspace (`turbo.json`)
+- [Biome](https://biomejs.dev) for formatting and linting (`biome.json`)

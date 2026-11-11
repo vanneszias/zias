@@ -37,8 +37,11 @@ lerna-debug.log*
 .turbo
 .nx
 
-# Better-T-Stack
-.alchemy
+# Cloudflare / Astro / EmDash
+.astro
+.wrangler
+.emdash
+.dev.vars
 
 # Testing
 coverage

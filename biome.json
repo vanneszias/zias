@@ -16,17 +16,12 @@
       "!**/dev-dist",
       "!**/.zed",
       "!**/.vscode",
-      "!**/routeTree.gen.ts",
-      "!**/src-tauri",
-      "!**/.nuxt",
-      "!bts.jsonc",
-      "!**/.expo",
       "!**/.wrangler",
-      "!**/.alchemy",
-      "!**/.svelte-kit",
       "!**/wrangler.jsonc",
-      "!**/.source",
-      "!**/convex/_generated"
+      "!**/.astro",
+      "!**/.emdash",
+      "!**/worker-configuration.d.ts",
+      "!**/emdash-env.d.ts"
     ]
   },
   "formatter": {
@@ -42,12 +37,9 @@
         "useExhaustiveDependencies": "info"
       },
       "nursery": {
-        "useSortedClasses": {
+        "useTailwindSortedClasses": {
           "level": "warn",
-          "fix": "safe",
-          "options": {
-            "functions": ["clsx", "cva", "cn"]
-          }
+          "fix": "safe"
         }
       },
       "style": {
