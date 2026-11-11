@@ -1,0 +1,57 @@
+---
+import { getCategories, getPosts } from "@zias/blocks/journal";
+import PostGrid from "@zias/blocks/PostGrid.astro";
+import BigWord from "@zias/ui/components/BigWord.astro";
+import Block from "@zias/ui/components/Block.astro";
+import Button from "@zias/ui/components/Button.astro";
+import Tag from "@zias/ui/components/Tag.astro";
+import Base from "../../layouts/Base.astro";
+import { staticOgUrl } from "../../lib/og";
+
+const category = Astro.url.searchParams.get("category") ?? undefined;
+const cursor = Astro.url.searchParams.get("cursor") ?? undefined;
+const [categories, { entries, nextCursor, cacheHint }] = await Promise.all([
+  getCategories(),
+  getPosts({ category, cursor }),
+]);
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const filters = [{ slug: undefined, label: "All" }, ...categories];
+const href = (params: Record<string, string | undefined>) => {
+  const query = new URLSearchParams(
+    Object.entries(params).filter((e): e is [string, string] => !!e[1]),
+  );
+  return query.size ? `/journal?${query}` : "/journal";
+};
+const description = "Writing, case studies, and notes from the work.";
+---
+
+<Base title="Journal" description={description} image={staticOgUrl("/journal")} canonical={`${Astro.url.origin}/journal`}>
+  <Block>
+    <BigWord as="h1" size="giant">journal.</BigWord>
+    <p class="mt-space-4 max-w-[24ch] text-statement max-sm:text-[1.75rem]">{description}</p>
+    <nav aria-label="Categories" class="mt-space-4">
+      <ul class="m-0 flex list-none flex-wrap gap-space-2 p-0">
+        {
+          filters.map((term) => (
+            <li>
+              <Tag href={href({ category: term.slug })} active={term.slug === category} aria-current={term.slug === category ? "page" : undefined}>
+                {term.label}
+              </Tag>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </Block>
+  <Block tone="bright">
+    {entries.length > 0 ? <PostGrid posts={entries} ground="bright" /> : <Tag>Nothing here yet</Tag>}
+    {
+      nextCursor && (
+        <Button href={href({ category, cursor: nextCursor })} variant="outline" arrow class="mt-space-4">
+          Older posts
+        </Button>
+      )
+    }
+  </Block>
+</Base>

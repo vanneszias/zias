@@ -1,7 +1,7 @@
 import { PostImage, WordImage } from "./layout";
 import type { Post } from "./posts";
 import { renderPng } from "./render";
-import { color, tones, toneForCategory } from "./tokens";
+import { color, toneForCategory, tones } from "./tokens";
 
 const siteImage = () =>
   renderPng(

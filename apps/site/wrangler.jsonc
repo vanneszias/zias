@@ -1,25 +1,13 @@
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "my-marketing-site",
-	"main": "./src/worker.ts",
-	"compatibility_date": "2026-02-24",
-	"compatibility_flags": ["nodejs_compat"],
-	"d1_databases": [
-		{
-			"binding": "DB",
-			"database_name": "my-marketing-site",
-		},
-	],
-	"r2_buckets": [
-		{
-			"binding": "MEDIA",
-			"bucket_name": "my-marketing-media",
-		},
-	],
-	// Sandboxed plugins require Worker Loader, available on Workers paid plans. Uncomment to enable:
-	// "worker_loaders": [{ "binding": "LOADER" }],
-	// General maintenance cron trigger
-	"triggers": {
-		"crons": ["* * * * *"],
-	},
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "zias-site",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-11-10",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [{ "binding": "DB", "database_name": "zias-site" }],
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "zias-media" }],
+  // Astro sessions (EmDash admin login); provisioned on first deploy.
+  "kv_namespaces": [{ "binding": "SESSION" }],
+  // EmDash maintenance, scheduled publishing and plugin cron (forms cleanup).
+  "triggers": { "crons": ["* * * * *"] },
 }

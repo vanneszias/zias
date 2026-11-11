@@ -12,7 +12,17 @@ import type { fields } from "./schema";
 
 type Props = BlockProps<typeof fields>;
 const { value, index } = Astro.props;
-const { words, size, statement, scribble, sticker, action_label, action_url, tone, anchor_id } = value;
+const {
+  words,
+  size,
+  statement,
+  scribble,
+  sticker,
+  action_label,
+  action_url,
+  tone,
+  anchor_id,
+} = value;
 const small = size === "huge" || size === "big";
 ---
 
@@ -23,7 +33,7 @@ const small = size === "huge" || size === "big";
     </BigWord>
     {
       sticker ? (
-        <Sticker class="absolute top-0 right-0 -translate-y-1/2">{sticker}</Sticker>
+        <Sticker class="absolute top-0 left-[80%] -translate-y-1/2 whitespace-nowrap">{sticker}</Sticker>
       ) : (
         scribble && (
           <Scribble size="l" color={shoutOn(tone)} class="absolute right-0 bottom-0 translate-y-3/4">

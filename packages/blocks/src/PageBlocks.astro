@@ -1,0 +1,24 @@
+---
+import { type BlockComponent, Blocks, defineBlockComponents } from "emdash/ui";
+import { PREFIX } from "./define";
+
+interface Props {
+  value?: { _type: string; _key: string; _version: number }[] | null;
+}
+
+// Each block folder's View.astro renders the block named after the folder.
+const views = import.meta.glob<{ default: BlockComponent }>(
+  "./blocks/*/View.astro",
+  { eager: true },
+);
+const components = defineBlockComponents(
+  Object.fromEntries(
+    Object.entries(views).map(([path, view]) => [
+      `${PREFIX}${path.split("/")[2]}`,
+      view.default,
+    ]),
+  ),
+);
+---
+
+<Blocks value={Astro.props.value} components={components} />

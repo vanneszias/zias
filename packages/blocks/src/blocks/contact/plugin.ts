@@ -3,7 +3,12 @@ import createFormsPlugin, {
   type FormsPluginOptions,
   formsPlugin,
 } from "@emdash-cms/plugin-forms";
-import { definePlugin, type PluginContext, type StorageCollection, ulid } from "emdash";
+import {
+  definePlugin,
+  type PluginContext,
+  type StorageCollection,
+  ulid,
+} from "emdash";
 import { CONTACT_FORM } from "./form";
 
 /**
@@ -27,7 +32,10 @@ export function createPlugin(options?: FormsPluginOptions) {
 
 async function provisionContactForm(_event: unknown, ctx: PluginContext) {
   const forms = ctx.storage.forms as StorageCollection<FormDefinition>;
-  const existing = await forms.query({ where: { slug: CONTACT_FORM.slug }, limit: 1 });
+  const existing = await forms.query({
+    where: { slug: CONTACT_FORM.slug },
+    limit: 1,
+  });
   if (existing.items.length > 0) return;
   const now = new Date().toISOString();
   await forms.put(ulid(), {

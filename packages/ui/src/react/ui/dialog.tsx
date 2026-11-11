@@ -6,20 +6,42 @@ function Dialog(props: React.ComponentProps<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }
 
-function DialogTrigger(props: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
+function DialogTrigger(
+  props: React.ComponentProps<typeof DialogPrimitive.Trigger>,
+) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
 
-function DialogClose(props: React.ComponentProps<typeof DialogPrimitive.Close>) {
+function DialogClose(
+  props: React.ComponentProps<typeof DialogPrimitive.Close>,
+) {
   return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
 }
 
-function DialogTitle({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>) {
-  return <DialogPrimitive.Title data-slot="dialog-title" className={className} {...props} />;
+function DialogTitle({
+  className,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Title>) {
+  return (
+    <DialogPrimitive.Title
+      data-slot="dialog-title"
+      className={className}
+      {...props}
+    />
+  );
 }
 
-function DialogDescription({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Description>) {
-  return <DialogPrimitive.Description data-slot="dialog-description" className={className} {...props} />;
+function DialogDescription({
+  className,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Description>) {
+  return (
+    <DialogPrimitive.Description
+      data-slot="dialog-description"
+      className={className}
+      {...props}
+    />
+  );
 }
 
 /** A full-screen sheet on a flat tone. No overlay, no shadow, no close icon: pass your own DialogClose. */
@@ -48,4 +70,11 @@ function DialogContent({
   );
 }
 
-export { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger };
+export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+};

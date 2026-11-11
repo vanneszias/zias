@@ -7,4 +7,9 @@ export const fields = [
   { slug: "tag", label: "Tag", type: "string" },
 ] as const satisfies readonly Field[];
 
-export default defineBlock("statement", "Statement", "One sentence in statement type, with an optional big word", fields);
+export default defineBlock(
+  "statement",
+  "Statement",
+  "One sentence in statement type, with an optional big word",
+  fields,
+);

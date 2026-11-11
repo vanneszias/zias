@@ -21,14 +21,21 @@
       "!**/.astro",
       "!**/.emdash",
       "!**/worker-configuration.d.ts",
-      "!**/emdash-env.d.ts"
+      "!**/emdash-env.d.ts",
+      "!**/.agents"
     ]
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space"
   },
-  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
@@ -65,5 +72,32 @@
     "parser": {
       "tailwindDirectives": true
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedImports": "off",
+            "noUnusedVariables": "off"
+          },
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/og/**"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "noSvgWithoutTitle": "off"
+          }
+        }
+      }
+    }
+  ]
 }

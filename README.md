@@ -32,19 +32,19 @@ bun run dev
 
 Then open the site at the URL the dev server prints. The CMS admin is at `/_emdash/admin`. On first visit it runs setup and registers a passkey for the admin account.
 
-Seed content and schema live in `apps/site/seed/`. Local state is kept in `apps/site/.wrangler` and `apps/site/.emdash`, both git-ignored.
+The schema and starter content live in `apps/site/seed/`; page block types come from `packages/blocks` and are merged in automatically. A fresh database gets the schema on first request, and the pages and posts once the admin setup has run. Local state is kept in `apps/site/.wrangler` and `apps/site/.emdash`, both git-ignored.
 
 ## Commands
 
 Run from the repo root:
 
-| Command | What it does |
-| --- | --- |
-| `bun run dev` | Start the apps in development mode |
-| `bun run build` | Build all apps |
-| `bun run check-types` | Type-check all apps |
-| `bun run check` | Format and lint with Biome (writes fixes) |
-| `bun run deploy` | Build and deploy the apps to Cloudflare |
+| Command               | What it does                              |
+| --------------------- | ----------------------------------------- |
+| `bun run dev`         | Start the apps in development mode        |
+| `bun run build`       | Build all apps                            |
+| `bun run check-types` | Type-check all apps                       |
+| `bun run check`       | Format and lint with Biome (writes fixes) |
+| `bun run deploy`      | Build and deploy the apps to Cloudflare   |
 
 Within `apps/site`, `bun run types` regenerates the EmDash types, and `bun run preview` serves the production build locally.
 

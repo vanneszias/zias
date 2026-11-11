@@ -1,11 +1,14 @@
-import { type StaticImageName, postImage, staticImages } from "./images";
+import { postImage, type StaticImageName, staticImages } from "./images";
 import { findPublishedPost } from "./posts";
 
 type Env = { OG_IMAGES: R2Bucket; DB: D1Database };
 
 const STATIC_VERSION = "v4";
 const CACHE_CONTROL = "public, max-age=86400, s-maxage=604800";
-const pngHeaders = { "Content-Type": "image/png", "Cache-Control": CACHE_CONTROL };
+const pngHeaders = {
+  "Content-Type": "image/png",
+  "Cache-Control": CACHE_CONTROL,
+};
 
 const STATIC_ROUTES: Record<string, StaticImageName> = {
   "/site": "site",
@@ -38,7 +41,10 @@ async function cached(
         const png = await render();
         ctx.waitUntil(
           env.OG_IMAGES.put(key, png, {
-            httpMetadata: { contentType: "image/png", cacheControl: CACHE_CONTROL },
+            httpMetadata: {
+              contentType: "image/png",
+              cacheControl: CACHE_CONTROL,
+            },
           }),
         );
         return new Response(png, { headers: pngHeaders });
@@ -58,7 +64,13 @@ export default {
 
     const name = STATIC_ROUTES[path];
     if (name) {
-      return cached(request, env, ctx, `${name}/${version}.png`, staticImages[name]);
+      return cached(
+        request,
+        env,
+        ctx,
+        `${name}/${version}.png`,
+        staticImages[name],
+      );
     }
 
     const match = /^\/journal\/([a-z0-9][a-z0-9_-]{0,127})$/.exec(path);
@@ -67,10 +79,20 @@ export default {
       const post = await findPublishedPost(env.DB, slug);
       if (!post) {
         // Unknown or unpublished: show the generic site image, never leak drafts.
-        return cached(request, env, ctx, `site/${STATIC_VERSION}.png`, staticImages.site);
+        return cached(
+          request,
+          env,
+          ctx,
+          `site/${STATIC_VERSION}.png`,
+          staticImages.site,
+        );
       }
-      const stamp = post.updatedAt ? Date.parse(post.updatedAt).toString(36) : "v0";
-      return cached(request, env, ctx, `journal/${slug}/${stamp}.png`, () => postImage(post));
+      const stamp = post.updatedAt
+        ? Date.parse(post.updatedAt).toString(36)
+        : "v0";
+      return cached(request, env, ctx, `journal/${slug}/${stamp}.png`, () =>
+        postImage(post),
+      );
     }
 
     return new Response("Not found", { status: 404 });

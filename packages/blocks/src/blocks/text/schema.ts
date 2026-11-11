@@ -6,4 +6,9 @@ export const fields = [
   { slug: "body", label: "Text", type: "portableText", required: true },
 ] as const satisfies readonly Field[];
 
-export default defineBlock("text", "Text", "Running prose, for legal pages and longer notes", fields);
+export default defineBlock(
+  "text",
+  "Text",
+  "Running prose, for legal pages and longer notes",
+  fields,
+);

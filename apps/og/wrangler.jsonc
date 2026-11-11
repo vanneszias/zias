@@ -6,6 +6,5 @@
   "workers_dev": true,
   "rules": [{ "type": "Data", "globs": ["**/*.woff"], "fallthrough": true }],
   "r2_buckets": [{ "binding": "OG_IMAGES", "bucket_name": "zias-og-images-zias" }],
-  "d1_databases": [{ "binding": "DB", "database_name": "zias-site" }],
-  "routes": [{ "pattern": "og.zias.be", "custom_domain": true }]
+  "d1_databases": [{ "binding": "DB", "database_name": "zias-site" }]
 }

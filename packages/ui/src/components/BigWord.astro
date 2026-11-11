@@ -16,7 +16,17 @@ interface Props extends HTMLAttributes<"span"> {
   /** Read bottom to top. */
   vertical?: boolean;
 }
-const { as: Tag = "span", size = "huge", color, wide, outline, vertical, class: className, style, ...rest } = Astro.props;
+const {
+  as: Tag = "span",
+  size = "huge",
+  color,
+  wide,
+  outline,
+  vertical,
+  class: className,
+  style,
+  ...rest
+} = Astro.props;
 const colour = ink(color);
 ---
 

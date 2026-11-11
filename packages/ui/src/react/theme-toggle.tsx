@@ -16,7 +16,12 @@ export function ThemeToggle({ className }: { className?: string }) {
   }, []);
 
   return (
-    <Button variant="outline" onClick={toggle} className={className} style={{ padding: "0.65rem 0.85rem" }}>
+    <Button
+      variant="outline"
+      onClick={toggle}
+      className={className}
+      style={{ padding: "0.65rem 0.85rem" }}
+    >
       <span className="sr-only">Switch to </span>
       <span className="dark:hidden">Dark</span>
       <span className="hidden dark:inline">Light</span>

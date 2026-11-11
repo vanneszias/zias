@@ -13,7 +13,14 @@ interface Props extends HTMLAttributes<"a"> {
   /** Colour of the arrow only. */
   accent?: string;
 }
-const { size = "huge", color, accent, class: className, style, ...rest } = Astro.props;
+const {
+  size = "huge",
+  color,
+  accent,
+  class: className,
+  style,
+  ...rest
+} = Astro.props;
 ---
 
 <a {...rest} class:list={["z-arrowlink", className]} data-size={size} style={mergeStyle(style, { "--accent": ink(accent) })}>

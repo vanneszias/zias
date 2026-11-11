@@ -1,6 +1,13 @@
 import { Arrow } from "./ui/arrow";
 import { Button } from "./ui/button";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 export interface MobileMenuProps {
   links: { label: string; href: string; active?: boolean }[];
@@ -13,7 +20,11 @@ export function MobileMenu({ links, action, className }: MobileMenuProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className={className} style={{ padding: "0.65rem 0.85rem" }}>
+        <Button
+          variant="outline"
+          className={className}
+          style={{ padding: "0.65rem 0.85rem" }}
+        >
           Menu
         </Button>
       </DialogTrigger>
@@ -26,8 +37,10 @@ export function MobileMenu({ links, action, className }: MobileMenuProps) {
             </Button>
           </DialogClose>
         </div>
-        <DialogDescription className="sr-only">Site navigation</DialogDescription>
-        <nav aria-label="Menu" className="my-auto flex flex-col py-space-4">
+        <DialogDescription className="sr-only">
+          Site navigation
+        </DialogDescription>
+        <nav aria-label="Menu" className="py-space-4 my-auto flex flex-col">
           {links.map((l) => (
             <DialogClose asChild key={l.href}>
               <a

@@ -9,7 +9,15 @@ export const CONTACT_FORM = {
   pages: [
     {
       fields: [
-        { id: "name", type: "text", name: "name", label: "Your name", placeholder: "Ada", required: false, width: "half" },
+        {
+          id: "name",
+          type: "text",
+          name: "name",
+          label: "Your name",
+          placeholder: "Ada",
+          required: false,
+          width: "half",
+        },
         {
           id: "email",
           type: "email",
@@ -24,7 +32,8 @@ export const CONTACT_FORM = {
           type: "textarea",
           name: "message",
           label: "What are we building?",
-          placeholder: "A few sentences about the project, the timeline, anything really.",
+          placeholder:
+            "A few sentences about the project, the timeline, anything really.",
           required: true,
           width: "full",
           validation: { maxLength: 5000 },

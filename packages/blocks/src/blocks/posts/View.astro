@@ -15,7 +15,9 @@ const { word, count, category, link_label, tone, anchor_id } = value;
 
 const { entries, cacheHint } = await getPosts({ limit: count, category });
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
-const journal = category ? `/journal?category=${encodeURIComponent(category)}` : "/journal";
+const journal = category
+  ? `/journal?category=${encodeURIComponent(category)}`
+  : "/journal";
 ---
 
 <Block tone={tone} id={anchor_id || undefined}>

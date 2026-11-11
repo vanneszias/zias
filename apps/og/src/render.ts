@@ -9,7 +9,9 @@ import { HEIGHT, WIDTH } from "./tokens";
 let wasmReady: Promise<void> | undefined;
 
 export async function renderPng(element: ReactElement): Promise<Uint8Array> {
-  wasmReady ??= Promise.all([initWasm(resvgWasm), initSatori(satoriWasm)]).then(() => undefined);
+  wasmReady ??= Promise.all([initWasm(resvgWasm), initSatori(satoriWasm)]).then(
+    () => undefined,
+  );
   await wasmReady;
   const svg = await satori(element, {
     width: WIDTH,

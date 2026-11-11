@@ -1,0 +1,76 @@
+---
+import {
+  getPosts,
+  type Post,
+  postCategory,
+  postMeta,
+} from "@zias/blocks/journal";
+import ArrowLink from "@zias/ui/components/ArrowLink.astro";
+import BigWord from "@zias/ui/components/BigWord.astro";
+import Block from "@zias/ui/components/Block.astro";
+import Tag from "@zias/ui/components/Tag.astro";
+import { decodeSlug, getEmDashEntry, getSeoMeta } from "emdash";
+import { PortableText } from "emdash/ui";
+import Base from "../../layouts/Base.astro";
+import { journalOgUrl } from "../../lib/og";
+
+const slug = decodeSlug(Astro.params.slug);
+const { entry, cacheHint } = slug
+  ? await getEmDashEntry("posts", slug)
+  : { entry: null, cacheHint: undefined };
+if (!entry || !slug) return Astro.rewrite("/404");
+const post = entry as typeof entry & Post;
+if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
+
+const seo = getSeoMeta(post, {
+  siteUrl: Astro.url.origin,
+  path: `/journal/${slug}`,
+  defaultOgImage: journalOgUrl(slug, post.data.updatedAt),
+});
+
+// Neighbours in the journal's own order, newest first.
+const { entries } = await getPosts({ limit: 200 });
+const at = entries.findIndex((p) => p.id === post.id);
+const newer = at > 0 ? entries[at - 1] : undefined;
+const older = at >= 0 ? entries[at + 1] : undefined;
+
+const category = postCategory(post);
+const meta = postMeta(post);
+const long = post.data.title.length > 18;
+---
+
+<Base
+  title={seo.title}
+  description={seo.description}
+  image={seo.ogImage}
+  canonical={seo.canonical}
+  robots={seo.robots}
+  pageType="article"
+  content={{ collection: "posts", id: post.data.id, slug }}
+  articleMeta={{
+    publishedTime: post.data.publishedAt?.toISOString(),
+    modifiedTime: post.data.updatedAt.toISOString(),
+  }}
+>
+  <article>
+    <Block>
+      <div class="mb-space-4 flex flex-wrap gap-space-2">
+        {category && <Tag href={`/journal?category=${category.slug}`}>{category.label}</Tag>}
+        {meta && <Tag>{meta}</Tag>}
+      </div>
+      <BigWord as="h1" size={long ? "big" : "huge"} class="max-w-[16ch]" {...post.edit.title}>{post.data.title}</BigWord>
+    </Block>
+    <Block tone="bright">
+      <div class="z-prose" {...post.edit.content}>
+        <PortableText value={post.data.content} />
+      </div>
+    </Block>
+  </article>
+  <Block tone="cobalt">
+    <nav aria-label="More posts" class="flex flex-wrap justify-between gap-x-space-4 gap-y-space-2">
+      {newer && <ArrowLink href={`/journal/${newer.id}`} size="big" rel="prev">newer</ArrowLink>}
+      <ArrowLink href="/journal" size="big">journal</ArrowLink>
+      {older && <ArrowLink href={`/journal/${older.id}`} size="big" rel="next">older</ArrowLink>}
+    </nav>
+  </Block>
+</Base>

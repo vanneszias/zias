@@ -12,7 +12,14 @@ interface Props extends HTMLAttributes<"header"> {
   /** Default "/". */
   homeHref?: string;
 }
-const { brand, note, links = [], homeHref = "/", class: className, ...rest } = Astro.props;
+const {
+  brand,
+  note,
+  links = [],
+  homeHref = "/",
+  class: className,
+  ...rest
+} = Astro.props;
 const hasBrandSlot = Astro.slots.has("brand");
 const hasAction = Astro.slots.has("action");
 ---

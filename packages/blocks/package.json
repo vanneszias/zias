@@ -5,7 +5,10 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./PageBlocks.astro": "./src/PageBlocks.astro"
+    "./PageBlocks.astro": "./src/PageBlocks.astro",
+    "./PostGrid.astro": "./src/lib/PostGrid.astro",
+    "./journal": "./src/lib/journal.ts",
+    "./forms-plugin": "./src/blocks/contact/plugin.ts"
   },
   "scripts": {
     "check-types": "astro check"
