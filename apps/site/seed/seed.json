@@ -527,6 +527,24 @@
             }
           ]
         }
+      },
+      {
+        "id": "gen-z",
+        "slug": "gen-z",
+        "status": "draft",
+        "data": {
+          "title": "Gen Z",
+          "content": [
+            {
+              "_type": "zias_stickers",
+              "_version": 1,
+              "_key": "gen-z-stickers",
+              "title": "You found the sticker drawer.",
+              "note": "My favourite stickers and memes, no cap.",
+              "stickers": []
+            }
+          ]
+        }
       }
     ],
     "posts": [

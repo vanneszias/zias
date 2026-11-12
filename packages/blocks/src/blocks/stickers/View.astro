@@ -1,0 +1,71 @@
+---
+import Lead from "@zias/ui/components/Lead.astro";
+import { Image } from "emdash/ui";
+import type { BlockProps } from "../../define";
+import type { fields } from "./schema";
+
+type Props = BlockProps<typeof fields>;
+const { value, index } = Astro.props;
+const { title, note, stickers = [] } = value;
+
+// Each sticker is stuck on at its own angle and height, the same on every visit.
+const TILTS = [-7, 4, -3, 8, -5, 2, 6, -8, 3, -2];
+const DROPS = [0, 1.2, -0.6, 0.8, -1, 0.4];
+---
+
+<section class="mt-drop first:mt-0">
+  {title && <Lead as={index === 0 ? "h1" : "h2"}>{title}</Lead>}
+  {note && <p class="mt-3 italic">{note}</p>}
+  <ul
+    class:list={[
+      "flex flex-wrap items-center justify-center gap-x-6 gap-y-10 md:gap-x-10",
+      (title || note) && "mt-16",
+    ]}
+  >
+    {
+      stickers.map((sticker, i) => (
+        <li
+          class="z-sticker w-36 md:w-48"
+          style={`--tilt: ${TILTS[i % TILTS.length]}deg; --drop: ${DROPS[i % DROPS.length]}rem`}
+        >
+          <figure>
+            <Image
+              image={sticker.image}
+              alt={sticker.image.alt || sticker.caption || "A sticker"}
+              class="block h-auto max-h-56 w-full object-contain"
+              sizes="(min-width: 48rem) 12rem, 9rem"
+            />
+            {sticker.caption && (
+              <figcaption class="mt-2 text-center font-hand text-[1.4em] leading-none">
+                {sticker.caption}
+              </figcaption>
+            )}
+          </figure>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .z-sticker {
+    translate: 0 var(--drop);
+    rotate: var(--tilt);
+    /* Follows the sticker's own outline, so cut-outs keep their shape. */
+    filter: drop-shadow(0 0.35rem 0.5rem rgb(0 0 0 / 0.25));
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .z-sticker {
+      transition:
+        rotate 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        scale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .z-sticker:hover {
+      rotate: calc(var(--tilt) * -1);
+      scale: 1.12;
+    }
+    .z-sticker:active {
+      scale: 0.92;
+    }
+  }
+</style>

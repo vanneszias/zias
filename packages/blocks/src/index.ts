@@ -1,6 +1,7 @@
 import image from "./blocks/image/schema";
 import intro from "./blocks/intro/schema";
 import posts from "./blocks/posts/schema";
+import stickers from "./blocks/stickers/schema";
 import text from "./blocks/text/schema";
 
 /**
@@ -8,7 +9,7 @@ import text from "./blocks/text/schema";
  * create `blocks/<name>/` with a `schema.ts` (via `defineBlock`) and a
  * `View.astro`, then add the schema here; `PageBlocks.astro` finds the view.
  */
-export const blockTypes = [intro, posts, text, image];
+export const blockTypes = [intro, posts, text, image, stickers];
 
 export const blockSlugs = blockTypes.map((block) => block.slug);
 

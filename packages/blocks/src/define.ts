@@ -13,6 +13,7 @@ type SubField = Base &
   (
     | { type: "string" | "text" | "url" }
     | { type: "select"; options: readonly string[] }
+    | { type: "image" }
   );
 
 /** The subset of EmDash block field definitions the Zias blocks use. */
