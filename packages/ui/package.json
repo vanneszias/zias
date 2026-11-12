@@ -12,6 +12,7 @@
     "check-types": "astro check"
   },
   "dependencies": {
+    "@fontsource/caveat": "^5.3.0",
     "@fontsource/instrument-serif": "^5.3.0",
     "tailwindcss": "catalog:"
   },

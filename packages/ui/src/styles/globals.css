@@ -1,24 +1,28 @@
 @import "tailwindcss";
 @import "@fontsource/instrument-serif/400.css";
 @import "@fontsource/instrument-serif/400-italic.css";
+@import "@fontsource/caveat/500.css";
 
 @source "../";
 
 /*
  * Two colours: paper and ink. Dark mode swaps them and follows the system.
- * `signal` is the only hue, kept for things that carry a state.
+ * `signal` is kept for things that carry a state, `blue` for what is drawn
+ * by hand.
  */
 :root {
   color-scheme: light dark;
   --paper: #fff;
   --ink: #000;
   --signal: #00c853;
+  --blue: #1f35d6;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --paper: #000;
     --ink: #fff;
+    --blue: #7f95ff;
   }
 }
 
@@ -26,12 +30,15 @@
   --color-paper: var(--paper);
   --color-ink: var(--ink);
   --color-signal: var(--signal);
+  --color-blue: var(--blue);
 }
 
 @theme static {
   /* The serif sets everything short; the sans sets running text. */
   --font-serif: "Instrument Serif", "Times New Roman", serif;
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Handwriting, only inside drawings. */
+  --font-hand: "Caveat", cursive;
 
   /* Two sizes of serif, one of sans. */
   --text-small: clamp(1.1875rem, 1.13rem + 0.25vw, 1.3125rem);
@@ -93,6 +100,46 @@
   }
   .z-link:hover {
     text-decoration-color: transparent;
+  }
+
+  /*
+   * A drawing in blue marker. The filters come from `InkDefs`; cycling them
+   * makes the line wobble as if redrawn.
+   */
+  .z-ink {
+    filter: url(#z-rough-1);
+  }
+  .z-ink path {
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+  .z-ink .z-ink-dot {
+    stroke-width: 3.4;
+  }
+  .z-ink text {
+    fill: var(--blue);
+    font-family: var(--font-hand);
+    font-size: 28px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .z-ink {
+      animation: z-boil 0.6s step-end infinite;
+    }
+  }
+  @keyframes z-boil {
+    0% {
+      filter: url(#z-rough-1);
+    }
+    33% {
+      filter: url(#z-rough-2);
+    }
+    66% {
+      filter: url(#z-rough-3);
+    }
   }
 
   /* Running text from the editor: posts and legal pages. */

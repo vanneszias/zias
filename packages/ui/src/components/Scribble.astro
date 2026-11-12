@@ -1,0 +1,32 @@
+---
+/** A marker stroke drawn over the words it wraps: a loop around them or a wavy line under them. */
+interface Props {
+  kind: "loop" | "line";
+}
+
+const { kind } = Astro.props;
+---
+
+<span class="relative whitespace-nowrap">
+  <slot />{
+    kind === "loop" ? (
+      <svg
+        class="z-ink pointer-events-none absolute top-[0.05em] -left-[0.22em] h-[1.3em] w-[calc(100%+0.44em)] overflow-visible"
+        viewBox="0 0 100 42"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path d="M14 30C2 20 12 5 46 4c32-1 51 7 48 19-3 13-42 17-68 13C10 33 4 24 12 15" />
+      </svg>
+    ) : (
+      <svg
+        class="z-ink pointer-events-none absolute -bottom-[0.3em] -left-[0.05em] h-[0.3em] w-[calc(100%+0.1em)] overflow-visible"
+        viewBox="0 0 150 12"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path d="M3 7c17-5 31 3 49-2s34-2 52 2 28 2 43-3" />
+      </svg>
+    )
+  }
+</span>

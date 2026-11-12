@@ -1,0 +1,55 @@
+---
+/**
+ * A stick man with a coffee. Standing, he can carry a handwritten note with
+ * an arrow pointing at him. Sitting, his legs lie flat so he can be floated
+ * into a text and sit on the words of the line below; the box is one line of
+ * the lead high and his head sticks out above it.
+ */
+interface Props {
+  pose?: "standing" | "sitting";
+  note?: string;
+  class?: string;
+}
+
+const { pose = "standing", note, class: className } = Astro.props;
+---
+
+{
+  pose === "sitting" ? (
+    <svg class:list={["z-ink overflow-visible", className]} viewBox="0 43 130 61.6" aria-hidden="true">
+      <path d="M50 12c12-1 19 9 18 19-1 11-10 18-20 17-11-1-17-10-16-20 1-10 9-17 20-15" />
+      <path d="M44 27v2M57 27v2" class="z-ink-dot" />
+      <path d="M43 36c4 5 12 5 16-1" />
+      <path d="M50 48c-1 18 1 40 0 62" />
+      <path d="M50 110c16-4 34-3 54-1l4-10" />
+      <path d="M50 110c14 1 28 2 44 2l5-9" />
+      <path d="M50 64c-8 14-14 30-19 46" />
+      <path d="M50 64c12 10 22 15 34 12" />
+      <path d="M82 62l3 20h14l3-20zM102 67c8 0 8 10-1 11" />
+      <path d="M88 54c-3-6 4-9 1-16M96 54c-3-6 4-9 1-15" />
+    </svg>
+  ) : (
+    <svg class:list={["z-ink overflow-visible", className]} viewBox="0 0 240 200" aria-hidden="true">
+      {note && (
+        <>
+          <text x="2" y="30" transform="rotate(-6 2 30)">
+            {note}
+          </text>
+          <path d="M84 40c8 14 18 20 30 20" />
+          <path d="M105 51l10 9-11 6" />
+        </>
+      )}
+      <g transform="translate(120 4)">
+        <path d="M60 14c12-1 19 9 18 19-1 11-10 18-20 17-11-1-17-10-16-20 1-10 9-17 20-15" />
+        <path d="M53 29v2M66 29v2" class="z-ink-dot" />
+        <path d="M52 38c4 5 12 5 16-1" />
+        <path d="M60 50c-1 20 1 40 0 62" />
+        <path d="M60 112c-6 18-12 38-16 62l-11 2M60 112c6 18 12 38 18 62l11 2" />
+        <path d="M60 66C49 76 41 87 35 100" />
+        <path d="M60 66c10 10 20 14 31 10" />
+        <path d="M89 62l3 20h14l3-20zM109 67c8 0 8 10-1 11" />
+        <path d="M95 54c-3-6 4-9 1-16M103 54c-3-6 4-9 1-15" />
+      </g>
+    </svg>
+  )
+}

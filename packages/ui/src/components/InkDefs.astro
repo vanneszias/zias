@@ -1,0 +1,19 @@
+---
+/**
+ * The filters that give `.z-ink` drawings a marker's wobble. Three versions
+ * of the same roughness, which `.z-ink` cycles through so the line never sits
+ * still. Render once on any page that draws.
+ */
+const seeds = [2, 7, 11];
+---
+
+<svg width="0" height="0" class="absolute" aria-hidden="true">
+  {
+    seeds.map((seed, i) => (
+      <filter id={`z-rough-${i + 1}`} x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed={seed} result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.4" />
+      </filter>
+    ))
+  }
+</svg>

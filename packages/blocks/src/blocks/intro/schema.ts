@@ -1,7 +1,12 @@
 import { type BlockValue, defineBlock, type Field } from "../../define";
 
 export const fields = [
-  { slug: "statement", label: "Sentence", type: "text", required: true },
+  {
+    slug: "statement",
+    label: "Sentence ([words] get circled, _words_ underlined)",
+    type: "text",
+    required: true,
+  },
   {
     slug: "status",
     label: "Status (shown with a green dot at the top of the page)",

@@ -1,10 +1,41 @@
 ---
+import InkDefs from "@zias/ui/components/InkDefs.astro";
 import Lead from "@zias/ui/components/Lead.astro";
+import Scribble from "@zias/ui/components/Scribble.astro";
+import StickMan from "@zias/ui/components/StickMan.astro";
 import type { BlockProps } from "../../define";
 import type { fields } from "./schema";
 
 type Props = BlockProps<typeof fields>;
 const { value, index } = Astro.props;
+
+// In the sentence, [words] get a loop drawn around them and _words_ a line under them.
+const parts = value.statement
+  .split(/(\[[^\]]+\]|_[^_]+_)/)
+  .filter(Boolean)
+  .map((part) =>
+    part.startsWith("[")
+      ? { kind: "loop" as const, text: part.slice(1, -1) }
+      : part.startsWith("_")
+        ? { kind: "line" as const, text: part.slice(1, -1) }
+        : { kind: null, text: part },
+  );
 ---
 
-<Lead as={index === 0 ? "h1" : "p"}>{value.statement}</Lead>
+<InkDefs />
+<div class="md:flex md:items-start md:gap-x-16">
+  <Lead as={index === 0 ? "h1" : "p"} class="md:flex-1">
+    {
+      // On a phone he sits on the first words of the second line, and the
+      // first line starts next to him.
+      index === 0 && (
+        <StickMan
+          pose="sitting"
+          class="float-left mr-[0.15em] h-[1.06em] w-[2.24em] md:hidden"
+        />
+      )
+    }
+    {parts.map((part) => (part.kind ? <Scribble kind={part.kind}>{part.text}</Scribble> : part.text))}
+  </Lead>
+  {index === 0 && <StickMan note="hi, that's me" class="hidden w-56 shrink-0 md:block" />}
+</div>
