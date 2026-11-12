@@ -2,8 +2,9 @@
 /**
  * A stick man with a coffee. Standing, he can carry a handwritten note with
  * an arrow pointing at him. Sitting, his legs lie flat so he can be floated
- * into a text and sit on the words of the line below; the box is one line of
- * the lead high and his head sticks out above it.
+ * into a text and sit on the words of the line below. The box holds the whole
+ * drawing, because Safari clips a filtered SVG to its box; the caller pulls it
+ * up with a negative margin so it only takes one line of the text.
  */
 interface Props {
   pose?: "standing" | "sitting";
@@ -16,7 +17,7 @@ const { pose = "standing", note, class: className } = Astro.props;
 
 {
   pose === "sitting" ? (
-    <svg class:list={["z-ink overflow-visible", className]} viewBox="0 43 130 61.6" aria-hidden="true">
+    <svg class:list={["z-ink overflow-visible", className]} viewBox="0 4 130 112" aria-hidden="true">
       <path d="M50 12c12-1 19 9 18 19-1 11-10 18-20 17-11-1-17-10-16-20 1-10 9-17 20-15" />
       <path d="M44 27v2M57 27v2" class="z-ink-dot" />
       <path d="M43 36c4 5 12 5 16-1" />
