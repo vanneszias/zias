@@ -1,7 +1,7 @@
 import { PUBLIC_OG_URL } from "astro:env/client";
 
 /** Bump to make social networks refetch the static cards. */
-const STATIC_VERSION = "v5";
+const STATIC_VERSION = "v6";
 
 /** Pages the OG worker draws its own card for; everything else shares the site card. */
 const STATIC_CARDS = new Set(["/site", "/journal", "/imprint", "/privacy"]);

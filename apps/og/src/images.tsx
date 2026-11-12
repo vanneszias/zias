@@ -5,7 +5,7 @@ import { renderPng } from "./render";
 export const staticImages = {
   site: () =>
     renderPng(
-      <Card text="Developer and designer in Leuven. I build websites, web apps and mobile apps." />,
+      <Card text="Developer and designer in Leuven. I build web and mobile apps." />,
     ),
   journal: () => renderPng(<Card text="Journal" />),
   privacy: () => renderPng(<Card text="Privacy" />),

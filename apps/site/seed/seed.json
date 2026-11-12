@@ -8,14 +8,15 @@
   },
   "settings": {
     "title": "Zias van Nes",
-    "tagline": "Developer and designer in Leuven. I build websites, web apps and mobile apps, and I write about how they get made.",
+    "tagline": "Developer and designer in Leuven. I build web and mobile apps from first sketch to launch, and I write about faith, technology and day-to-day life.",
     "social": {
       "twitter": "@ziasvannes",
       "instagram": "ziasvannes",
-      "linkedin": "ziasvannes"
+      "linkedin": "ziasvannes",
+      "github": "vanneszias"
     },
     "seo": {
-      "titleSeparator": "—"
+      "titleSeparator": "|"
     }
   },
   "collections": [
@@ -193,7 +194,7 @@
               "_type": "zias_intro",
               "_version": 1,
               "_key": "intro",
-              "statement": "Developer and designer in Leuven. I build websites, web apps and mobile apps, and I write about how they get made.",
+              "statement": "Developer and designer in [Leuven]. I build web and mobile apps from first sketch to launch, and I write about faith, technology and _day-to-day life_.",
               "status": "Available for new work"
             },
             {
@@ -530,443 +531,1500 @@
     ],
     "posts": [
       {
-        "id": "post-on-designing-with-constraints",
-        "slug": "on-designing-with-constraints",
+        "id": "post-why-i-am-starting-a-blog-in-2026",
+        "slug": "why-i-am-starting-a-blog-in-2026",
         "status": "published",
         "data": {
-          "title": "On designing with constraints",
-          "excerpt": "Constraints aren't obstacles — they're the invisible scaffolding that keeps creative decisions from collapsing into infinite possibility.",
+          "title": "Why I am starting a blog in 2026",
+          "excerpt": "Blogs feel twenty years out of date. I'm starting one anyway, to have one place for my longer thoughts.",
           "content": [
             {
               "_type": "block",
-              "_key": "k1",
-              "style": "normal",
+              "_key": "g2gid45oz",
+              "style": "h2",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k0",
-                  "text": "Constraints aren't obstacles — they're the invisible scaffolding that keeps creative decisions from collapsing into infinite possibility.",
-                  "marks": []
+                  "_key": "g2gid45oz:s0",
+                  "text": "Introduction",
+                  "marks": ["strong"]
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k3",
+              "_key": "8gvk1bu6i",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k2",
-                  "text": "Every project I've worked on that felt truly alive had one thing in common: a hard limit that forced invention. A tight deadline. A single typeface. A palette of two colors. The constraint didn't restrict the work — it focused it.",
-                  "marks": []
+                  "_key": "8gvk1bu6i:s0",
+                  "text": "I don’t know about you, but to me starting a blog seems like something people did 20 years ago. With the rise of social media, writing a blog became something unnecessary."
+                },
+                {
+                  "_type": "span",
+                  "_key": "8gvk1bu6i:s1",
+                  "text": "“Why write a blog when you can just post about it on your favorite social media platform?” ",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "8gvk1bu6i:s2",
+                  "text": "Yet with this post I would like to convince you (and maybe even myself) that the act of writing about life and publishing it in a mindful manner might be a good idea."
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k5",
-              "style": "normal",
+              "_key": "onp6cmnsu",
+              "style": "h2",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k4",
-                  "text": "When everything is possible, nothing is interesting. When you can only pick three things, you have to care deeply about which three. That care shows up in the final piece.",
-                  "marks": []
+                  "_key": "onp6cmnsu:s0",
+                  "text": "The lost art of dedicated devices",
+                  "marks": ["strong"]
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k7",
+              "_key": "35eqwv6ph",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k6",
-                  "text": "The best briefs I've received weren't the open-ended ones. They were the ones that said: here's exactly what we need, here's exactly what we can't change, now make something remarkable within that.",
-                  "marks": []
+                  "_key": "35eqwv6ph:s0",
+                  "text": "Lately I’ve been (re)exploring the idea of dedicated devices. Sometime,"
+                },
+                {
+                  "_type": "span",
+                  "_key": "35eqwv6ph:s1",
+                  "text": " around 20 years ago I believe",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "35eqwv6ph:s2",
+                  "text": " we started with putting every possible idea, invention, ... into one device we now call smartphones. Doing this is in itself not per se bad. But I believe that this rise of “everything platforms” could be harmful."
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k9",
+              "_key": "a1jb8krui",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k8",
-                  "text": "I've started treating self-imposed constraints the same way. No gradients this month. Only system fonts. Maximum two breakpoints. The work that comes out is stranger, sharper, more itself.",
-                  "marks": []
+                  "_key": "a1jb8krui:s0",
+                  "text": "Let’s take Instagram as an example. It started out around 2010 as a simple photo sharing platform. Its main feature: filters. 15 years later Instagram, taken over by Meta has become a world-wide advertising network constantly fighting for your attention by pushing ads, short-form videos, messages from "
+                },
+                {
+                  "_type": "span",
+                  "_key": "a1jb8krui:s1",
+                  "text": "that one old groupchat",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "a1jb8krui:s2",
+                  "text": " and even (for a short test time during covid) shopping functionalities! Instagram is becoming, like many others an everything platform. "
+                },
+                {
+                  "_type": "span",
+                  "_key": "a1jb8krui:s3",
+                  "text": "don’t even get me started on TikTok -_-",
+                  "marks": ["em"]
                 }
-              ],
-              "markDefs": []
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "vt4bqpbcv",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "vt4bqpbcv:s0",
+                  "text": "My solution to all of these platforms: dedicated devices. Having one platform act as one solution for one problem makes it way easier to compartmentalize your attention."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "iclz6kxvn",
+              "style": "normal",
+              "listItem": "bullet",
+              "level": 1,
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "iclz6kxvn:s0",
+                  "text": "I use Apple Music for playing Music"
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "6g1fgq8pf",
+              "style": "normal",
+              "listItem": "bullet",
+              "level": 1,
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "6g1fgq8pf:s0",
+                  "text": "I use Instagram for looking at pictures of the day-to-day life of my friends"
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "f1pb0rkmi",
+              "style": "normal",
+              "listItem": "bullet",
+              "level": 1,
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "f1pb0rkmi:s0",
+                  "text": "I use LetterBoxd to track my movies and look and write reviews about them."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "lb1e6qy7c",
+              "style": "normal",
+              "listItem": "bullet",
+              "level": 1,
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "lb1e6qy7c:s0",
+                  "text": "I use WhatsApp and iMessage to message my friends and keep up with group chats"
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "8vpkg1quw",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "8vpkg1quw:s0",
+                  "text": "I don’t really have a platform to share some of my longer thoughts. I could try journaling on paper but that doesn’t solve the issue of sharing. So like any other self-respecting software developer, I started creating a website."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "8j7eiazfr",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "8j7eiazfr:s0",
+                  "text": "The solution",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "ftu7m10n8",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "ftu7m10n8:s0",
+                  "text": "A blog seems to me like the perfect solution. I can write about my thoughts, day-to-day life, projects,... and share them with you! My goal with this blog is to start writing about everything I do. I hope that by doing this I will become more attentive to the good and the bad, and I think it also makes a pretty nice opportunity at looking back."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "1km6qqil1",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "1km6qqil1:s0",
+                  "text": "I have never been fond of New Year’s goals, so I won’t make one, but I hope that by starting this blog I can write one short update every month. Sometimes I might write a technical in-depth story about a project that’s been keeping me up, sometimes I might write about what events I’ve been going to and another time I might write about how I just love this new album I am listening to. All in all I just hope to write about things I am passionate about, and share them with you."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "aeclzh3y2",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "aeclzh3y2:s0",
+                  "text": "Thank’s for reading. Hope to see you next month ʕっ•ᴥ•ʔっ"
+                }
+              ]
             }
           ],
-          "read_time": 1
+          "read_time": 3
         },
         "taxonomies": {
-          "category": ["words", "essay"]
+          "category": ["note"]
         }
       },
       {
-        "id": "post-quick-note-on-view-transitions",
-        "slug": "quick-note-on-view-transitions",
+        "id": "post-ejv-youth-day-2025-my-highlights",
+        "slug": "ejv-youth-day-2025-my-highlights",
         "status": "published",
         "data": {
-          "title": "Quick note on View Transitions",
-          "excerpt": "The View Transitions API finally landed broadly and it's better than I expected.",
+          "title": "EJV Youth Day 2025: my highlights",
+          "excerpt": "I preached on this year's theme, All Out 100%, and helped set up the day behind the scenes.",
           "content": [
             {
               "_type": "block",
-              "_key": "k1",
+              "_key": "2mbec7x22",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k0",
-                  "text": "The View Transitions API finally landed broadly and it's better than I expected.",
-                  "marks": []
+                  "_key": "2mbec7x22:s0",
+                  "text": "This blog was originally written in Dutch, and has been translated to English by Gemini 3 Pro.",
+                  "marks": ["em"]
                 }
-              ],
-              "markDefs": []
+              ]
+            },
+            {
+              "_type": "image",
+              "_key": "yn5nghoio",
+              "asset": {
+                "_ref": "",
+                "url": "https://substackcdn.com/image/fetch/$s_!nXY2!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdc9b21d5-34a6-460d-953d-cf30d86d9f29_400x400.jpeg"
+              },
+              "alt": "This is me at the Youth Day!",
+              "caption": "",
+              "title": "This is me at the Youth Day!",
+              "width": 400,
+              "height": 400
             },
             {
               "_type": "block",
-              "_key": "k3",
+              "_key": "rcuv860mr",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k2",
-                  "text": "The basic cross-document fade is free. You opt in with one line of CSS and suddenly page navigations feel native. That alone is worth it.",
-                  "marks": []
+                  "_key": "rcuv860mr:s0",
+                  "text": "This is me at the Youth Day!"
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k5",
-              "style": "normal",
+              "_key": "16lqev485",
+              "style": "h2",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k4",
-                  "text": "The named element transitions are where it gets interesting. You can persist a card across routes with view-transition-name and the browser does the FLIP interpolation automatically. I've been abusing this for hero images.",
-                  "marks": []
+                  "_key": "16lqev485:s0",
+                  "text": "My highlight: preaching at the Youth Day",
+                  "marks": ["strong"]
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k7",
+              "_key": "3x0pgb4xj",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k6",
-                  "text": "The one footgun: don't forget to scope names per-item when rendering lists, otherwise the browser picks one arbitrarily and the animation looks broken.",
-                  "marks": []
+                  "_key": "3x0pgb4xj:s0",
+                  "text": "One of my absolute highlights has to be speaking in front of such a wonderfully large group of young people, all full of passion, on fire for what Jesus is doing in their lives. I had the privilege of talking about the annual theme: All Out 100%. Together, we looked at:"
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "9iyptvz96",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "9iyptvz96:s0",
+                  "text": "Why we would want to commit ourselves all out 100% to Jesus, and spoiler alert: this is indeed a really good idea! You can actually have a particularly big impact on the people around you."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "k1cousjjd",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "k1cousjjd:s0",
+                  "text": "Next, we looked at what it means to go All Out 100% for Jesus. What does that actually entail? And what does that look like concretely in our daily lives? We looked at various examples from the Bible and how we can apply them to our own lives. We learned that the habits we develop in our daily lives have a major influence on how we can go all out 100% for Jesus. And that although it isn’t always simple, those habits can help us get closer to Him."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "vg51y5ztn",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "vg51y5ztn:s0",
+                  "text": "Finally, we took a super practical look at how we can go all out 100% for Jesus in our daily lives. We talked about the importance of prayer, Bible study, and surrounding yourself with friends who can support and encourage you in all aspects of life, both good and bad."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "w4c63h004",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "w4c63h004:s0",
+                  "text": "Behind the scenes",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "eg64djkfm",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "eg64djkfm:s0",
+                  "text": "I really enjoyed helping out behind the scenes myself with all the organization and setup of the day. It was amazing to see how everyone worked together to make it an unforgettable experience for all the young people who were present. So thank you to everyone who contributed to this fantastic day."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "8gdt2lhzb",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "8gdt2lhzb:s0",
+                  "text": "Let us all continue to strive for a life that is All Out 100% for Jesus, and let’s keep encouraging each other on this journey."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "pw9jsy5i8",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "pw9jsy5i8:s0",
+                  "text": "Would you like to listen to the sermon again, or do you want to share it with your friends, family, dog & cat? You can do so via the video below."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "bfceoc9x7",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "bfceoc9x7:s0",
+                  "text": "Vollenbak 100% on YouTube",
+                  "marks": ["bfceoc9x7:m0", "underline"]
                 }
               ],
-              "markDefs": []
+              "markDefs": [
+                {
+                  "_type": "link",
+                  "_key": "bfceoc9x7:m0",
+                  "href": "https://youtu.be/aS2jkqayGug",
+                  "blank": false
+                }
+              ]
             }
           ],
-          "read_time": 1
+          "read_time": 2
         },
         "taxonomies": {
-          "category": ["words", "note"]
+          "category": ["note"]
         }
       },
       {
-        "id": "post-rebuilding-zias-be",
-        "slug": "rebuilding-zias-be",
+        "id": "post-living-in-a-post-ai-society",
+        "slug": "living-in-a-post-ai-society",
         "status": "published",
         "data": {
-          "title": "Rebuilding zias.be",
-          "excerpt": "A full rewrite of my personal site — B&W serif base, vivid color-block sections, dark mode, and a self-hosted CMS.",
+          "title": "Living in a post-AI society",
+          "excerpt": "Five hundred years ago nobody needed a gym. What if, a hundred years from now, thinking for yourself feels just as optional?",
           "content": [
             {
               "_type": "block",
-              "_key": "k1",
+              "_key": "de62smu0u",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k0",
-                  "text": "A full rewrite of my personal site — B&W serif base, vivid color-block sections, dark mode, and a self-hosted CMS.",
-                  "marks": []
+                  "_key": "de62smu0u:s0",
+                  "text": "This post was made by "
+                },
+                {
+                  "_type": "span",
+                  "_key": "de62smu0u:s1",
+                  "text": "me",
+                  "marks": ["de62smu0u:m0", "underline"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "de62smu0u:s2",
+                  "text": ", a human being, from earth, without any use of AI. Enjoy ッ"
                 }
               ],
-              "markDefs": []
+              "markDefs": [
+                {
+                  "_type": "link",
+                  "_key": "de62smu0u:m0",
+                  "href": "https://zias.be/",
+                  "blank": false
+                }
+              ]
             },
             {
               "_type": "block",
-              "_key": "k3",
-              "style": "normal",
+              "_key": "wz9enigkq",
+              "style": "h2",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k2",
-                  "text": "The previous version was a single-page Framer export. It looked fine but I had zero control over the content. Every edit meant opening Framer, tweaking, re-exporting, re-deploying. Not sustainable.",
-                  "marks": []
+                  "_key": "wz9enigkq:s0",
+                  "text": "What is AI?",
+                  "marks": ["strong"]
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k5",
+              "_key": "iunik6585",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k4",
-                  "text": "The new stack is TanStack Start on Cloudflare Pages, tRPC for the API layer, D1 as the database, and Tiptap for rich text editing. The whole thing deploys with a single bun run deploy.",
-                  "marks": []
+                  "_key": "iunik6585:s0",
+                  "text": "In this post I want to explore some of my personal thoughts on the impact of Artificial Intelligence on society. Before we dive into it, let’s talk about what I define as AI. To me, AI is a term used for (1) a technology (2) trained to perform a set of specific tasks or instructions (3) on its own (4) without the need for human intervention."
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k7",
+              "_key": "lyw7du66o",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k6",
-                  "text": "Design-wise I wanted something that felt more like editorial print than a typical dev portfolio. Big serif headlines, tight leading, white space used intentionally rather than as a default. Then vivid color-block sections to break the monotony and give each area its own identity.",
-                  "marks": []
+                  "_key": "lyw7du66o:s0",
+                  "text": "I could talk hours about the exact meaning of AI, or about how AI has existed for over 70 years, but let’s not get into that right now."
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k9",
+              "_key": "ck0ddglgh",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "ck0ddglgh:s0",
+                  "text": "What If...",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "f4y6woiy0",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k8",
-                  "text": "The CMS is minimal by design — just what I need. Post management, draft/published toggle, a contact inbox. Nothing I don't use daily.",
-                  "marks": []
+                  "_key": "f4y6woiy0:s0",
+                  "text": "Recently I came across an interesting though experiment that became the basis for this post. It goes as follows."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "cekfpax96",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "cekfpax96:s0",
+                  "text": "Let’s say you went back 500 years back in time. You would be in a world where the idea of going to the gym is absurd. People already had more than enough physical exercises by just going about their daily life. They didn’t need to go to the gym because they were already living an active lifestyle."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "pzko2daiq",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "pzko2daiq:s0",
+                  "text": "Now let’s fast forward to today. We are living in a society where lots of people don’t have the need to maintain an active lifestyle in order to perform their daily tasks."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "7olipygee",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "7olipygee:s0",
+                  "text": "Let’s look at the future. What if in, let’s say 100 years, Artificial Intelligence has been so baked into our society, that thinking for yourself becomes silly. That is what I fear for right now. Because it’s something that I am already experiencing "
+                },
+                {
+                  "_type": "span",
+                  "_key": "7olipygee:s1",
+                  "text": "right now",
+                  "marks": ["strong"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "7olipygee:s2",
+                  "text": ". When I am starting a new project, one of the first things I do is ask some chatbot wether what I think is a good idea, or if I missed anything."
+                },
+                {
+                  "_type": "span",
+                  "_key": "7olipygee:s3",
+                  "text": " AI is making me more and more dependent on external validation.",
+                  "marks": ["strong"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "7olipygee:s4",
+                  "text": " Just like social media already has been doing."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "zwm24em10",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "zwm24em10:s0",
+                  "text": "The Issues",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "q50iflezt",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "q50iflezt:s0",
+                  "text": "Lets focus on some of the issues I personally see with AI. The first one is already pretty clear I think; we are becoming overdependent on the external validation of a tool. This also means that rather than asking someone you know and being more dependent on eachother, we use this tool as a replacement for human connection and knowledge. I find this sad."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "wqhyq8wi3",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "wqhyq8wi3:s0",
+                  "text": "Another issue that is being talked about is something I would call "
+                },
+                {
+                  "_type": "span",
+                  "_key": "wqhyq8wi3:s1",
+                  "text": "Creative Authorship",
+                  "marks": ["strong"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "wqhyq8wi3:s2",
+                  "text": ". As most of us know, AI has to be trained on lots of data. Generally speaking more data means better results. Although that is not completely true when talking about the whole internet. Training on a highly curated set of data will most propably result in improved results. Training on the whole internet "
+                },
+                {
+                  "_type": "span",
+                  "_key": "wqhyq8wi3:s3",
+                  "text": "cough Google cough",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "wqhyq8wi3:s4",
+                  "text": " is most of the time a pretty bad idea as a big part of the internet has been flooded with non-human content. Interestingly I have seen that lots of AI labs have started creating(/generating) their own content to train AI with to improve alignment."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "szpuv1xsw",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "szpuv1xsw:s0",
+                  "text": "Lets get back to the issue of Creative Authorship. I think that we as a society always have wanted to share about our experiences and lifes. Wether it be through music, writing, painting, dancing, technology, or any form of art. "
+                },
+                {
+                  "_type": "span",
+                  "_key": "szpuv1xsw:s1",
+                  "text": "notice how I put technology as a form of art ;)",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "szpuv1xsw:s2",
+                  "text": " With the rise of the internet people started to notice that it is the perfect place to share this art with everyone who has access to it, making this art accesible to almost everyone! I think that this in itself is great. Although now an issue arises. When you share something, who has ownership of this? Is it the creator of the artform, the platform that you share it on, or maybe the internet itself? Sharing something on the internet has become something very mundane for most people, but still when you read the small letters of platforms like Instagram, Pinterest, Google Photos, ... you might start to see a pattern: you don’t own anything. The platform does. Let’s not even get into the whole concept of the internet breaking with countries like China creating a literal firewall to close off their internet, making the internet as a whole not open anymore, and other countries starting to follow. So now these platforms own all of the content you post on it. And because of the rise of AI, these platforms have gotten the ideal use for this data. Use it to train AI and give users more of the content (albeit generated) that they themselves have liked. This increases engagement with the platform, which means more chances to advertise, which means an increased revenue and happy shareholders."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "fiwr14qa4",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "fiwr14qa4:s0",
+                  "text": "Their are way more issues with AI, like the use of insane amounts of power, and the effect it has on nature, or the need for big datacenters that could be used for things like medical research now being used to create the latest trending brainrot video. Or the fact that even now Nvidia has a monopoly on the Intellectual Property that make up the designing of these datacenters, which makes competing with them almost impossible."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "uqy57kgvt",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "uqy57kgvt:s0",
+                  "text": "The Goal",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "wuevifmew",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "wuevifmew:s0",
+                  "text": "You might be asking “Wow, zias, this is all very negative, do we have any hope?”. Luckily we do, firstly: please go read the "
+                },
+                {
+                  "_type": "span",
+                  "_key": "wuevifmew:s1",
+                  "text": "Bible",
+                  "marks": ["wuevifmew:m0", "underline"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "wuevifmew:s2",
+                  "text": " and go to a Church where they teach about the Bible and "
+                },
+                {
+                  "_type": "span",
+                  "_key": "wuevifmew:s3",
+                  "text": "Jesus Christ",
+                  "marks": ["wuevifmew:m1", "underline"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "wuevifmew:s4",
+                  "text": "."
                 }
               ],
-              "markDefs": []
+              "markDefs": [
+                {
+                  "_type": "link",
+                  "_key": "wuevifmew:m0",
+                  "href": "https://bible.com/",
+                  "blank": false
+                },
+                {
+                  "_type": "link",
+                  "_key": "wuevifmew:m1",
+                  "href": "https://hillsong.com/jesus/",
+                  "blank": false
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "s9skqgi6s",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "s9skqgi6s:s0",
+                  "text": "Secondly I have been seeing lots of positive advancements too. I think that people will have to be more mindful in the way we use AI, and that eventually we will learn when to use it -and maybe more important- when not. I am seeing more and more people mindfully choosing to not use AI to solve hard issues, just because we feel like we need the challenge, we don’t want to support the business behind AI, or because we enjoy the fact that what we are doing, is not done with the use of AI, but rather creates opportunities for human connection and problemsolving together."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "q4hdvbwqk",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "q4hdvbwqk:s0",
+                  "text": "Not everything should be done fast and efficient. Doing something slowly and mindfully creates opportunities to learn, fall, and get back up. That might be the best way to actually learn. And maybe, just maybe, it might make you feel a little more authentic & human.",
+                  "marks": ["strong"]
+                }
+              ]
             }
           ],
-          "read_time": 1
+          "read_time": 5
         },
         "taxonomies": {
-          "category": ["work", "project"]
+          "category": ["essay"]
         }
       },
       {
-        "id": "post-accessibility-audit-e-commerce",
-        "slug": "accessibility-audit-e-commerce",
+        "id": "post-i-am-busy-i-am-sorry",
+        "slug": "i-am-busy-i-am-sorry",
         "status": "published",
         "data": {
-          "title": "Accessibility audit for a Belgian e-commerce platform",
-          "excerpt": "A systematic WCAG 2.2 audit that surfaced 47 issues across checkout and product listing — and a phased remediation plan.",
+          "title": "I am busy, I am sorry.",
+          "excerpt": "When people ask how I'm doing, my first answer is \"busy\". I'm practising a different one: happy to be here.",
           "content": [
             {
               "_type": "block",
-              "_key": "k1",
+              "_key": "esizj4c0l",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k0",
-                  "text": "A systematic WCAG 2.2 audit that surfaced 47 issues across checkout and product listing — and a phased remediation plan.",
-                  "marks": []
+                  "_key": "esizj4c0l:s0",
+                  "text": "This post was made by ",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "esizj4c0l:s1",
+                  "text": "me",
+                  "marks": ["esizj4c0l:m0", "em", "underline"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "esizj4c0l:s2",
+                  "text": ", a human being, from earth, without any use of AI. Enjoy ッ",
+                  "marks": ["em"]
                 }
               ],
-              "markDefs": []
+              "markDefs": [
+                {
+                  "_type": "link",
+                  "_key": "esizj4c0l:m0",
+                  "href": "https://zias.be/",
+                  "blank": false
+                }
+              ]
             },
             {
               "_type": "block",
-              "_key": "k3",
+              "_key": "gouukke2n",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k2",
-                  "text": "The client had never done a formal accessibility audit. They knew something was off — screen reader users had complained — but had no framework for prioritising fixes.",
-                  "marks": []
+                  "_key": "gouukke2n:s0",
+                  "text": "Writing this blog took longer than I expected. I was busy. I am sorry. I’ve been thinking about this concept for the last few months, and have been actively working on this in my personal life. This blog tells a little bit more about that."
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k5",
-              "style": "normal",
+              "_key": "nscrtc52n",
+              "style": "h2",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k4",
-                  "text": "I started with automated scanning (axe-core, Lighthouse) to get the low-hanging fruit: missing alt text, broken form labels, insufficient color contrast. That covered about 30% of the issues.",
-                  "marks": []
+                  "_key": "nscrtc52n:s0",
+                  "text": "The problem",
+                  "marks": ["strong"]
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k7",
+              "_key": "3x4g5v7rs",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k6",
-                  "text": "The rest required manual testing with NVDA on Windows and VoiceOver on macOS. The checkout flow was particularly broken — focus management was completely absent after modal dialogs, and error messages weren't associated with their fields.",
-                  "marks": []
+                  "_key": "3x4g5v7rs:s0",
+                  "text": "The problem I have is quite simple actually. You might recognize it too. I enjoy doing stuff. I enjoy last-minute plans, going to the park with my friends, making music, working on any creative projects, how absurd they even might be, checking out that one new coffee-shop a friend recommended, being out in nature, looking at the stars, philosophizing about life. I genuinely enjoy life, and everything about it — and that might be my problem. I love experiencing life and all it has to give."
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k9",
+              "_key": "8da8d5jvq",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "8da8d5jvq:s0",
+                  "text": "Saying “YES”.",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "rpaxvkvxo",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k8",
-                  "text": "The remediation plan was split into three phases: critical blockers (anything that prevented task completion), impactful friction (things that were painful but not blocking), and polish (nice-to-haves). The team shipped Phase 1 within two weeks.",
-                  "marks": []
+                  "_key": "rpaxvkvxo:s0",
+                  "text": "I hate saying no. It has become a running joke among some friends, just ask Zias — he won’t be able to say no. This is something that on the one hand I love about myself: I love being the person with these crazy stories and experiences, just because I gave it a chance. I love being able to completely overhaul my planning to go on a trip, just because someone asked me two days beforehand. I love that I get myself in absurd situations, just because someone dared me — not because I have anything to prove to myself, or to others, but because I love it. I love saying YES."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "osi6e65uc",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "osi6e65uc:s0",
+                  "text": "Saying “NO”.",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "gwoatz8df",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "gwoatz8df:s0",
+                  "text": "On the other hand I have begun to notice a certain pattern in my life. Whenever people ask me “How are you doing?” the first thing that comes to my mind is “busy”. Why is that? Do I really feel busy — am I really busy? I know that I am not unhappy, because I have all of these amazing things to do, stories to tell, and am surrounded by amazing friends. So why is this the first thing that comes to mind?"
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "r1n6ub9qz",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "r1n6ub9qz:s0",
+                  "text": "I have started to notice that wherever I am, I have been thinking about what I could be doing instead. “If only … was here”, “… would find this hilarious”, “If I leave now I can still make it to …”. Every invite I get is a little dopamine shot making me want to get up on my feet and go. How do I navigate this? How can I enjoy the moment I am in right now, without always thinking about the next? Because where I am at, right now, is already worthwhile on it’s own."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "7e0bg4249",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "7e0bg4249:s0",
+                  "text": "About being present",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "scrv55r5f",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "scrv55r5f:s0",
+                  "text": "This is something that I have been working on over the past few months — and will most probably continue for the rest of my life. It starts with something really small: whenever someone asks me “How are you doing?” I try to consistently answer “happy to be here”. Doing this over the past few months has started to change my personal mindset. I have started to really appreciate the place I am in right now. And although I am still learning, I feel like making this small change — and just actively being aware of this personality trait of myself, has made me more present."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "d98p0e2xu",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "d98p0e2xu:s0",
+                  "text": "Does this mean that I am never unhappy, or would rather be somewhere else, or skip to the next chapter? Of course not! But it also doesn’t mean that I never do something spontaneous anymore — as I told you in the start: I love doing stuff and having stories to tell! It does mean that wherever I am, I try to focus on that moment, not the next. I try to be more aware of the greatness of each little moment. Because if I don’t, it would all be for nothing."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "c8an2ajny",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "c8an2ajny:s0",
+                  "text": "The pursuit of happiness",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "l1aeesujb",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "l1aeesujb:s0",
+                  "text": "If you have watched "
+                },
+                {
+                  "_type": "span",
+                  "_key": "l1aeesujb:s1",
+                  "text": "The pursuit of happiness",
+                  "marks": ["l1aeesujb:m0", "underline"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "l1aeesujb:s2",
+                  "text": ", you’ll most probably remember the iconic singular moment of happiness. But the more I rewatch this movie, the more I start to notice that somehow, someway Chris Gardner (played by Will Smith, the main character) is able to create happiness wherever he goes. Whatever the situation he finds himself in, he is able to let his kid experience some form of joy. This is what I long for in my personal life. Go "
+                },
+                {
+                  "_type": "span",
+                  "_key": "l1aeesujb:s3",
+                  "text": "re",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "l1aeesujb:s4",
+                  "text": "watch this movie right now! It is beautiful, and one of my faves :))"
                 }
               ],
-              "markDefs": []
+              "markDefs": [
+                {
+                  "_type": "link",
+                  "_key": "l1aeesujb:m0",
+                  "href": "https://boxd.it/28PE",
+                  "blank": false
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "lm0ita95a",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "lm0ita95a:s0",
+                  "text": "I want to encourage you to be more intentional of each moment. What I mean by this is that I want you find happiness and beauty wherever you are. I am beginning to notice that "
+                },
+                {
+                  "_type": "span",
+                  "_key": "lm0ita95a:s1",
+                  "text": "the being aware",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "lm0ita95a:s2",
+                  "text": " of an amazing moment is more important than "
+                },
+                {
+                  "_type": "span",
+                  "_key": "lm0ita95a:s3",
+                  "text": "chasing the next",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "lm0ita95a:s4",
+                  "text": ", without looking back. Because if you are unable to look back, you might miss it and get stuck in the endless flow of life."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "83b6b9ff4",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "83b6b9ff4:s0",
+                  "text": "So just stand still, and be grateful for the great smallness of life."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "8rvnea97i",
+              "style": "blockquote",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "8rvnea97i:s0",
+                  "text": "“And whatever you do, whether in word or deed, do it all in the name of the Lord Jesus, giving thanks to God the Father through him.”",
+                  "marks": ["em"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "hp25dorkn",
+              "style": "blockquote",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "hp25dorkn:s0",
+                  "text": "Colossians 3:17 NIV",
+                  "marks": ["hp25dorkn:m0", "em", "underline"]
+                }
+              ],
+              "markDefs": [
+                {
+                  "_type": "link",
+                  "_key": "hp25dorkn:m0",
+                  "href": "https://www.bible.com/bible/111/COL.3.17.NIV",
+                  "blank": false
+                }
+              ]
             }
           ],
-          "read_time": 1
+          "read_time": 4
         },
         "taxonomies": {
-          "category": ["work", "case-study"]
+          "category": ["note"]
         }
       },
       {
-        "id": "post-currently-reading-q2",
-        "slug": "currently-reading-q2",
+        "id": "post-everything-is-hevel-according-to-qohelet",
+        "slug": "everything-is-hevel-according-to-qohelet",
         "status": "published",
         "data": {
-          "title": "Currently reading — Q2",
-          "excerpt": "A few books I've been working through between projects.",
+          "title": "everything is HEVEL; according to Qohelet.",
+          "excerpt": "I got my dream job and it still felt empty. What Ecclesiastes has to say about that.",
           "content": [
             {
               "_type": "block",
-              "_key": "k1",
-              "style": "normal",
+              "_key": "5gffyufxa",
+              "style": "h2",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k0",
-                  "text": "A few books I've been working through between projects.",
-                  "marks": []
+                  "_key": "5gffyufxa:s0",
+                  "text": "Hi!",
+                  "marks": ["strong"]
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k3",
+              "_key": "pywxwf415",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k2",
-                  "text": "Thinking in Systems by Donella Meadows — should be mandatory reading for anyone who ships software. Everything is a system. Everything has feedback loops. Most problems are structural, not personal.",
-                  "marks": []
+                  "_key": "pywxwf415:s0",
+                  "text": "It’s been some time since I’ve been posting here! There’s numerous of reasons for this, but one of the most apparent is that I’ve just been very busy. That’s also why I had to be a bit more mindful with my time and things I say yes to. One of the first things that fell away was writing these little posts :))"
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k5",
-              "style": "normal",
+              "_key": "uxsvut1xi",
+              "style": "h2",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k4",
-                  "text": "The Elements of Typographic Style by Robert Bringhurst — I keep coming back to this one. Chapter 5 on rhythm and proportion is the best writing I've read on why type feels right or wrong.",
-                  "marks": []
+                  "_key": "uxsvut1xi:s0",
+                  "text": "What I’ve been up to.",
+                  "marks": ["strong"]
                 }
-              ],
-              "markDefs": []
+              ]
             },
             {
               "_type": "block",
-              "_key": "k7",
+              "_key": "mj5hjkwnt",
               "style": "normal",
               "children": [
                 {
                   "_type": "span",
-                  "_key": "k6",
-                  "text": "Mort by Terry Pratchett — not everything needs to be productive. Sometimes you just need Death to be charming and funny for 300 pages.",
-                  "marks": []
+                  "_key": "mj5hjkwnt:s0",
+                  "text": "The last few months I’ve been studying the book of Ecclesiastes (Prediker, "
+                },
+                {
+                  "_type": "span",
+                  "_key": "mj5hjkwnt:s1",
+                  "text": "Qohelet",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "mj5hjkwnt:s2",
+                  "text": ") a lot. It’s been something I’ve wanted to do for quiet some time and when I heard we were gonna be studying it on a summer camp I was leading, I thought that I should take the chance. (Shout out "
+                },
+                {
+                  "_type": "span",
+                  "_key": "mj5hjkwnt:s3",
+                  "text": "Kunstenkamp",
+                  "marks": ["mj5hjkwnt:m0", "underline"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "mj5hjkwnt:s4",
+                  "text": ")"
                 }
               ],
-              "markDefs": []
+              "markDefs": [
+                {
+                  "_type": "link",
+                  "_key": "mj5hjkwnt:m0",
+                  "href": "https://kunstenkamp.be/",
+                  "blank": false
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "4b2bsrpat",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "4b2bsrpat:s0",
+                  "text": "It’s funny now that I think back to it. The last few months have been pretty unstable and literally felt quite empty, even though I finally got everything I seem to have wanted. It felt empty. I got my dream job, something that I’ve been working towards for years now, and still it felt empty. This is what Qohelet teaches us."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "ezvp3ddyl",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "ezvp3ddyl:s0",
+                  "text": "What is Qohelet?",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "0geps0p12",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "0geps0p12:s0",
+                  "text": "The book of Ecclesiastes starts and ends with an introduction of the author who introduces a certain character: "
+                },
+                {
+                  "_type": "span",
+                  "_key": "0geps0p12:s1",
+                  "text": "Qohelet",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "0geps0p12:s2",
+                  "text": ". This comes from the Hebrew word "
+                },
+                {
+                  "_type": "span",
+                  "_key": "0geps0p12:s3",
+                  "text": "Qahal",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "0geps0p12:s4",
+                  "text": " which literally means "
+                },
+                {
+                  "_type": "span",
+                  "_key": "0geps0p12:s5",
+                  "text": "to gather",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "0geps0p12:s6",
+                  "text": ". "
+                },
+                {
+                  "_type": "span",
+                  "_key": "0geps0p12:s7",
+                  "text": "Qohelet",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "0geps0p12:s8",
+                  "text": " could loosely be translated to “he who gathers”. It is most often seen as a person that gathers people to teach. This means that the character wants his readers to gather around and listen carefully to what he has to say. It might be important and you could learn something from him."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "xgnuxsslx",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "xgnuxsslx:s0",
+                  "text": "Hevel?!",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "vs3rdkxcd",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "vs3rdkxcd:s0",
+                  "text": "The second verse of Ecclesiastes might be one of the most known:"
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "ph5i2ozpz",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "ph5i2ozpz:s0",
+                  "text": "“Meaningless! Meaningless!” says the Teacher. “Utterly meaningless! Everything is meaningless.”\n\n"
+                },
+                {
+                  "_type": "span",
+                  "_key": "ph5i2ozpz:s1",
+                  "text": "Ecclesiastes 1:2 NIV",
+                  "marks": ["ph5i2ozpz:m0", "underline"]
+                }
+              ],
+              "markDefs": [
+                {
+                  "_type": "link",
+                  "_key": "ph5i2ozpz:m0",
+                  "href": "https://www.bible.com/bible/111/ECC.1.NIV",
+                  "blank": false
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "rww2ynt3n",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "rww2ynt3n:s0",
+                  "text": "The word that’s being used here is "
+                },
+                {
+                  "_type": "span",
+                  "_key": "rww2ynt3n:s1",
+                  "text": "Hevel",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "rww2ynt3n:s2",
+                  "text": ". It’s used more than a 100 times in the whole book. "
+                },
+                {
+                  "_type": "span",
+                  "_key": "rww2ynt3n:s3",
+                  "text": "Hevel",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "rww2ynt3n:s4",
+                  "text": " is a word that has started to fascinate me quite a lot during my time of studying this book. It is something that feels like you can catch, but the moment you try, it flees. It’s like a vapour, it seems real, but you can’t catch it."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "bx8u6lbl3",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "bx8u6lbl3:s0",
+                  "text": "This word is also being used to describe to life of "
+                },
+                {
+                  "_type": "span",
+                  "_key": "bx8u6lbl3:s1",
+                  "text": "Qohelet",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "bx8u6lbl3:s2",
+                  "text": ". He says that he had everything he could’ve ever wanted. He was one of the richest men of his region and had everything he could’ve ever wanted. But still, it was never enough. "
+                },
+                {
+                  "_type": "span",
+                  "_key": "bx8u6lbl3:s3",
+                  "text": "Qohelet",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "bx8u6lbl3:s4",
+                  "text": " found out that everything he wanted, was never enough. "
+                },
+                {
+                  "_type": "span",
+                  "_key": "bx8u6lbl3:s5",
+                  "text": "He always wanted more.",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "8bgff1906",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "8bgff1906:s0",
+                  "text": "Something else he found out is that time and life is something really fragile. He writes about it in the third chapter. He finds out that there’s a time for everything. A time for good things to happen, but also a time for bad things to happen. He finds out that the world isn’t perfect, and there’s nothing that we as mere humans can do about it."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "46039hdf8",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "46039hdf8:s0",
+                  "text": "He finds out that contrary to popular opinions, if you do good, you don’t always get goodness back. There’s injustice, pain and just a lot of hurt in this world. And there’s nothing we can do about it right now."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "eyp6oq7y3",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "eyp6oq7y3:s0",
+                  "text": "What now?",
+                  "marks": ["strong"]
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "avp3769qw",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "avp3769qw:s0",
+                  "text": "Luckily, there’s another thing he finds out and I think that this is one of the most beautiful things that I’ve also had the opportunity to experience the past few months."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "ml415jrwb",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "ml415jrwb:s0",
+                  "text": "Through it all, God is HERE!",
+                  "marks": ["strong"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "ml415jrwb:s1",
+                  "text": " He is the constant, through all the pain; all the hurt and all the joy; all the happiness. This is the first clue of the book. Even though this world is imperfect, there’s beauty in exactly that. Because of that we get to experience real beauty."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "lmmj9p02p",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "lmmj9p02p:s0",
+                  "text": "When you slow down, and start acting with more intention, I have begun to notice more of the intricate little details, that make life so wonderfully made. And maybe it’s exactly that what "
+                },
+                {
+                  "_type": "span",
+                  "_key": "lmmj9p02p:s1",
+                  "text": "Qohelet",
+                  "marks": ["em"]
+                },
+                {
+                  "_type": "span",
+                  "_key": "lmmj9p02p:s2",
+                  "text": " teaches us. There’s no amount of richness that will ever fulfil our hearts — and boy, did he try. Real peace is only found in the rest of our Creator."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "qv09kq8zg",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "qv09kq8zg:s0",
+                  "text": "Thanks for reading :))"
+                }
+              ]
             }
           ],
-          "read_time": 1
+          "read_time": 3
         },
         "taxonomies": {
-          "category": ["misc"]
-        }
-      },
-      {
-        "id": "post-draft-thoughts-on-monorepos",
-        "slug": "draft-thoughts-on-monorepos",
-        "status": "draft",
-        "data": {
-          "title": "Thoughts on monorepos (draft)",
-          "excerpt": "Still forming these thoughts. Not ready yet.",
-          "content": [
-            {
-              "_type": "block",
-              "_key": "k1",
-              "style": "normal",
-              "children": [
-                {
-                  "_type": "span",
-                  "_key": "k0",
-                  "text": "The promise: one repo, shared code, atomic changes across packages. The reality: it works, mostly, until it doesn't.",
-                  "marks": []
-                }
-              ],
-              "markDefs": []
-            },
-            {
-              "_type": "block",
-              "_key": "k3",
-              "style": "normal",
-              "children": [
-                {
-                  "_type": "span",
-                  "_key": "k2",
-                  "text": "Turbo makes local dev tolerable. Remote caching makes CI tolerable. What nothing makes tolerable is the moment a transitive dependency update breaks six packages simultaneously and you spend a morning bisecting bun.lock.",
-                  "marks": []
-                }
-              ],
-              "markDefs": []
-            }
-          ],
-          "read_time": 1
-        },
-        "taxonomies": {
-          "category": ["words", "essay"]
+          "category": ["essay"]
         }
       },
       {
@@ -13020,7 +14078,7 @@
           "read_time": 67
         },
         "taxonomies": {
-          "category": ["words", "essay"]
+          "category": ["project"]
         }
       }
     ],
